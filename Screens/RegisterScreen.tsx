@@ -20,6 +20,10 @@ const RegisterScreen= (props: RegisterScreenProps)=>{
     props.navigation.navigate('Login');
   }
 
+  const gotToHome=() => {
+    props.navigation.navigate('Home');
+  }
+
   return (
     <View style={styles.container}>
     <Text>
@@ -33,6 +37,15 @@ const RegisterScreen= (props: RegisterScreenProps)=>{
       </Text>
       </TouchableOpacity>
 
+      <TouchableOpacity
+      onPress={gotToHome}
+      >
+      <View>
+        <Text>
+          Register
+        </Text>
+        </View>
+      </TouchableOpacity>
    </View>
   );
 };
