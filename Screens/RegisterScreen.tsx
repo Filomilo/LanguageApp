@@ -1,39 +1,40 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, Touchable, View } from 'react-native';
 import { styles } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
 import React from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 
-interface LoginScreenProps{
+
+interface RegisterScreenProps{
   navigation: any;
 }
 
-const LoginScreen= (props: LoginScreenProps)=>{
+const RegisterScreen= (props: RegisterScreenProps)=>{
 
 
 
 
-  const goToRegister=() => {
-    props.navigation.navigate('Register');
+  const gotToLogin=() => {
+    props.navigation.navigate('Login');
   }
 
   return (
     <View style={styles.container}>
     <Text>
-      Login screen
+      Register screen
     </Text>
     <TouchableOpacity
-    onPress={goToRegister}
+    onPress={gotToLogin}
     >
       <Text>
-        register
+        login
       </Text>
       </TouchableOpacity>
 
    </View>
   );
 };
-export default LoginScreen;
+export default RegisterScreen;
 
