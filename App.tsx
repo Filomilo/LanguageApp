@@ -7,6 +7,7 @@ import React from 'react';
 import RegisterScreen from './Screens/RegisterScreen';
 import LoginScreen from './Screens/LoginScreen';
 import HomeScreen from './Screens/HomeScreen';
+import DeckViewScreen from './Screens/DeckViewScreen';
 const Stack= createStackNavigator();
 
 
@@ -38,6 +39,14 @@ export default function App() {
        <Stack.Screen
        name="Home"
         component={HomeScreen}
+        options={{
+           headerShown: false, 
+           animationEnabled: false
+        }} 
+      />
+             <Stack.Screen
+       name="DeckView"
+        component={DeckViewScreen}
         options={{
            headerShown: false, 
            animationEnabled: false
