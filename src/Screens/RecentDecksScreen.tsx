@@ -9,7 +9,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';
 import { SafeAreaFrameContext, SafeAreaView } from 'react-native-safe-area-context';
-import {db} from '../components/firebase-config'
+import {db} from '../config/firebase-config'
 import { initializeApp } from 'firebase/app';
 import { DataSnapshot, getDatabase, onValue, ref } from 'firebase/database';
 

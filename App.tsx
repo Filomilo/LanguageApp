@@ -1,18 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { styles } from './Styles';
+import { styles } from './src/Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import RegisterScreen from './Screens/RegisterScreen';
-import LoginScreen from './Screens/LoginScreen';
-import HomeScreen from './Screens/HomeScreen';
-import DeckViewScreen from './Screens/DeckViewScreen';
-const Stack= createStackNavigator();
+import RegisterScreen from './src/Screens/RegisterScreen';
+import LoginScreen from './src/Screens/LoginScreen';
+import HomeScreen from './src/Screens/HomeScreen';
+import DeckViewScreen from './src/Screens/DeckViewScreen';
+import MainScreen from './src/MainScreen';
 
 
+const App=()=>{
 
 
+return(
+  <MainScreen/>
+)
+}
+
+export default App;
+
+/*
 export default function App() {
   return (
     <NavigationContainer>
@@ -68,4 +77,4 @@ function test() {
    </View>
   );
 }
-
+*/
