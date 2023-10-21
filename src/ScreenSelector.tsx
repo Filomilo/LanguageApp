@@ -10,10 +10,10 @@ import HomeScreen from './Screens/HomeScreen';
 import DeckViewScreen from './Screens/DeckViewScreen';
 import Header from './Components/Header';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-//const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator();
 
 const ScreenSelector=()=>{
-
+ /*
 return (
     <View>
         <Text>
@@ -22,7 +22,7 @@ return (
     </View>
 )
 
- /*
+*/
 
 return(
 
@@ -35,7 +35,7 @@ return(
 </Drawer.Navigator>
 
 );
-*/
+
 }
 
 

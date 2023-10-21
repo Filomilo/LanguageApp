@@ -13,12 +13,11 @@ import { SafeAreaFrameContext, SafeAreaView } from 'react-native-safe-area-conte
 import RecentDecksScreen from './RecentDecksScreen';
 import FindDecksScreen from './FindDecksScreen';
 
-//const Tab = createMaterialTopTabNavigator();
-
-
 interface HomeScreenProps{
   navigation: any;
 }
+const Tab = createMaterialTopTabNavigator();
+
 
 const HomeScreen= (props: HomeScreenProps)=>{
 
@@ -28,7 +27,13 @@ const HomeScreen= (props: HomeScreenProps)=>{
 
 
   return (
-
+    /*
+<View>
+  <Text>
+    Text
+  </Text>
+</View>
+*/
  <Tab.Navigator>
       <Tab.Screen name="Recent decks" component={RecentDecksScreen} />
       <Tab.Screen name="Find decks" component={FindDecksScreen} />
