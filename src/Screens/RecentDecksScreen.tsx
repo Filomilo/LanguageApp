@@ -50,9 +50,10 @@ useEffect (()=>{
 },[db]);
 
 const openDeck =()=>
-[
-
-]
+{
+  console.log('open deck')
+  props.navigation.navigate('DeckView');
+}
 
   return (
 

@@ -15,6 +15,7 @@ import StatScreen from './Screens/StatScreen';
 import FriendsScreen from './Screens/FriendsScreen';
 import SettingsScreen from './Screens/SettingsScreen';
 import NotificationScreen from './Screens/NotificationScreen';
+import FlashCardScreen from './Screens/FlashCardScreen';
 const Drawer = createDrawerNavigator();
 
 const ScreenSelector=()=>{
@@ -64,6 +65,25 @@ options={
     {headerTitle: (props)=> <Header {...props} />,
     drawerItemStyle: {display: 'none'}
 }
+    
+    }
+/>
+<Drawer.Screen name="DeckView" component={DeckViewScreen} 
+options={
+    {headerTitle: (props)=> <Header {...props} />,
+    drawerItemStyle: {display: 'none'}
+}
+
+    
+    }
+/>
+
+<Drawer.Screen name="FlashCards" component={FlashCardScreen} 
+options={
+    {headerTitle: (props)=> <Header {...props} />,
+    drawerItemStyle: {display: 'none'}
+}
+
     
     }
 />
