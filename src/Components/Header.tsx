@@ -1,29 +1,39 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { styles } from '../Styles';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
-
 const Header=(props)=>{
+    const navigation = useNavigation();
 
     const showDrawer=()=>{
         console.log("show drawe22r");
-        console.log(JSON.stringify(props))
-        props.navigation.navigate("Login");
+        console.log(JSON.stringify(navigation))
+      
+    }
+
+
+    const OpenNotification=()=>{
+        console.log("show Norificaiotn");
+        console.log(JSON.stringify(navigation))
+        navigation.navigate('Notifications');
+        //props.navigation.navigate('Notifications')
+       
     }
 
     return(
 
         <View >
+   
             <TouchableOpacity
-            onPress={showDrawer}
+            onPress={OpenNotification}
             >
             <Text style={{fontSize: 20}}>
-                show drawer
+                show Notifcaiton
             </Text>
             </TouchableOpacity>
             </View>

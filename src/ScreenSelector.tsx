@@ -10,6 +10,11 @@ import HomeScreen from './Screens/HomeScreen';
 import DeckViewScreen from './Screens/DeckViewScreen';
 import Header from './Components/Header';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import CustomDrawer from './Components/CustomDrawer'
+import StatScreen from './Screens/StatScreen';
+import FriendsScreen from './Screens/FriendsScreen';
+import SettingsScreen from './Screens/SettingsScreen';
+import NotificationScreen from './Screens/NotificationScreen';
 const Drawer = createDrawerNavigator();
 
 const ScreenSelector=()=>{
@@ -25,12 +30,43 @@ return (
 */
 
 return(
+// options={{ headerTitle: (props) => <LogoTitle {...props} /> }}
 
 
-   
-<Drawer.Navigator>
-<Drawer.Screen name="Decks" component={HomeScreen} />
+<Drawer.Navigator
+   drawerContent={props=> <CustomDrawer {...props}
+   screenOptions={{headerTitle: (props)=> <Header {...props}/>}}
 
+    
+   />}>
+<Drawer.Screen name="Decks" component={HomeScreen} 
+options={
+{headerTitle: (props)=> <Header {...props}/>}
+}
+ />
+<Drawer.Screen name="Statistic" component={StatScreen} 
+options={
+    {headerTitle: (props)=> <Header {...props}/>}
+    }
+/>
+<Drawer.Screen name="Friends" component={FriendsScreen} 
+options={
+    {headerTitle: (props)=> <Header {...props}  />}
+    }
+/>
+<Drawer.Screen name="Options" component={SettingsScreen} 
+options={
+    {headerTitle: (props)=> <Header {...props}/>}
+    }
+/>
+<Drawer.Screen name="Notifications" component={NotificationScreen} 
+options={
+    {headerTitle: (props)=> <Header {...props} />,
+    drawerItemStyle: {display: 'none'}
+}
+    
+    }
+/>
 
 </Drawer.Navigator>
 
