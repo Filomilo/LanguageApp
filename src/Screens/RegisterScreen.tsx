@@ -5,8 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-
-
+import {auth} from '../config/firebase-config'
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 interface RegisterScreenProps{
   navigation: any;
 }
@@ -20,8 +20,14 @@ const RegisterScreen= (props: RegisterScreenProps)=>{
     props.navigation.navigate('Login');
   }
 
-  const gotToHome=() => {
-    props.navigation.navigate('Home');
+  const Register= async () => {
+   console.log('register')
+   try{
+    const response= await createUserWithEmailAndPassword(auth,'mail','pass');
+   }
+   catch(error){
+    console.log(error);
+   }
   }
 
   return (
@@ -38,7 +44,7 @@ const RegisterScreen= (props: RegisterScreenProps)=>{
       </TouchableOpacity>
 
       <TouchableOpacity
-      onPress={gotToHome}
+      onPress={Register}
       >
       <View>
         <Text>
