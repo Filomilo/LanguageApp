@@ -40,7 +40,7 @@ return(
 <NavigationContainer>
 <Stack.Navigator>
 {
-(user ?(
+(!user ?(
    <>
    <Stack.Screen
        name="ScreenSelector"

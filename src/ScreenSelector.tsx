@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { styles } from './Styles';
+import { styles,darkModeHeaderColor, DarkModeColors } from './Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
@@ -16,6 +16,7 @@ import FriendsScreen from './Screens/FriendsScreen';
 import SettingsScreen from './Screens/SettingsScreen';
 import NotificationScreen from './Screens/NotificationScreen';
 import FlashCardScreen from './Screens/FlashCardScreen';
+
 const Drawer = createDrawerNavigator();
 
 const ScreenSelector=()=>{
@@ -42,28 +43,45 @@ return(
    />}>
 <Drawer.Screen name="Decks" component={HomeScreen} 
 options={
-{headerTitle: (props)=> <Header {...props}/>}
+{headerTitle: (props)=> <Header {...props}/>,
+headerStyle: {
+    backgroundColor: darkModeHeaderColor
+}}
 }
  />
 <Drawer.Screen name="Statistic" component={StatScreen} 
 options={
-    {headerTitle: (props)=> <Header {...props}/>}
+    {headerTitle: (props)=> <Header {...props}/>,
+    headerStyle: {
+        backgroundColor: darkModeHeaderColor
+    }
+    }
+    
     }
 />
 <Drawer.Screen name="Friends" component={FriendsScreen} 
 options={
-    {headerTitle: (props)=> <Header {...props}  />}
+    {headerTitle: (props)=> <Header {...props}  />,
+    headerStyle: {
+        backgroundColor: darkModeHeaderColor
+    }}
     }
 />
 <Drawer.Screen name="Options" component={SettingsScreen} 
 options={
-    {headerTitle: (props)=> <Header {...props}/>}
+    {headerTitle: (props)=> <Header {...props}/>,
+    headerStyle: {
+        backgroundColor: darkModeHeaderColor
+    }}
     }
 />
 <Drawer.Screen name="Notifications" component={NotificationScreen} 
 options={
     {headerTitle: (props)=> <Header {...props} />,
-    drawerItemStyle: {display: 'none'}
+    drawerItemStyle: {display: 'none'},
+    headerStyle: {
+        backgroundColor: darkModeHeaderColor
+    }
 }
     
     }
@@ -71,7 +89,10 @@ options={
 <Drawer.Screen name="DeckView" component={DeckViewScreen} 
 options={
     {headerTitle: (props)=> <Header {...props} />,
-    drawerItemStyle: {display: 'none'}
+    drawerItemStyle: {display: 'none'},
+    headerStyle: {
+        backgroundColor: darkModeHeaderColor
+    }
 }
 
     
@@ -81,7 +102,10 @@ options={
 <Drawer.Screen name="FlashCards" component={FlashCardScreen} 
 options={
     {headerTitle: (props)=> <Header {...props} />,
-    drawerItemStyle: {display: 'none'}
+    drawerItemStyle: {display: 'none'},
+    headerStyle: {
+        backgroundColor: darkModeHeaderColor
+    }
 }
 
     

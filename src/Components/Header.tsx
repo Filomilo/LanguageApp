@@ -27,7 +27,8 @@ const Header=(props)=>{
 
     return(
 
-        <View >
+        <View
+         >
    
             <TouchableOpacity
             onPress={OpenNotification}

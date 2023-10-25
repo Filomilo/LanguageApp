@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { styles } from '../Styles';
+import { DarkModeColors, darkModeBackgroundColor, darkModePrimaryColor, darkModeTectInputColor, styles } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
 import React from 'react';
@@ -34,7 +34,16 @@ const HomeScreen= (props: HomeScreenProps)=>{
   </Text>
 </View>
 */
- <Tab.Navigator>
+ <Tab.Navigator
+ tabBarOptions ={
+  tabBarOptions={
+    activeTintColor: darkModePrimaryColor,
+    inactiveTintColor: darkModeTectInputColor,
+    indicatorStyle: { backgroundColor: darkModePrimaryColor },
+    style: { backgroundColor: darkModeBackgroundColor }
+  }
+ }
+ >
       <Tab.Screen name="Recent decks" component={RecentDecksScreen} />
       <Tab.Screen name="Find decks" component={FindDecksScreen} />
  </Tab.Navigator>

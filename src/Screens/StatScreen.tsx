@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { styles } from '../Styles';
+import { DarkModeColors, styles } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
 import React from 'react';
@@ -29,7 +29,7 @@ const StatScreen= (props: StatScreenProps)=>{
 
   return (
   
-<View style={styles.container}>
+<View style={[styles.container,DarkModeColors.BackGroundColor]}>
 
   <Text>
     Stats

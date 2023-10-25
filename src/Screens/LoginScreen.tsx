@@ -5,6 +5,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useState } from 'react';
+import { TextInput } from 'react-native-gesture-handler';
+import { signInWithEmailAndPassword  } from 'firebase/auth';
+import {auth} from '../config/firebase-config'
 
 interface LoginScreenProps{
   navigation: any;
@@ -12,15 +16,24 @@ interface LoginScreenProps{
 
 const LoginScreen= (props: LoginScreenProps)=>{
 
-
+  const [email, setEmail]=React.useState('');
+  const [password, setPassword]=useState('');
+  const [Error, setError]=useState('');
 
 
   const goToRegister=() => {
     props.navigation.navigate('Register');
   }
 
-  const gotToHome=() => {
-    props.navigation.navigate('Home');
+  const Login=async () => {
+    //todo login
+    try{
+    const response= await signInWithEmailAndPassword(auth,email,password);
+    }
+    catch(err)
+    {
+      setError(JSON.stringify(err))
+    }
   }
 
   return (
@@ -36,9 +49,21 @@ const LoginScreen= (props: LoginScreenProps)=>{
       </Text>
       </TouchableOpacity>
 
+      <TextInput
+      style={styles.input}
+      placeholder='email'
+      onChangeText={setEmail}
+      />
+                   <TextInput
+      style={styles.input}
+      placeholder='Password'
+      onChangeText={setPassword}
+      secureTextEntry={true}
+      />
+
 
       <TouchableOpacity
-      onPress={gotToHome}
+      onPress={Login}
       >
       <View>
         <Text>
@@ -46,7 +71,11 @@ const LoginScreen= (props: LoginScreenProps)=>{
         </Text>
         </View>
       </TouchableOpacity>
-
+      <Text
+style={{color: 'red'}}
+>
+{Error}
+</Text>
    </View>
   );
 };

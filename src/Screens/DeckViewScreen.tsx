@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { Modal, StyleSheet, Text, View } from 'react-native';
-import { styles } from '../Styles';
+import { DarkModeColors, styles } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {  TouchableOpacity } from 'react-native';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -13,16 +13,21 @@ import { SafeAreaFrameContext, SafeAreaView } from 'react-native-safe-area-conte
 import { DrawerLayout } from 'react-native-gesture-handler';
 import TestScreen from './TestScreen';
 import StatScreen from './StatScreen';
+import { db } from '../config/firebase-config';
+import { onValue, ref } from 'firebase/database';
 
 
 interface DeckViewScreenProps{
   navigation: any;
 }
 
+
+
 const DeckViewScreen= (props: DeckViewScreenProps)=>{
   const [modalVisible, setModalVisible] = useState(false);
   const [testVisible, setTestVisible] = useState(false);
 
+  const deckData=props.route.params.deckData;
 
   const learnDeck=()=>{
     setModalVisible(true)
@@ -49,7 +54,7 @@ const DeckViewScreen= (props: DeckViewScreenProps)=>{
  
   return (
 
-<View style={styles.container}>
+<View style={[styles.container,DarkModeColors.BackGroundColor]}>
 <Modal
 visible={testVisible}
 >
@@ -100,6 +105,9 @@ onPress={openTest}
     edit Deck
   </Text>
 </TouchableOpacity>
+<Text style={[DarkModeColors.MainTextColor]}>
+    {JSON.stringify(deckData)}
+  </Text>
 </View>
 
 
