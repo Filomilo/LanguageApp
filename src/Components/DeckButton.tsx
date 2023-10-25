@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View,Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { DarkModeColors } from "../Styles";
 
 interface DeckButtonProps{
     name: string;
@@ -25,7 +26,9 @@ const  DeckButton=(props)=> {
         onPress={buttonPress}
         >
       <View>
-        <Text>
+        <Text
+        style={DarkModeColors.MainTextColor}
+        >
             {JSON.stringify(props)}
 -----------------------------------------------------
         </Text>

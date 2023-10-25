@@ -9,7 +9,8 @@ export const darkModeMainTextColor="white";
 export const darkModeBackgroundColor="#1A1A1A";
 export const darkModeHeaderColor="#313131";
 export const darkModePrimaryColor="#63AF66";
-export const darkModeTectInputColor="#646464";
+export const darkModeTextInputColor="#646464";
+
 
 export const DarkModeColors = StyleSheet.create({
 BackGroundColor:{
@@ -27,7 +28,10 @@ primaryColor:{
 primaryColorText:{
   color: darkModePrimaryColor,
 }
-
+,
+TextInputColorBackground:{
+  backgroundColor: darkModeTextInputColor,
+}
 
 });
 

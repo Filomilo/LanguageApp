@@ -18,16 +18,19 @@ import { onValue, ref } from 'firebase/database';
 import Arrow  from '../../assets/Arrow.svg'
 import ArrowReturn  from '../../assets/arrow-u-left-bottom.svg'
 import Brain  from '../../assets/bx-brain.svg'
-
+import Save  from '../../assets/Save.svg'
+import { TextInput } from 'react-native-gesture-handler';
+import DeckButton from '../Components/DeckButton';
+import Trash from '../../assets/Trash.svg'
 
 interface DeckViewScreenProps{ 
   navigation: any;
 }
 
 
-
-const wordsPreview= (props)=>
+const WordsPreview= (props)=>
 {
+
 return(
   <View>
     
@@ -36,6 +39,11 @@ return(
     styles.horizontalContainer
   }
   >
+
+
+
+    
+
     <Text
     style={
       [
@@ -46,8 +54,24 @@ return(
     >
     {props.item.word_1}
     </Text>
+    
+
+
+
+
+
+
+
+
+
+
     <Arrow width={width/6} height={height*0.045} fill={darkModeMainTextColor} />
-    <Text
+ 
+
+
+
+
+      <Text
         style={
           [
             DarkModeColors.MainTextColor,
@@ -59,6 +83,9 @@ return(
       
     </Text>
  
+
+
+
 
 
   </View>
@@ -81,11 +108,102 @@ return(
 }
 
 
+const WordsEditing= (props)=>
+{
+
+return(
+  <View>
+    
+  <View
+  style={
+    styles.horizontalContainer
+  }
+  >
+
+
+
+    
+
+    <TextInput
+    style={
+      [
+        DarkModeColors.MainTextColor,
+        styles.langWords,
+        DarkModeColors.TextInputColorBackground
+      ]
+    }
+    >
+    </TextInput>
+    
+
+
+
+
+
+
+
+
+
+
+    <Arrow width={width/6} height={height*0.045} fill={darkModeMainTextColor} />
+ 
+
+
+
+
+      <TextInput
+        style={
+          [
+            DarkModeColors.MainTextColor,
+            styles.langWords,
+            DarkModeColors.TextInputColorBackground
+          ]
+        }
+    >
+      
+      
+    </TextInput>
+      <TouchableOpacity>
+    <Trash width={width/15} height={width/9}  fill={darkModePrimaryColor} />
+
+    </TouchableOpacity>
+
+
+
+  </View>
+       <View 
+       style=
+       {
+         [
+           styles.LineSeparator,
+           DarkModeColors.primaryColor,
+           {width: width*0.9,
+            marginHorizontal: width*0.1/2,
+            height: height*0.001
+          }
+          
+         ]
+       }
+       />
+       </View>
+)
+}
+
+
+
+
+
 const DeckViewScreen= (props: DeckViewScreenProps)=>{
   const [modalVisible, setModalVisible] = useState(false);
   const [testVisible, setTestVisible] = useState(false);
 
+
+
   const deckData=props.route.params.deckData;
+  const [deckName, setDecName]= useState(deckData.name);
+  const [isEditing, setIsEdiing]= useState(false);
+
+
 
   const learnDeck=()=>{
     setModalVisible(true)
@@ -93,6 +211,7 @@ const DeckViewScreen= (props: DeckViewScreenProps)=>{
 
   const editDeck=()=>{
    console.log('edit deck')
+
   }
 
   const closeTest=()=>{
@@ -101,6 +220,7 @@ const DeckViewScreen= (props: DeckViewScreenProps)=>{
 
   const editButton=()=>{
     console.log("edit button");
+    setIsEdiing(!isEditing)
   }
 
   const openFlashCards=()=>{
@@ -117,9 +237,6 @@ const DeckViewScreen= (props: DeckViewScreenProps)=>{
   return (
 
 <SafeAreaView style={[styles.mainContainer,DarkModeColors.BackGroundColor]}>
-
-
-
 <Modal
 visible={testVisible}
 >
@@ -156,7 +273,20 @@ onPress={editButton}
   <View
 style={styles.rightUpperDeckButton}
 >
+  {
+(isEditing?(
+<>
+<Save width={width/9} height={width/9}  fill={darkModePrimaryColor} />
+</>
+):
+(
+  <>
 <EditButton width={width/9} height={width/9}  fill={darkModePrimaryColor} />
+</>
+)
+)
+}
+
 </View>
 </TouchableOpacity>
 <View
@@ -167,15 +297,37 @@ style={styles.verticalContainer}
 <View
 style={styles.deckViewTitleContainer}
 >
+
+{
+(isEditing?(
+<>
+<TextInput 
+onChangeText={setDecName}
+cursorColor={darkModePrimaryColor}
+style={[styles.deckViewTitleText,DarkModeColors.primaryColorText,DarkModeColors.TextInputColorBackground]}
+value={deckName}
+/>
+
+</>
+):
+(
+  <>
+
 <Text
 style={[styles.deckViewTitleText,DarkModeColors.primaryColorText]}
 >
   {deckData.name}
   
 </Text>
+</>
+)
+)
+}
+
 <View style={[styles.LineSeparator,DarkModeColors.primaryColor]} />
-
-
+{
+(isEditing?(
+<>
 
 <View 
 style={[styles.horizontalContainer,{
@@ -190,6 +342,30 @@ style={[styles.horizontalContainer,{
     {deckData.lang_2}
     </Text>
 </View>
+</>
+):
+(
+  <>
+
+
+  <View 
+style={[styles.horizontalContainer,{
+}]}
+>
+  <Text
+  style={[styles.langageText,DarkModeColors.MainTextColor]}>
+    {deckData.lang_1}
+  </Text>
+  <Text
+  style={[styles.langageText,DarkModeColors.MainTextColor]}>
+    {deckData.lang_2}
+    </Text>
+</View>
+</>
+)
+)
+}
+
 
 
 
@@ -197,11 +373,17 @@ style={[styles.horizontalContainer,{
 
 
 
-
-
+{
+(isEditing?(
+<>
 <FlatList 
   data={deckData.cards}
-   renderItem={wordsPreview}  
+  renderItem={({ item }) => (
+    <WordsEditing 
+    item={item}
+     isEditing={isEditing}
+     />
+  )}
     style={{
       flex: 1,
       height: height*0.9,
@@ -211,6 +393,37 @@ style={[styles.horizontalContainer,{
     }}
   />
   
+
+
+
+</>
+):
+(
+  <>
+
+<FlatList 
+  data={deckData.cards}
+  renderItem={({ item }) => (
+    <WordsPreview 
+    item={item}
+     isEditing={isEditing}
+     />
+  )}
+    style={{
+      flex: 1,
+      height: height*0.9,
+      width: width,
+      flexWrap: 'wrap',
+      
+    }}
+  />
+  
+</>
+)
+)
+}
+
+
 
 
 </View>

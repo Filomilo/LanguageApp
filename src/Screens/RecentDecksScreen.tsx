@@ -64,16 +64,7 @@ const openDeck =(id)=>
   return (
 
 <View style={[styles.container,DarkModeColors.BackGroundColor]}>
-  <Text>
-    recent decks
-  </Text>
-  <TouchableOpacity
-  onPress={openDeck}
   
-  >
-  <Text>
-    Open decks
-  </Text>
 
   <SafeAreaView>
 
@@ -89,8 +80,6 @@ const openDeck =(id)=>
     
 
   </SafeAreaView>
-
-</TouchableOpacity>
 </View>
 
 

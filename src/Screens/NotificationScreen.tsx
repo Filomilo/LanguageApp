@@ -30,7 +30,7 @@ const NotificationScreen= (props: NotificationScreenProps)=>{
   return (
 
 
-<View style={[styles.container,DarkModeColors.BackGroundColor]}>
+<View style={[styles.container,DarkModeColors.TextInputColor]}>
   <Text style={DarkModeColors.MainTextColor}>
     Notifcations
   </Text>
