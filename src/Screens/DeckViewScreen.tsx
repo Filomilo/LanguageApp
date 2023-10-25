@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Modal, StyleSheet, Text, View } from 'react-native';
-import { DarkModeColors, darkModeBackgroundColor, darkModeMainTextColor, darkModePrimaryColor, height, styles, width } from '../Styles';
+import { DarkModeColors, darkModeBackgroundColor, darkModeMainTextColor, darkModePrimaryColor, darkModeTextInputColor, height, styles, width } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react';
@@ -22,6 +22,20 @@ import Save  from '../../assets/Save.svg'
 import { TextInput } from 'react-native-gesture-handler';
 import DeckButton from '../Components/DeckButton';
 import Trash from '../../assets/Trash.svg'
+import { Dropdown } from 'react-native-element-dropdown';
+
+
+const testData = [
+  { label: 'eng' },
+  { label: 'pl' },
+  { label: 'Item 3' },
+  { label: 'Item 4'},
+  { label: 'Item 5'},
+  { label: 'Item 6'},
+  { label: 'Item 7'},
+  { label: 'Item 8'},
+];
+
 
 interface DeckViewScreenProps{ 
   navigation: any;
@@ -120,10 +134,6 @@ return(
   }
   >
 
-
-
-    
-
     <TextInput
     style={
       [
@@ -137,20 +147,8 @@ return(
     
 
 
-
-
-
-
-
-
-
-
     <Arrow width={width/6} height={height*0.045} fill={darkModeMainTextColor} />
  
-
-
-
-
       <TextInput
         style={
           [
@@ -333,20 +331,52 @@ style={[styles.deckViewTitleText,DarkModeColors.primaryColorText]}
 style={[styles.horizontalContainer,{
 }]}
 >
-  <Text
-  style={[styles.langageText,DarkModeColors.MainTextColor]}>
-    {deckData.lang_1}
-  </Text>
-  <Text
-  style={[styles.langageText,DarkModeColors.MainTextColor]}>
-    {deckData.lang_2}
-    </Text>
+
+<Dropdown
+   data={testData}
+   labelField="label"
+   valueField="label"
+    onChange={()=>{console.log('needs implemation')}}
+style={[
+                    styles.langageText,
+                    {
+                      width: width*0.40
+                    },
+                   
+                  ]
+                  }   
+                  selectedTextStyle={[styles.langageText,DarkModeColors.MainTextColor]}
+                  value=  {deckData.lang_1} 
+itemContainerStyle={ [ DarkModeColors.BackGroundColor]}
+itemTextStyle={DarkModeColors.MainTextColor}
+activeColor={darkModeTextInputColor}
+/>
+<Dropdown
+   data={testData}
+   labelField="label"
+   valueField="label"
+    onChange={()=>{console.log('needs implemation')}}
+style={[
+                    styles.langageText,
+                    {
+                      width: width*0.40
+                    },
+                   
+                  ]
+                  }   
+                  selectedTextStyle={[styles.langageText,DarkModeColors.MainTextColor]}
+                  value=  {deckData.lang_2} 
+itemContainerStyle={ [ DarkModeColors.BackGroundColor]}
+itemTextStyle={DarkModeColors.MainTextColor}
+activeColor={darkModeTextInputColor}
+/>
+
 </View>
 </>
 ):
 (
   <>
-
+  
 
   <View 
 style={[styles.horizontalContainer,{
