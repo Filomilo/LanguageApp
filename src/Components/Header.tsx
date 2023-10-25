@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { styles } from '../Styles';
+import { darkModePrimaryColor, styles, width } from '../Styles';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import NotificationIcon  from '../../assets/notifications-sharp.svg'
 
 const Header=(props)=>{
     const navigation = useNavigation();
@@ -27,15 +27,13 @@ const Header=(props)=>{
 
     return(
 
-        <View
-         >
-   
+
+            <View
+            style={styles.headerButton}>
             <TouchableOpacity
             onPress={OpenNotification}
             >
-            <Text style={{fontSize: 20}}>
-                show Notifcaiton
-            </Text>
+            <NotificationIcon width={width/11} height={width/11} fill={darkModePrimaryColor} />
             </TouchableOpacity>
             </View>
     )
