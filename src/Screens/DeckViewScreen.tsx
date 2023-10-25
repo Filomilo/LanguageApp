@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Modal, StyleSheet, Text, View } from 'react-native';
-import { DarkModeColors, darkModeMainTextColor, darkModePrimaryColor, height, styles, width } from '../Styles';
+import { DarkModeColors, darkModeBackgroundColor, darkModeMainTextColor, darkModePrimaryColor, height, styles, width } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react';
@@ -16,9 +16,11 @@ import StatScreen from './StatScreen';
 import { db } from '../config/firebase-config';
 import { onValue, ref } from 'firebase/database';
 import Arrow  from '../../assets/Arrow.svg'
+import ArrowReturn  from '../../assets/arrow-u-left-bottom.svg'
+import Brain  from '../../assets/bx-brain.svg'
 
 
-interface DeckViewScreenProps{
+interface DeckViewScreenProps{ 
   navigation: any;
 }
 
@@ -28,6 +30,7 @@ const wordsPreview= (props)=>
 {
 return(
   <View>
+    
   <View
   style={
     styles.horizontalContainer
@@ -114,6 +117,9 @@ const DeckViewScreen= (props: DeckViewScreenProps)=>{
   return (
 
 <SafeAreaView style={[styles.mainContainer,DarkModeColors.BackGroundColor]}>
+
+
+
 <Modal
 visible={testVisible}
 >
@@ -192,17 +198,60 @@ style={[styles.horizontalContainer,{
 
 
 
+
 <FlatList 
   data={deckData.cards}
    renderItem={wordsPreview}  
     style={{
       flex: 1,
-      height: height,
+      height: height*0.9,
       width: width,
       flexWrap: 'wrap',
       
     }}
   />
+  
+
+
+</View>
+
+<View
+style={[
+  styles.BottomButtonsContainer,
+  {
+     
+  }
+]
+}
+>
+<TouchableOpacity>
+  <View
+   style={[
+    DarkModeColors.primaryColor,
+    styles.BottomButton,
+  ]
+  }
+  >
+     <ArrowReturn width={width/11} height={width/11} fill={darkModeBackgroundColor} />
+
+
+  </View>
+</TouchableOpacity>
+
+
+<TouchableOpacity>
+  <View
+  style={[
+    DarkModeColors.primaryColor,
+    styles.BottomButton,
+  ]
+  }
+  >
+      <Brain width={width/11} height={width/11} fill={darkModeBackgroundColor} />
+
+
+  </View>
+</TouchableOpacity>
 
 </View>
 </SafeAreaView>

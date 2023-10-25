@@ -103,5 +103,25 @@ export const styles = StyleSheet.create({
       width: width/3,
       textAlign: 'center',
     },
+    BottomButtonsContainer: {
+      flexDirection: 'row',
+      width: width,
+      alignItems: 'stretch',
+      justifyContent: 'space-evenly',
+      flexWrap: 'wrap',
+      height: height*0.07,
+      maxWidth: width
+    },
+    BottomButton: {
+      flexGrow: 1, 
+      flexBasis: 1,
+      alignItems: 'center',
+      justifyContent: 'space-evenly',
+      margin: 1,
+      width: width/2*0.99
+    },
+    BottomButtonText: {
+     textAlign: 'center'
+    },
   });
   
