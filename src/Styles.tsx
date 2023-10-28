@@ -110,19 +110,25 @@ export const styles = StyleSheet.create({
     BottomButtonsContainer: {
       flexDirection: 'row',
       width: width,
-      alignItems: 'stretch',
-      justifyContent: 'space-evenly',
+      alignItems: 'flex-end',
+      justifyContent: 'space-around',
       flexWrap: 'wrap',
       height: height*0.07,
-      maxWidth: width
+      maxWidth: width,
+    
+   
     },
     BottomButton: {
-      flexGrow: 1, 
-      flexBasis: 1,
+      //flex: 1, 
+      //flexBasis: 1,
+     // margin: width*0.03,
+      width: width*0.45,
+      height: height*0.07,
+      backgroundColor: darkModePrimaryColor,
       alignItems: 'center',
-      justifyContent: 'space-evenly',
-      margin: 1,
-      width: width/2*0.99
+      justifyContent: 'center'
+  
+     
     },
     BottomButtonText: {
      textAlign: 'center'
