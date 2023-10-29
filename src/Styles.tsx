@@ -148,6 +148,10 @@ export const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'space-around'
     },
+    dotStyle:{
+      backgroundColor: darkModePrimaryColor,
+      borderRadius: width
+    }
 
   });
   
