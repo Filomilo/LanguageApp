@@ -9,7 +9,7 @@ interface DeckButtonProps{
     name: string;
   }
 
-const  DeckButton=(props)=> {
+const  DeckButton=(props: { item: { name: any; Id: any; }; buttonPress: () => void; })=> {
     console.log(JSON.stringify(props))
 
     const name=props.item.name;

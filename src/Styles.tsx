@@ -119,12 +119,12 @@ export const styles = StyleSheet.create({
    
     },
     BottomButton: {
-      //flex: 1, 
+      flex: 1, 
       //flexBasis: 1,
      // margin: width*0.03,
       width: width*0.45,
       height: height*0.07,
-      backgroundColor: darkModePrimaryColor,
+      backgroundColor: darkModeHeaderColor,
       alignItems: 'center',
       justifyContent: 'center'
   
@@ -133,5 +133,21 @@ export const styles = StyleSheet.create({
     BottomButtonText: {
      textAlign: 'center'
     },
+    popPopButton: {
+      flex: 1,
+      backgroundColor: darkModeHeaderColor,
+      alignItems: 'center',
+      justifyContent: 'center',
+      
+      borderColor: darkModePrimaryColor
+     
+    },
+    iconWithTextContainer:{
+        flexDirection: 'row',
+      alignContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'space-around'
+    },
+
   });
   

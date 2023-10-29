@@ -221,6 +221,15 @@ const DeckViewScreen= (props: DeckViewScreenProps)=>{
     setIsEdiing(!isEditing)
   }
 
+const brainButton=()=>{
+  console.log("brain button");
+  setModalVisible(true);
+}
+
+const outsideofModal=()=>{
+  console.log("outsideofModal");
+}
+
   const openFlashCards=()=>{
     console.log('openFlashCards')
     setModalVisible(false);
@@ -235,33 +244,105 @@ const DeckViewScreen= (props: DeckViewScreenProps)=>{
   return (
 
 <SafeAreaView style={[styles.mainContainer,DarkModeColors.BackGroundColor]}>
+
+
+
 <Modal
 visible={testVisible}
 >
-<TestScreen close={closeTest} />
-</Modal>
 
+<View
+style={[
+  styles.mainContainer,
+  {
+
+  }
+]}
+>
+<TestScreen close={closeTest} />
+</View>
+
+</Modal>
 
 <Modal
 visible={modalVisible}
+transparent={true}
 >
 
+<View
+style={[
+  styles.mainContainer,
+  {
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+]}
+>
+<View
 
+style={
+  {
+  
+    width: width*0.8,
+    height: height*0.2
+  }
+}
+>
+
+<View
+style={[styles.popPopButton,{
+  borderBottomWidth: width*0.001,
+
+}]}
+>
 <TouchableOpacity
-onPress={openFlashCards}
+onPress={()=>{openFlashCards()}}
 >
-<Text>
-  flashCards2a
-</Text>
+    <Text
+    style={
+      [
+        styles.langageText,
+        DarkModeColors.primaryColorText
+      
+      ]
+    }
+    >
+      Flash Cards
+    </Text>
+    </TouchableOpacity>
+
+</View>
+
+
+<View
+style={[styles.popPopButton,{
+  borderTopWidth: width*0.001,
+  
+}]}
+>
+<TouchableOpacity
+onPress={()=>{openTest()}}
+>
+<Text
+style={[
+  styles.langageText,
+  DarkModeColors.primaryColorText
+
+]
+
+}
+>
+      Test
+    </Text>
 </TouchableOpacity>
 
-<TouchableOpacity
-onPress={openTest}
->
-<Text>
-  testa
-</Text>
-</TouchableOpacity>
+</View>
+
+
+
+</View>
+</View>
 </Modal>
 
 
@@ -477,14 +558,16 @@ style={[
   ]
   }
   >
-     <ArrowReturn width={width/11} height={width/11} fill={darkModeBackgroundColor} />
+     <ArrowReturn width={width/11} height={width/11} fill={darkModePrimaryColor} />
 
 
   </View>
 </TouchableOpacity>
 
 
-<TouchableOpacity>
+<TouchableOpacity
+onPress={()=>{brainButton()}}
+>
   <View
   style={[
     DarkModeColors.primaryColor,
@@ -492,7 +575,7 @@ style={[
   ]
   }
   >
-      <Brain width={width/11} height={width/11} fill={darkModeBackgroundColor} />
+      <Brain width={width/11} height={width/11} fill={darkModePrimaryColor} />
 
 
   </View>
