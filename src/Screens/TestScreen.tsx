@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Modal, StyleSheet, Text, View } from 'react-native';
 import { DarkModeColors, darkModePrimaryColor, darkModeTextInputColor, height, styles, width } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
@@ -21,6 +21,7 @@ import * as Progress from 'react-native-progress';
 import ArrowLeft from '../../assets/Expand_left.svg'
 import ArrowRIght from '../../assets/Expand_right.svg'
 import ProgresDots from '../Components/ProgresDots';
+import TestQuestion from '../Components/TestQuestion';
 
 interface TestScreenProps{
   navigation: any;
@@ -30,17 +31,74 @@ const Tab = createMaterialTopTabNavigator();
 
 const TestScreen= ({close})=>{
 
+
+  const [showResult, setshowResult]= useState(false);
+  const [Result, setsResult]= useState(0);
   const [wordNum, setFwordNum]= useState(1);
-  const [WordAmt, setWordAmt]= useState(10);
+  const [WordAmt, setWordAmt]= useState(3);
+  
+  const calcResult=()=>{
+    setshowResult(true)
+  }
 
 
+  const testDataExample=[
+    {
+      word: "word1",
+      type: "closed",
+      anwsers: [
+        {value: "rower", id: 0}
+        ,
+        {value: "slonce", id: 1}, 
+        {value: "ankieta", id: 2}, 
+        {value: "test", id: 3}
+        ],
+      selected: -1,
+      corrected: 1
+    },
+   
+    {
+      word: "word2",
+      type: "open",
+      correct: 'wyraz2',
+      filled: ""
+    },
+    {
+      word: "wyraz",
+      type: "closed",
+      anwsers:  [
+        {value: "bike", id: 0}
+        ,
+        {value: "sun", id: 1}, 
+        {value: "survey", id: 2}, 
+        {value: "test", id: 3}
+        ],
+      selected: -1,
+      corrected: 2
+    },
+  ];
+
+  const [testData, settestData]= useState(testDataExample);
 
   const  arrowLeftButton=()=>{
     console.log("arrowLeftButton ")
+    setFwordNum(wordNum-1<1?1:wordNum-1)
   }
   
   const  arrowRightButton=()=>{
     console.log("arrowRightButton ")
+    setFwordNum(wordNum+1>WordAmt?3:wordNum+1)
+  }
+
+  const checkMarkButton=()=>{
+    console.log("check mark")
+    calcResult();
+  }
+
+  const finishButton=()=>{
+    console.log("finsh")
+    setshowResult(false);
+    close()
   }
 
 
@@ -48,8 +106,60 @@ const TestScreen= ({close})=>{
 
   return (
   
-<View style={[styles.mainContainer,DarkModeColors.BackGroundColor]}>
 
+  
+<View style={[styles.mainContainer,DarkModeColors.BackGroundColor]}>
+<Modal
+visible={showResult}
+>
+<View style={[styles.mainContainer,DarkModeColors.BackGroundColor]}>
+  <View
+  style={
+    {
+      width: width,
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
+  }
+  >
+  <Text
+  style={
+    styles.resultText
+  }
+  >
+    {Result}/{WordAmt}
+  </Text>
+  </View>
+  <View
+style={[
+styles.BottomButtonsContainer,{
+  flexDirection: 'column'
+}
+]}
+>
+<TouchableOpacity
+onPress={()=>{finishButton()}}
+>
+    <View
+    style={[
+      styles.BottomButton,
+      {
+        width: width
+      }
+    ]
+    }
+    >
+<Checkmark width={width/11} height={width/11} fill={darkModePrimaryColor} />
+    </View>
+
+    </TouchableOpacity>
+</View>
+
+  
+  </View>
+  
+</Modal>
 
 
 <View
@@ -67,8 +177,8 @@ style={[
 {wordNum}/{WordAmt}
 </Text>
 <ProgresDots
- progressDots={10}
- progresMaxs={15}
+ progressDots={wordNum}
+ progresMaxs={WordAmt}
  width={width} 
  height={1}
  color={darkModePrimaryColor}
@@ -99,7 +209,7 @@ style={[
   styles.langageText
 ]}
 >
-  Word
+  {testData[wordNum-1].word}
 </Text>
 
 
@@ -110,10 +220,18 @@ style={[
 style={
   {
     flex: 5,
-    backgroundColor: 'orange'
+  
   }
 }
 >
+  <TestQuestion
+   data={testData}
+   index={[wordNum-1]}
+   setData={(arg)=>{settestData(arg);
+  console.log("test");
+  console.log(JSON.stringify(arg));
+  }}
+   />
   </View>
 
 
@@ -191,7 +309,7 @@ style={[
 
 
 <TouchableOpacity
-onPress={()=>{}}
+onPress={()=>{checkMarkButton()}}
 >
   <View
   style={[
@@ -201,8 +319,6 @@ onPress={()=>{}}
   }
   >
       <Checkmark width={width/11} height={width/11} fill={darkModePrimaryColor} />
-
-
   </View>
 </TouchableOpacity>
 

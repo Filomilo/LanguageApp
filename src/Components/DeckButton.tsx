@@ -1,8 +1,8 @@
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from "@react-navigation/drawer";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View,Text } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { View,Text,TouchableOpacity } from "react-native";
+
 import { DarkModeColors } from "../Styles";
 
 interface DeckButtonProps{

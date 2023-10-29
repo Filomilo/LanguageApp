@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import { darkModeBackgroundColor, darkModePrimaryColor, darkModeTextInputColor, styles, width } from '../Styles';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack';
@@ -13,9 +13,10 @@ const ProgresDots=(props)=>{
 
     for(let i=0; i< props.progresMaxs;i++)
     {
-    dotMap.push({val: i<=props.progressDots})
+    dotMap.push({val: i<props.progressDots})
     }
 
+const dotWidth=width/props.progresMaxs>width*0.2?20:width/props.progresMaxs;
 
     return(
 
@@ -28,7 +29,7 @@ const ProgresDots=(props)=>{
                     width: width,
                     flexDirection: 'column',
                     flexWrap: 'wrap',
-                
+                    
 
                 }
             ]
@@ -42,6 +43,7 @@ contentContainerStyle={{
     alignItems: 'center',
     justifyContent: 'space-evenly',
     alignContent: 'center',
+    width: width
 
 }}
 renderItem={(item)=>{
@@ -52,8 +54,8 @@ renderItem={(item)=>{
     {
         
         alignSelf: 'center',
-        width: props.width/props.progresMaxs,
-        height: props.width/props.progresMaxs,
+        width: dotWidth,
+        height: dotWidth,
 
         backgroundColor: item.item.val===true? darkModePrimaryColor:darkModeTextInputColor
 

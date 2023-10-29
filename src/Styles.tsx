@@ -151,7 +151,27 @@ export const styles = StyleSheet.create({
     dotStyle:{
       backgroundColor: darkModePrimaryColor,
       borderRadius: width
+    },
+    textInput: {
+      backgroundColor: darkModeTextInputColor,
+      width: width*0.9,
+      height: height*0.05,
+      borderRadius: width *0.02,
+      textAlign: 'center',
+      fontSize: height*0.03,
+      color: darkModeMainTextColor
+    },
+    radioButtonText: {
+     color: darkModeMainTextColor,
+     marginHorizontal: width*0.1,
+     fontSize: height*0.04,
+     textAlign: 'center'
+    },
+    resultText:{
+      fontSize: width*0.4,
+      color: darkModeMainTextColor
     }
+
 
   });
   

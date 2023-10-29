@@ -28,12 +28,6 @@ import { Dropdown } from 'react-native-element-dropdown';
 const testData = [
   { label: 'eng' },
   { label: 'pl' },
-  { label: 'Item 3' },
-  { label: 'Item 4'},
-  { label: 'Item 5'},
-  { label: 'Item 6'},
-  { label: 'Item 7'},
-  { label: 'Item 8'},
 ];
 
 
