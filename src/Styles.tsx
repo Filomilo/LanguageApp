@@ -95,7 +95,9 @@ export const styles = StyleSheet.create({
     LineSeparator:{
       width: width*0.8,
       height: height*0.004,
-      marginVertical: height*0.03
+      marginVertical: height*0.01,
+      backgroundColor: darkModePrimaryColor,
+      alignSelf: 'center'
     },
     langageText: {
       fontSize: width*0.08,
@@ -169,6 +171,10 @@ export const styles = StyleSheet.create({
     },
     resultText:{
       fontSize: width*0.4,
+      color: darkModeMainTextColor
+    },
+    statText:{
+      fontSize: width*0.05,
       color: darkModeMainTextColor
     }
 
