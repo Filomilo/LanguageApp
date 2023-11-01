@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { styles,darkModeHeaderColor, DarkModeColors } from './Styles';
+import { styles,darkModeHeaderColor, DarkModeColors, darkModePrimaryColor } from './Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
@@ -37,31 +37,44 @@ return(
 
 <Drawer.Navigator
    drawerContent={props=> <CustomDrawer {...props}
-   screenOptions={{headerTitle: (props)=> <Header {...props}/>}}
-
+   screenOptions={
+    {overlayColor: 'transparent',
+        headerTitle: (props)=> <Header {...props}/>,
+    
+}
+}
+    
+    
     
    />}>
 <Drawer.Screen name="Decks" component={HomeScreen} 
 options={
-{headerTitle: (props)=> <Header {...props}/>,
-headerStyle: {
-    backgroundColor: darkModeHeaderColor
-}}
-}
+    {
+    headerTintColor: darkModePrimaryColor,
+    headerPressColor: darkModePrimaryColor,
+    headerTitle: (props)=> <Header {...props}  />,
+    headerStyle: {
+        backgroundColor: darkModeHeaderColor
+    }}
+    }
  />
 <Drawer.Screen name="Statistic" component={StatScreen} 
 options={
-    {headerTitle: (props)=> <Header {...props}/>,
+    {
+    headerTintColor: darkModePrimaryColor,
+    headerPressColor: darkModePrimaryColor,
+    headerTitle: (props)=> <Header {...props}  />,
     headerStyle: {
         backgroundColor: darkModeHeaderColor
-    }
-    }
-    
+    }}
     }
 />
 <Drawer.Screen name="Friends" component={FriendsScreen} 
 options={
-    {headerTitle: (props)=> <Header {...props}  />,
+    {
+    headerTintColor: darkModePrimaryColor,
+    headerPressColor: darkModePrimaryColor,
+    headerTitle: (props)=> <Header {...props}  />,
     headerStyle: {
         backgroundColor: darkModeHeaderColor
     }}
@@ -77,18 +90,21 @@ options={
 />
 <Drawer.Screen name="Notifications" component={NotificationScreen} 
 options={
-    {headerTitle: (props)=> <Header {...props} />,
-    drawerItemStyle: {display: 'none'},
+    {
+    headerTintColor: darkModePrimaryColor,
+    headerPressColor: darkModePrimaryColor,
+    headerTitle: (props)=> <Header {...props}  />,
     headerStyle: {
         backgroundColor: darkModeHeaderColor
-    }
-}
-    
+    }}
     }
 />
 <Drawer.Screen name="DeckView" component={DeckViewScreen} 
 options={
-    {headerTitle: (props)=> <Header {...props} />,
+    {
+        headerTintColor: darkModePrimaryColor,
+        headerPressColor: darkModePrimaryColor,
+        headerTitle: (props)=> <Header {...props} />,
     drawerItemStyle: {display: 'none'},
     headerStyle: {
         backgroundColor: darkModeHeaderColor
@@ -101,7 +117,10 @@ options={
 
 <Drawer.Screen name="FlashCards" component={FlashCardScreen} 
 options={
-    {headerTitle: (props)=> <Header {...props} />,
+    {
+        headerTintColor: darkModePrimaryColor,
+        headerPressColor: darkModePrimaryColor,
+        headerTitle: (props)=> <Header {...props} />,
     drawerItemStyle: {display: 'none'},
     headerStyle: {
         backgroundColor: darkModeHeaderColor

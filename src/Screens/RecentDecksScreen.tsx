@@ -72,7 +72,13 @@ const openDeck =(id)=>
   data={decks}
   renderItem={({ item }) => (
     <DeckButton 
-    item={item}
+    deckTitle={item.name}
+    author={item.creator}
+    lastUsed={9}
+    amtOfCards={item.cards.length}
+    lang_1={item.lang_1}
+    lang_2={item.lang_2}
+    showLastUsed={true}
      buttonPress={()=>{openDeck(item.Id)}
     } />
   )}

@@ -1,10 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
 import { darkModePrimaryColor, styles, width } from '../Styles';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import NotificationIcon  from '../../assets/notifications-sharp.svg'
 
 const Header=(props)=>{

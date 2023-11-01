@@ -176,7 +176,58 @@ export const styles = StyleSheet.create({
     statText:{
       fontSize: width*0.05,
       color: darkModeMainTextColor
+    },
+    DeckButtonContainer: {
+      flex: 1,
+      width: width*0.95,
+      height: height* 0.16,
+      backgroundColor: darkModeTextInputColor,
+      alignSelf: 'center',
+      borderRadius: width*0.05,
+      marginVertical: height*0.01,
+      flexDirection: 'row',
+      margin: 100,
+    },
+    DeckTitleStyle: {
+      color: darkModePrimaryColor,
+      fontSize: height*0.04,
+      margin: width*0.02
+    },
+    DeckParamText: {
+        fontSize: height*0.018,
+        marginVertical: width*0.013,
+        marginHorizontal: width*0.01,
+        color: darkModeBackgroundColor
+    },
+    DeckLangText:{
+      color: darkModeBackgroundColor,
+      fontSize: height*0.03,
+      marginVertical: width*0.019,
+      marginHorizontal: width*0.03,
+    },
+    DeckCardText:{
+      alignSelf: 'flex-end',
+      color: darkModeMainTextColor,
+      marginVertical: width*0.019,
+      marginHorizontal: width*0.03,
+      fontSize: height*0.03,
+    },
+    textButton:{
+      width: width*0.7,
+      height: height*0.08,
+      backgroundColor: darkModePrimaryColor,
+      borderRadius: height*0.01,
+      alignContent: 'center',
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    onButtonText:{
+      fontSize: height*0.03,
+      color: darkModeBackgroundColor
     }
+
+
+    
 
 
   });

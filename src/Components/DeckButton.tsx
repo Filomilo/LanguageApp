@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View,Text,TouchableOpacity } from "react-native";
 
-import { DarkModeColors } from "../Styles";
+import { DarkModeColors, styles } from "../Styles";
 
 interface DeckButtonProps{
     name: string;
@@ -12,12 +12,11 @@ interface DeckButtonProps{
 const  DeckButton=(props: { item: { name: any; Id: any; }; buttonPress: () => void; })=> {
     console.log(JSON.stringify(props))
 
-    const name=props.item.name;
-    const id=props.item.Id
+
 
     const buttonPress=()=>
     {
-        console.log("Deck button prees" + id)
+       // console.log("Deck button prees" + id)
         props.buttonPress();
     }
 
@@ -25,13 +24,81 @@ const  DeckButton=(props: { item: { name: any; Id: any; }; buttonPress: () => vo
         <TouchableOpacity
         onPress={buttonPress}
         >
-      <View>
-        <Text
-        style={DarkModeColors.MainTextColor}
-        >
-            {JSON.stringify(props)}
------------------------------------------------------
-        </Text>
+      <View
+      style={styles.DeckButtonContainer}
+      
+      >
+        <View style={{
+          flex: 1,
+          //backgroundColor: 'yellow'
+        }}>
+          <Text
+          style={styles.DeckTitleStyle}
+          >
+            {props.deckTitle}
+          </Text>
+
+          <Text
+          style={styles.DeckParamText}
+          >
+            Made by:  {props.author}
+          </Text>
+          <View
+           style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignContent: 'flex-end',
+            alignItems: 'flex-end'
+          }}
+          >
+
+          {
+            props.showLastUsed?(<> 
+             <Text 
+           style={styles.DeckParamText}
+          >
+            Last used: {props.lastUsed} days ago
+          </Text>
+            </>):(
+              <>
+              
+              </>
+            )
+          }
+         
+          
+          </View>
+        </View>
+        <View style={{
+          flex: 1,
+          alignContent: 'flex-end',
+          alignItems: 'flex-end'
+          //backgroundColor: 'orange'
+        }}>
+         <Text
+         style={styles.DeckLangText}
+         >
+            {props.lang_1}       {props.lang_2}
+          </Text>
+          <View
+          style={{
+            flex: 1,
+            alignContent:'flex-end',
+            alignItems: 'flex-end',
+            flexDirection: 'row'
+          }}
+          >
+          <Text
+          style={
+            styles.DeckCardText
+          }
+          >
+            {props.amtOfCards} cards
+          </Text>
+          </View>
+
+        </View>
+
       </View>
       </TouchableOpacity>
     );

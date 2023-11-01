@@ -476,7 +476,13 @@ style={[styles.horizontalContainer,{
 
 </View>
 
-
+<View
+style={
+  {
+    flex: 1
+  }
+}
+>
 
 {
 (isEditing?(
@@ -490,10 +496,8 @@ style={[styles.horizontalContainer,{
      />
   )}
     style={{
-      flex: 2,
-      height: height*0.9,
-      width: width,
-      flexWrap: 'wrap',
+      
+     
       
     }}
   />
@@ -528,7 +532,7 @@ style={[styles.horizontalContainer,{
 )
 }
 
-
+</View>
 
 
 </View>
