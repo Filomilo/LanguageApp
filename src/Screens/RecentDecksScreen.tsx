@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { DarkModeColors, styles } from '../Styles';
+import { DarkModeColors, darkModePrimaryColor, styles, width } from '../Styles';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react';
@@ -14,6 +14,7 @@ import { initializeApp } from 'firebase/app';
 import { DataSnapshot, getDatabase, onValue, ref } from 'firebase/database';
 import {auth} from '../config/firebase-config'
 import DeckButton from '../Components/DeckButton';
+import AddButton from '../../assets/Add_button.svg';
 const Tab = createMaterialTopTabNavigator();
 
 
@@ -29,6 +30,8 @@ useEffect (()=>{
  
   const decksRef=ref(db,'/decks');
  
+
+
   const unsubscribe=onValue(decksRef,(snapshot)=>{
     if(snapshot.exists()){
     const data=snapshot.val();
@@ -49,7 +52,9 @@ useEffect (()=>{
   };
     
 },[db]);
-
+const addDeckButton=()=>{
+  console.log("add button");
+}
 const openDeck =(id)=>
 {
   console.log('open deck: ' + id)
@@ -68,6 +73,8 @@ const openDeck =(id)=>
 
   <SafeAreaView>
 
+
+
   <FlatList 
   data={decks}
   renderItem={({ item }) => (
@@ -84,6 +91,14 @@ const openDeck =(id)=>
   )}
 />
     
+<TouchableOpacity
+    style={styles.floatingButton}
+    onPress={()=>{addDeckButton()}}
+    >
+      
+      <AddButton width={width/6} height={width/6} fill={darkModePrimaryColor} />
+
+    </TouchableOpacity>
 
   </SafeAreaView>
 </View>

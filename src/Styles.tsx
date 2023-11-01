@@ -224,7 +224,14 @@ export const styles = StyleSheet.create({
     onButtonText:{
       fontSize: height*0.03,
       color: darkModeBackgroundColor
+    },
+    floatingButton:{
+      alignItems: 'flex-end',
+        margin: width*0.05
     }
+  
+   
+    
 
 
     
