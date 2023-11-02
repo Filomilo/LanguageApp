@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { styles,darkModeHeaderColor, DarkModeColors, darkModePrimaryColor } from './Styles';
+import { styles,darkModeHeaderColor, DarkModeColors, darkModePrimaryColor, darkModeMainTextColor, width } from './Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
@@ -37,30 +37,45 @@ return(
 
 <Drawer.Navigator
    drawerContent={props=> <CustomDrawer {...props}
+    
+   
    screenOptions={
     {overlayColor: 'transparent',
         headerTitle: (props)=> <Header {...props}/>,
-    
+   
 }
 }
-    
-    
+ 
     
    />}>
-<Drawer.Screen name="Decks" component={HomeScreen} 
+<Drawer.Screen 
+name="Decks" 
+component={HomeScreen} 
+
 options={
     {
+        drawerLabelStyle:{
+            color: darkModePrimaryColor,
+            fontSize: width*0.05
+        },
+        drawerActiveTintColor: darkModePrimaryColor,
     headerTintColor: darkModePrimaryColor,
     headerPressColor: darkModePrimaryColor,
     headerTitle: (props)=> <Header {...props}  />,
     headerStyle: {
-        backgroundColor: darkModeHeaderColor
+        backgroundColor: darkModeHeaderColor,
     }}
+    
     }
  />
 <Drawer.Screen name="Statistic" component={StatScreen} 
 options={
     {
+        drawerLabelStyle:{
+            color: darkModePrimaryColor,
+            fontSize: width*0.05
+        },
+        drawerActiveTintColor: darkModePrimaryColor,
     headerTintColor: darkModePrimaryColor,
     headerPressColor: darkModePrimaryColor,
     headerTitle: (props)=> <Header {...props}  />,
@@ -72,6 +87,11 @@ options={
 <Drawer.Screen name="Friends" component={FriendsScreen} 
 options={
     {
+        drawerLabelStyle:{
+            color: darkModePrimaryColor,
+            fontSize: width*0.05
+        },
+        drawerActiveTintColor: darkModePrimaryColor,
     headerTintColor: darkModePrimaryColor,
     headerPressColor: darkModePrimaryColor,
     headerTitle: (props)=> <Header {...props}  />,
@@ -82,7 +102,13 @@ options={
 />
 <Drawer.Screen name="Options" component={SettingsScreen} 
 options={
-    {headerTitle: (props)=> <Header {...props}/>,
+    {
+        drawerLabelStyle:{
+            color: darkModePrimaryColor,
+            fontSize: width*0.05
+        },
+        drawerActiveTintColor: darkModePrimaryColor,
+        headerTitle: (props)=> <Header {...props}/>,
     headerStyle: {
         backgroundColor: darkModeHeaderColor
     }}
@@ -91,6 +117,12 @@ options={
 <Drawer.Screen name="Notifications" component={NotificationScreen} 
 options={
     {
+        drawerLabelStyle:{
+            color: darkModePrimaryColor,
+            fontSize: width*0.05
+        },
+        drawerActiveTintColor: darkModePrimaryColor,
+        drawerInactiveTintColor: darkModeMainTextColor,
     headerTintColor: darkModePrimaryColor,
     headerPressColor: darkModePrimaryColor,
     headerTitle: (props)=> <Header {...props}  />,
@@ -123,7 +155,7 @@ options={
         headerTitle: (props)=> <Header {...props} />,
     drawerItemStyle: {display: 'none'},
     headerStyle: {
-        backgroundColor: darkModeHeaderColor
+        backgroundColor: darkModeHeaderColor,
     }
 }
 

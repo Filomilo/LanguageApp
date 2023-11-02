@@ -12,6 +12,10 @@ class DataBaseManagerClass{
     {
         return 'https://i.imgur.com/O2Kp27y.jpg';
     }
+    getUserName()
+    {
+        return 'userName';
+    }
 
 }
 
