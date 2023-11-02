@@ -240,6 +240,11 @@ export const styles = StyleSheet.create({
       height: width*0.35,
       borderRadius:  width*0.3,
     },
+    proflePicList:{
+      width: width*0.25,
+      height: width*0.25,
+      borderRadius:  width*0.3,
+    },
     optionActionText:{
       fontSize: height*0.03,
       color: darkModePrimaryColor
