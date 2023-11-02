@@ -36,7 +36,7 @@ const HomeScreen= (props: HomeScreenProps)=>{
 */
  <Tab.Navigator
  tabBarOptions ={
-  tabBarOptions={
+  screenOptions={
     activeTintColor: darkModePrimaryColor,
     inactiveTintColor: darkModeTectInputColor,
     indicatorStyle: { backgroundColor: darkModePrimaryColor },

@@ -10,11 +10,38 @@ class DataBaseManagerClass{
 
     getProfilePic()
     {
-        return 'https://i.imgur.com/O2Kp27y.jpg';
+        return 'https://thispersondoesnotexist.com/';
     }
     getUserName()
     {
         return 'userName';
+    }
+
+    getFriendRequests(){
+        const data={
+            requests: [
+                {
+                    name: 'user',
+                    id: 2, 
+                    photoURi:  'https://thispersondoesnotexist.com/'
+                },
+                {
+                    name: 'user3',
+                    id: 3, 
+                    photoURi:  'https://thispersondoesnotexist.com/'
+                },   {
+                    name: 'user6',
+                    id: 4, 
+                    photoURi:  'https://thispersondoesnotexist.com/'
+                },  {
+                    name: 'user0',
+                    id: 9, 
+                    photoURi:  'https://thispersondoesnotexist.com/'
+                },
+            ]
+            
+        }
+        return data;
     }
 
 }
