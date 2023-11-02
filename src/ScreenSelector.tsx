@@ -16,6 +16,7 @@ import FriendsScreen from './Screens/FriendsScreen';
 import SettingsScreen from './Screens/SettingsScreen';
 import NotificationScreen from './Screens/NotificationScreen';
 import FlashCardScreen from './Screens/FlashCardScreen';
+import ContactInfo from './Screens/ContactInfo';
 
 const Drawer = createDrawerNavigator();
 
@@ -127,6 +128,7 @@ options={
         drawerInactiveTintColor: darkModeMainTextColor,
     headerTintColor: darkModePrimaryColor,
     headerPressColor: darkModePrimaryColor,
+    drawerItemStyle: {display: 'none'},
     headerTitle: (props)=> <Header {...props}  />,
     headerStyle: {
         backgroundColor: darkModeHeaderColor
@@ -166,6 +168,26 @@ options={
     
     }
 />
+
+
+<Drawer.Screen name="ContactInfo" component={ContactInfo} 
+options={
+    {
+        headerTintColor: darkModePrimaryColor,
+        headerPressColor: darkModePrimaryColor,
+        headerTitle: (props)=> <Header {...props} />,
+    drawerItemStyle: {display: 'none'},
+    
+    headerStyle: {
+        backgroundColor: darkModeHeaderColor,
+        
+    }
+}
+
+    
+    }
+/>
+
 
 </Drawer.Navigator>
 

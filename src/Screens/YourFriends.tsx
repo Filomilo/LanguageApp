@@ -30,6 +30,7 @@ const YourFriendsScreen= (props: YourFriendsScreenProps)=>{
 
   const clickConatact=(id)=>{
     console.log("clikced user : " + id)
+    props.navigation.navigate('ContactInfo',{id: {id}});
   }
 
 
