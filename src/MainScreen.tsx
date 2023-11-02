@@ -18,7 +18,7 @@ const Stack = createStackNavigator();
 
 const MainScreen=()=>{
 
-   const [isSignedIn, setIsSignIn]= useState(true);
+   const [isSignedIn, setIsSignIn]= useState(false);
 
 
    const [user, setUser]= useState(false);
@@ -40,7 +40,7 @@ return(
 <NavigationContainer>
 <Stack.Navigator>
 {
-(!user ?(
+(user ?(
    <>
    <Stack.Screen
        name="ScreenSelector"

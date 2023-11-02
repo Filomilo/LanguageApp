@@ -108,6 +108,8 @@ options={
             fontSize: width*0.05
         },
         drawerActiveTintColor: darkModePrimaryColor,
+        headerTintColor: darkModePrimaryColor,
+        headerPressColor: darkModePrimaryColor,
         headerTitle: (props)=> <Header {...props}/>,
     headerStyle: {
         backgroundColor: darkModeHeaderColor
@@ -154,8 +156,10 @@ options={
         headerPressColor: darkModePrimaryColor,
         headerTitle: (props)=> <Header {...props} />,
     drawerItemStyle: {display: 'none'},
+    
     headerStyle: {
         backgroundColor: darkModeHeaderColor,
+        
     }
 }
 

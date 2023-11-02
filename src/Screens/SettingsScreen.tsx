@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import { darkModeHeaderColor, darkModePrimaryColor, darkModeTextInputColor, height, styles, width } from '../Styles';
+import { DarkModeColors, darkModeHeaderColor, darkModePrimaryColor, darkModeTextInputColor, height, styles, width } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
 import React, { useState } from 'react';
@@ -69,6 +69,11 @@ style={[styles.LineSeparator,{
 );
 }
 
+
+
+const logOutButton=()=>{
+  console.log("Log out");
+}
 
 const SettingsScreen= (props: SettingsScreenProps)=>{
 
@@ -204,6 +209,37 @@ const TakePhotoButton=()=>{
       </View>
 
     </ScrollView>
+
+    <TouchableOpacity
+onPress={logOutButton}
+>
+<View
+style={[
+styles.BottomButtonsContainer
+]}
+>
+
+    <View
+    style={
+      styles.BottomButton
+    }
+    >
+<Text
+style={[
+  styles.BottomButtonText,
+  DarkModeColors.primaryColorText,{
+    fontSize: width*0.05
+  }
+]
+}
+>
+  Log out
+</Text>
+    </View>
+
+
+</View>
+</TouchableOpacity>
 </View>
 
 
