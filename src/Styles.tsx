@@ -10,6 +10,8 @@ export const darkModeBackgroundColor="#1A1A1A";
 export const darkModeHeaderColor="#313131";
 export const darkModePrimaryColor="#63AF66";
 export const darkModeTextInputColor="#646464";
+export const darkModePlaceholderTextInputColor="#444444";
+
 
 
 export const DarkModeColors = StyleSheet.create({
@@ -66,10 +68,14 @@ export const styles = StyleSheet.create({
 
     },
     input: {
-      height: height/10,
+      height: height*0.07,
       margin: 12,
+      width: width*0.9,
       borderWidth: 1,
+      borderRadius: width*0.02,
       padding: 10,
+      backgroundColor: darkModeTextInputColor,
+      color: darkModeMainTextColor
     },
     headerButton: {
       margin: 1,
@@ -242,6 +248,20 @@ export const styles = StyleSheet.create({
         color: darkModeMainTextColor,
         fontSize: height*0.03
     },
+    loginButton:{
+      backgroundColor: darkModePrimaryColor,
+      width: width*0.6,
+      height: height*0.08,
+      borderRadius: width*0.03,
+      alignItems: 'center',
+      justifyContent: 'center',
+      alignSelf: 'flex-end',
+      marginTop: height*0.02
+    },
+    loginButtonText:{
+      fontSize: height*0.04,
+      color: darkModeBackgroundColor
+    }
   
    
     

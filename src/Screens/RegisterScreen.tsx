@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, Touchable, View } from 'react-native';
-import { styles } from '../Styles';
+import { darkModeMainTextColor, darkModePrimaryColor, height, styles, width } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
 import React, { useState } from 'react';
@@ -8,6 +8,7 @@ import { TouchableOpacity } from 'react-native';
 import {auth} from '../config/firebase-config'
 import { createUserWithEmailAndPassword,updateProfile  } from 'firebase/auth';
 import { TextInput } from 'react-native-gesture-handler';
+import BackGroundZigs from '../Components/BackgroundZigs';
 interface RegisterScreenProps{
   navigation: any;
 }
@@ -61,20 +62,22 @@ const RegisterScreen= (props: RegisterScreenProps)=>{
   }
 
   return (
-    <View style={styles.container}>
-    <Text>
-      Register screen
-    </Text>
-    <TouchableOpacity
-    onPress={gotToLogin}
-    >
-      <Text>
-        login
-      </Text>
-      </TouchableOpacity>
+   
+    <View style={styles.mainContainer}>
+      <BackGroundZigs />
+      <View
+      style={{
+        position: 'absolute',
+        width: width,
+        height: height,
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center'
+      }}
+      >
 
 
-      <TextInput
+<TextInput
       style={styles.input}
       placeholder='email'
       onChangeText={setEmail}
@@ -97,18 +100,47 @@ const RegisterScreen= (props: RegisterScreenProps)=>{
       secureTextEntry={true}
       />
 
+<Text
+        style={
+          [
+            {
+              fontSize: height*0.02,
+              color: darkModeMainTextColor
+            }
+          ]
+        }
+        >
+          Alrady have an account?
+        </Text>
 
+        <TouchableOpacity
+    onPress={gotToLogin}
+    >
+      <Text
+      style={{
+        fontSize: height*0.03,
+        color: darkModePrimaryColor,
+        marginVertical: height*0.02
+      }}
+      >
+        login
+      </Text>
+      </TouchableOpacity>
 
-
-      <TouchableOpacity
+<View>
+<TouchableOpacity
       onPress={Register}
+      style={styles.loginButton}
+      
       >
       <View>
-        <Text>
+        <Text
+        style={styles.loginButtonText}>
           Register
         </Text>
         </View>
       </TouchableOpacity>
+      </View>
 
 <Text
 style={{color: 'red'}}
@@ -116,7 +148,10 @@ style={{color: 'red'}}
 {Error}
 </Text>
 
-   </View>
+
+
+        </View>
+        </View>
   );
 };
 export default RegisterScreen;
