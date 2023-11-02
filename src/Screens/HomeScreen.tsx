@@ -35,12 +35,12 @@ const HomeScreen= (props: HomeScreenProps)=>{
 </View>
 */
  <Tab.Navigator
- tabBarOptions ={
-  screenOptions={
-    activeTintColor: darkModePrimaryColor,
-    inactiveTintColor: darkModeTectInputColor,
-    indicatorStyle: { backgroundColor: darkModePrimaryColor },
-    style: { backgroundColor: darkModeBackgroundColor }
+ screenOptions ={
+  {
+    tabBarActiveTintColor: darkModePrimaryColor,
+    tabBarInactiveTintColor: darkModeTectInputColor,
+    tabBarIndicatorStyle: { backgroundColor: darkModePrimaryColor },
+    tabBarStyle: { backgroundColor: darkModeBackgroundColor }
   }
  }
  >

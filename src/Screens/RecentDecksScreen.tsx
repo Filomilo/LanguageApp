@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { DarkModeColors, darkModePrimaryColor, styles, width } from '../Styles';
+import { DarkModeColors, darkModePrimaryColor, height, styles, width } from '../Styles';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react';
@@ -67,42 +67,72 @@ const openDeck =(id)=>
 
 
   return (
-
+<View>
+<View style={{
+  width: width,
+  height:  height,
+  position: 'absolute'
+}}>
 <View style={[styles.container,DarkModeColors.BackGroundColor]}>
-  
-
-  <SafeAreaView>
+<SafeAreaView>
 
 
 
-  <FlatList 
-  data={decks}
-  renderItem={({ item }) => (
-    <DeckButton 
-    deckTitle={item.name}
-    author={item.creator}
-    lastUsed={9}
-    amtOfCards={item.cards.length}
-    lang_1={item.lang_1}
-    lang_2={item.lang_2}
-    showLastUsed={true}
-     buttonPress={()=>{openDeck(item.Id)}
-    } />
-  )}
+<FlatList 
+data={decks}
+renderItem={({ item }) => (
+  <DeckButton 
+  deckTitle={item.name}
+  author={item.creator}
+  lastUsed={9}
+  amtOfCards={item.cards.length}
+  lang_1={item.lang_1}
+  lang_2={item.lang_2}
+  showLastUsed={true}
+   buttonPress={()=>{openDeck(item.Id)}
+  } />
+)}
 />
+  
+<TouchableOpacity
+  style={styles.floatingButton}
+  onPress={()=>{addDeckButton()}}
+  >
     
+    <AddButton width={width/6} height={width/6} fill={darkModePrimaryColor} />
+
+  </TouchableOpacity>
+
+</SafeAreaView>
+
+
+</View>
+</View>
+
+
+<View
+style={
+  {
+    width: width*0.2,
+    height: width*0.2,
+    transform: [{translateX: width*0.75},{translateY:height*0.72}],
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+}
+>
 <TouchableOpacity
     style={styles.floatingButton}
     onPress={()=>{addDeckButton()}}
     >
       
-      <AddButton width={width/6} height={width/6} fill={darkModePrimaryColor} />
+      <AddButton width={width/5} height={width/5} fill={darkModePrimaryColor} />
 
     </TouchableOpacity>
-
-  </SafeAreaView>
 </View>
 
+</View>
 
   );
 };

@@ -30,7 +30,7 @@ const YourFriendsScreen= (props: YourFriendsScreenProps)=>{
 
   return (
     
-<View style={styles.container}>
+<View style={styles.mainContainer}>
   <Text>
   YourFriends
   </Text>

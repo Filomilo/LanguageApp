@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { styles } from '../Styles';
+import { darkModeBackgroundColor, darkModePrimaryColor, styles,darkModeTextInputColor } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
 import React from 'react';
@@ -37,11 +37,22 @@ const FriendsScreen= (props: FriendsScreenProps)=>{
   </Text>
 </View>
 */
-    
- <Tab.Navigator>
-      <Tab.Screen name="Your Friends" component={YourFriendsScreen} />
+
+<Tab.Navigator
+screenOptions ={
+ {
+   tabBarActiveTintColor: darkModePrimaryColor,
+   tabBarInactiveTintColor: darkModeTextInputColor,
+   tabBarIndicatorStyle: { backgroundColor: darkModePrimaryColor },
+   tabBarStyle: { backgroundColor: darkModeBackgroundColor }
+ }
+}
+>
+<Tab.Screen name="Your Friends" component={YourFriendsScreen} />
       <Tab.Screen name="Find Friends" component={FindFriendsScreen} />
- </Tab.Navigator>
+</Tab.Navigator>
+    
+
 
   );
 };
