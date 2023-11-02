@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
     },
     mainContainer: {
       flex: 1,
-
+      backgroundColor: darkModeBackgroundColor
 
     },
     verticalContainer: {
@@ -228,7 +228,20 @@ export const styles = StyleSheet.create({
     floatingButton:{
       alignItems: 'flex-end',
         margin: width*0.05
-    }
+    },
+    proflePic:{
+      width: width*0.35,
+      height: width*0.35,
+      borderRadius:  width*0.3,
+    },
+    optionActionText:{
+      fontSize: height*0.03,
+      color: darkModePrimaryColor
+    },
+    SettingOptionText:{
+        color: darkModeMainTextColor,
+        fontSize: height*0.03
+    },
   
    
     
