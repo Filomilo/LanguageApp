@@ -1,5 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+
+import { StyleSheet, Text, View,StatusBar } from 'react-native';
 import { styles } from './Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,6 +12,9 @@ import Header from './Components/Header';
 import ScreenSelector from './ScreenSelector';
 import { auth } from './config/firebase-config'
 import { onAuthStateChanged } from 'firebase/auth';
+
+
+
 
 const Stack = createStackNavigator();
 
@@ -27,6 +30,12 @@ const MainScreen=()=>{
       setUser(user)
    }
 
+   useEffect(() => {
+       console.log("Mounted"); 
+       StatusBar.setTranslucent(true)
+       StatusBar.setBarStyle('light-content');
+      
+      },[]);
 
    useEffect(()=>{
       onAuthStateChanged(auth,(user)=>{
@@ -79,3 +88,7 @@ return(
 
 
 export default MainScreen;
+
+function componentDidMount() {
+   throw new Error('Function not implemented.');
+}

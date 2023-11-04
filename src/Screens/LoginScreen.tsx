@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { darkModeMainTextColor, darkModePlaceholderTextInputColor, darkModePrimaryColor, height, styles, width } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
@@ -43,7 +43,7 @@ const LoginScreen= (props: LoginScreenProps)=>{
 
   return (
 
-    <View style={styles.mainContainer}>
+    <SafeAreaView style={styles.mainContainer}>
       <BackGroundZigs />
       <View
       style={{
@@ -119,7 +119,7 @@ style={{color: 'red'}}
 </Text>
 
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 export default LoginScreen;
