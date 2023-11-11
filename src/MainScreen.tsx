@@ -82,7 +82,6 @@ return(
 }
 </Stack.Navigator>
 </NavigationContainer>
-</FireBaseProvider>
 );
 }
 
