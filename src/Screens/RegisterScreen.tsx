@@ -3,12 +3,11 @@ import { Button, StyleSheet, Text, Touchable, View } from 'react-native';
 import { darkModeMainTextColor, darkModePrimaryColor, height, styles, width } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
-import {auth} from '../config/firebase-config'
-import { createUserWithEmailAndPassword,updateProfile  } from 'firebase/auth';
 import { TextInput } from 'react-native-gesture-handler';
 import BackGroundZigs from '../Components/BackgroundZigs';
+import { FireBaseContext } from '../config/FireBaseContext';
 interface RegisterScreenProps{
   navigation: any;
 }
@@ -20,6 +19,8 @@ const RegisterScreen= (props: RegisterScreenProps)=>{
     const [password, setPassword]=useState('');
     const [repeatPassword, setRepeatPassword]=useState('');
     const [Error, setError]=useState('');
+
+
 
   const gotToLogin=() => {
     props.navigation.navigate('Login');
@@ -43,16 +44,8 @@ const RegisterScreen= (props: RegisterScreenProps)=>{
     const nickUpdate={
       displayName: nick
     };
-    const response= await createUserWithEmailAndPassword(auth,email,password)
-    .then((userCredential)=>{
-      updateProfile(auth.currentUser,nickUpdate);
-    });
 
-
-      
-
-    const user=auth.currentUser;
-    
+    console.log("REGISTER")
 
    }
    catch(error){

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View,StatusBar } from 'react-native';
 import { styles } from './Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import LoginScreen from './Screens/LoginScreen';
 import RegisterScreen from './Screens/RegisterScreen';
 import HomeScreen from './Screens/HomeScreen';
@@ -12,8 +12,7 @@ import Header from './Components/Header';
 import ScreenSelector from './ScreenSelector';
 import { auth } from './config/firebase-config'
 import { onAuthStateChanged } from 'firebase/auth';
-
-
+import { FireBaseContext,FireBaseProvider } from './config/FireBaseContext';
 
 
 const Stack = createStackNavigator();
@@ -21,11 +20,10 @@ const Stack = createStackNavigator();
 
 const MainScreen=()=>{
 
-   const [isSignedIn, setIsSignIn]= useState(false);
 
+   const {isLogged} = useContext(FireBaseContext);
 
-   const [user, setUser]= useState(false);
-
+/*
    function changeOnAuth(NewUser){
       setUser(user)
    }
@@ -43,13 +41,14 @@ const MainScreen=()=>{
          setUser(user);
       })
    },[])
-
+*/
 
 return(
+
 <NavigationContainer>
 <Stack.Navigator>
 {
-(user ?(
+(isLogged ?(
    <>
    <Stack.Screen
        name="ScreenSelector"
@@ -83,6 +82,7 @@ return(
 }
 </Stack.Navigator>
 </NavigationContainer>
+</FireBaseProvider>
 );
 }
 

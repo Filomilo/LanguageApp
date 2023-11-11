@@ -9,13 +9,16 @@ import LoginScreen from './src/Screens/LoginScreen';
 import HomeScreen from './src/Screens/HomeScreen';
 import DeckViewScreen from './src/Screens/DeckViewScreen';
 import MainScreen from './src/MainScreen';
+import { FireBaseProvider } from './src/config/FireBaseContext';
 
 
 const App=()=>{
 
 
 return(
+  <FireBaseProvider>
   <MainScreen/>
+  </FireBaseProvider>
 )
 }
 

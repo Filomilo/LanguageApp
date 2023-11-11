@@ -3,13 +3,13 @@ import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { darkModeMainTextColor, darkModePlaceholderTextInputColor, darkModePrimaryColor, height, styles, width } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
-import React from 'react';
+import React, { useContext } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useState } from 'react';
 import { TextInput } from 'react-native-gesture-handler';
-import { signInWithEmailAndPassword  } from 'firebase/auth';
-import {auth} from '../config/firebase-config'
+
 import BackGroundZigs from '../Components/BackgroundZigs';
+import { FireBaseContext } from '../config/FireBaseContext';
 interface LoginScreenProps{
   navigation: any;
 }
@@ -24,18 +24,20 @@ const LoginScreen= (props: LoginScreenProps)=>{
   const goToRegister=() => {
     props.navigation.navigate('Register');
   }
+  const {fireBaseLogin, isLogged}= useContext(FireBaseContext);
+
 
   const Login=async () => {
     //todo login
     try{
-    const response= await signInWithEmailAndPassword(auth,email,password);
+      console.log("LOING\n")
+      fireBaseLogin(email,password)
     }
     catch(err)
     {
       setError(JSON.stringify(err))
     }
   }
-
 
 
 
