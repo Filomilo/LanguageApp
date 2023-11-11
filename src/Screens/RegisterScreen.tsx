@@ -50,11 +50,11 @@ const RegisterScreen= (props: RegisterScreenProps)=>{
     throw("Password not long enough")
 
 
+    await register(nick,email,password);
 
 
 
-
-    console.log("REGISTER")
+    setError("Registeed succsefly, you can now go to login page");
 
    }
    catch(error){

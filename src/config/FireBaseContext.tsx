@@ -1,7 +1,7 @@
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import React, { createContext, useEffect, useState } from "react";
 import { auth, db } from "./firebase-config";
-import { onValue, ref, set, update } from "firebase/database";
+import { onValue, push, ref, set, update } from "firebase/database";
 
 
 const FireBaseContext = createContext({});
@@ -12,18 +12,20 @@ const FireBaseProvider = ({ children }) => {
     const [usersList, setUsersList] = useState([]);
     const [activeUserNick, setActiveUserNick] = useState(null);
     const [activeUserData, setActiveUserData] = useState(null);
-
-
-
-
-
+    const [wasRegistrtionSuccesful, setWasRegistrtionSuccesful] = useState(false);
 
     const basePhoto = "https://firebasestorage.googleapis.com/v0/b/languageapp-43a7b.appspot.com/o/basicProfile.jpg?alt=media&token=27f19efa-85cc-4543-a151-341535290cdb";
 
 
     const getActiveUserRef = () => {
+        if(activeUserNick===null)
+        throw("error couldnt retive nick")
         return ref(db, "users/userData/" + activeUserNick);
     }
+   const  getUserRef=(nick)=>{
+    return ref(db, "users/userData/" + nick);
+    }
+    
 
     useEffect(() => {
         console.log("%%%%%%%%%%%%%%%%%% - " + activeUserNick);
@@ -49,9 +51,10 @@ const FireBaseProvider = ({ children }) => {
         setActiveUserNick(nick);
     }
 
-    const logOut = () => {
+    const logOut = async () => {
         //console.log("FireBAse LOGut")
-        auth.signOut();
+        await auth.signOut();
+        setWasRegistrtionSuccesful(false)
     }
 
     useEffect(() => {
@@ -77,7 +80,6 @@ const FireBaseProvider = ({ children }) => {
 
     }
 
-
     const getActiveUserNick = (): string => {
         return activeUserNick ? activeUserNick : "error";
     }
@@ -90,10 +92,54 @@ const FireBaseProvider = ({ children }) => {
         return !nickExists;
     }
 
-    const register = (nick: string, emial: string, password: string) => {
-        console.log("regiser: " + nick + " " + password)
+
+    const createUser=async (nick: string)=>
+    {
+        const newIndx=usersList.length;
+        let newData={...usersList};
+        newData[newIndx]={
+            "isSearchable": false,
+        "nick": nick,
+		"profilePic": basePhoto
+        };
+       await updateUserList(newData);
+
+        let newUserData={
+            "isDarkMode": true,
+            "isTurnFlashCardsByShaking": false,
+            "index": newIndx
+        };
+
+       
+    await setActiveUserNick(nick);
+      await set(getUserRef(nick),newUserData).catch((err)=>{
+        console.error("Wrror when seData: "+ err);
+      })
+      await setActiveUserData(newUserData);
     }
 
+    const register =async (nick: string, email: string, password: string) => {
+        
+
+try{
+        const nickUpdate={
+            displayName: nick
+          };
+          const response= await createUserWithEmailAndPassword(auth,email,password).then(async ()=>{
+           await updateProfile(auth.currentUser,nickUpdate);
+          });
+          createUser(nick);
+        }
+        catch(ex)
+        {
+            console.error(er);
+            logOut();
+        }
+          
+`          `
+
+
+    }
 
     const usersListRef = ref(db, '/users/usersList');
     useEffect(() => {
@@ -122,12 +168,12 @@ const FireBaseProvider = ({ children }) => {
     }, [db])
 
 
-    const updateActiveUserData = (newData) => {
-        update(getActiveUserRef(), newData).then(console.log("data active user Udpated"));
+    const updateActiveUserData = async (newData) => {
+        await update(getActiveUserRef(), newData).then(console.log("data active user Udpated"));
 
     }
-    const updateUserList=(newData)=> {
-        set(usersListRef, newData).then(console.log("data user list Udpated"));
+    const updateUserList = async (newData) => {
+        await set(usersListRef, newData).then(console.log("data user list Udpated"));
     }
 
 
@@ -144,10 +190,6 @@ const FireBaseProvider = ({ children }) => {
         }
         // return usersList[activeUserData.index].proflePic;
     }
-
-
-
-
 
     const setIsurnFlashCardsByShaking = (state: boolean) => {
         if (activeUserData) {
@@ -167,53 +209,50 @@ const FireBaseProvider = ({ children }) => {
         }
     }
 
-    const setIsSearchable=(state: boolean)=>{
-        if(activeUserData&& usersList){
+    const setIsSearchable = (state: boolean) => {
+        if (activeUserData && usersList) {
             const newData = [...usersList];
-            newData[activeUserData.index].isSearchable=state;
-                 setUsersList(newData); 
-    
-                 console.log("srerachable updaet: " + JSON.stringify(usersList[activeUserData.index]));
-                 console.log("srerachable updaet: " + JSON.stringify(newData[activeUserData.index]));
-                 updateUserList(newData);
+            newData[activeUserData.index].isSearchable = state;
+            setUsersList(newData);
+
+            console.log("srerachable updaet: " + JSON.stringify(usersList[activeUserData.index]));
+            console.log("srerachable updaet: " + JSON.stringify(newData[activeUserData.index]));
+            updateUserList(newData);
+        }
     }
+
+    const getIsSearchable = (): boolean => {
+        return (usersList && activeUserData) ? usersList[activeUserData.index].isSearchable : false;
+    }
+    const getIsDarkMode = (): boolean => {
+        return activeUserData ? activeUserData.isDarkMode : false;
+    }
+    const getIsurnFlashCardsByShaking = (): boolean => {
+        return activeUserData ? activeUserData.isTurnFlashCardsByShaking : false;
+    }
+    return (
+        <FireBaseContext.Provider
+            value={{
+                isLogged,
+                fireBaseLogin,
+                logOut,
+                validateNick,
+                register,
+                getActiveUserNick,
+                getActiveProfilePic,
+                setIsurnFlashCardsByShaking, getIsurnFlashCardsByShaking,
+                setIsDarkMode, getIsDarkMode,
+                setIsSearchable, getIsSearchable,
+                activeUserData,
+                wasRegistrtionSuccesful
+            }}
+        >
+            {children}
+        </FireBaseContext.Provider>
+
+    )
+
 }
-
-
-
-        const getIsSearchable = (): boolean => {
-            return (usersList && activeUserData) ? usersList[activeUserData.index].isSearchable : false;
-        }
-        const getIsDarkMode = (): boolean => {
-            return activeUserData ? activeUserData.isDarkMode : false;
-        }
-        const getIsurnFlashCardsByShaking = (): boolean => {
-            return activeUserData ? activeUserData.isTurnFlashCardsByShaking : false;
-        }
-
-
-        return (
-            <FireBaseContext.Provider
-                value={{
-                    isLogged,
-                    fireBaseLogin,
-                    logOut,
-                    validateNick,
-                    register,
-                    getActiveUserNick,
-                    getActiveProfilePic,
-                    setIsurnFlashCardsByShaking, getIsurnFlashCardsByShaking,
-                    setIsDarkMode, getIsDarkMode,
-                    setIsSearchable, getIsSearchable,
-                    activeUserData
-                }}
-            >
-                {children}
-            </FireBaseContext.Provider>
-
-        )
-
-    }
 
 
 export { FireBaseContext, FireBaseProvider }

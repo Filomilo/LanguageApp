@@ -24,7 +24,7 @@ const LoginScreen= (props: LoginScreenProps)=>{
   const goToRegister=() => {
     props.navigation.navigate('Register');
   }
-  const {fireBaseLogin, isLogged}= useContext(FireBaseContext);
+  const {fireBaseLogin, isLogged, wasRegistrtionSuccesful}= useContext(FireBaseContext);
 
 
 
