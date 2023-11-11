@@ -1,12 +1,15 @@
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from "@react-navigation/drawer";
-import React from "react";
+import React, { useContext } from "react";
 import { View,Text,Image } from "react-native";
 import { darkModeBackgroundColor, darkModeHeaderColor, darkModePrimaryColor, height, styles, width } from "../Styles";
-import DataBaseManager from "../config/DataBaseManager";
+import { FireBaseContext } from "../config/FireBaseContext";
 
 
 
 const  CustomDrawer=(props)=> {
+
+  const  {getActiveUserNick,getActiveProfilePic} = useContext(FireBaseContext);
+
     return (
       <DrawerContentScrollView {...props}
       style={
@@ -25,7 +28,7 @@ const  CustomDrawer=(props)=> {
         }
         >
 <Image 
-       source={{uri: DataBaseManager.getProfilePic()}}
+       source={{uri: getActiveProfilePic()}}
        style={[styles.proflePic,{
         width: width*0.32,
         height: width*0.32,
@@ -41,7 +44,7 @@ const  CustomDrawer=(props)=> {
         }
         ]}
         >
-          {DataBaseManager.getUserName()}
+          {getActiveUserNick()}
           </Text> 
         </View>
         <DrawerItemList {...props}

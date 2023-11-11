@@ -21,6 +21,9 @@ const RegisterScreen= (props: RegisterScreenProps)=>{
     const [Error, setError]=useState('');
 
 
+    const {register, validateNick} = useContext(FireBaseContext);
+
+
 
   const gotToLogin=() => {
     props.navigation.navigate('Login');
@@ -30,20 +33,26 @@ const RegisterScreen= (props: RegisterScreenProps)=>{
 
    console.log('register')
    try{
+    /*
     if(email.length===0 || 
       nick.length===0 ||
        password.length===0 || 
        repeatPassword.length===0){
     throw("Every field must be filled")}
-    
+    */
+    if(!validateNick(nick))
+    throw("nick alrady taken")
+
     if(password != repeatPassword)
     throw("Passwords do not match")
 
     if(password.length<8)
     throw("Password not long enough")
-    const nickUpdate={
-      displayName: nick
-    };
+
+
+
+
+
 
     console.log("REGISTER")
 

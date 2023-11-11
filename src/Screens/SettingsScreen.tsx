@@ -3,18 +3,17 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { DarkModeColors, darkModeHeaderColor, darkModePrimaryColor, darkModeTextInputColor, height, styles, width } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ScrollView, Switch, TouchableOpacity } from 'react-native-gesture-handler';
-
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';
 import { SafeAreaFrameContext, SafeAreaView } from 'react-native-safe-area-context';
 import RecentDecksScreen from './RecentDecksScreen';
 import FindDecksScreen from './FindDecksScreen';
-import DataBaseManager from '../config/DataBaseManager'
 import Camera from '../../assets/Camera.svg'
 import Folder from '../../assets/Folder.svg'
+import { FireBaseContext } from '../config/FireBaseContext';
 interface SettingsScreenProps{
   navigation: any;
 }
@@ -71,16 +70,35 @@ style={[styles.LineSeparator,{
 
 
 
-const logOutButton=()=>{
-  console.log("Log out");
-}
-
 const SettingsScreen= (props: SettingsScreenProps)=>{
 
+  
+const {logOut,
+  getActiveProfilePic,
+  setIsurnFlashCardsByShaking,
+  setIsSearchable,
+  setIsDarkMode,
+  getIsDarkMode,
+  getIsSearchable,
+  getIsurnFlashCardsByShaking,
+  activeUserData
 
-const [isDarkMode,setIsDarkMode] = useState(true);
-const [isSearchable,setIsSearchable] = useState(true);
-const [isTurnFlashCardsByShaking,setITurnFlashCardsByShaking] = useState(true);
+}= useContext(FireBaseContext);
+
+
+
+
+
+
+
+
+const logOutButton=()=>{
+
+ logOut();
+}
+
+
+
 
 
 const ChoosePhotoButton=()=>{
@@ -90,6 +108,8 @@ const ChoosePhotoButton=()=>{
 const TakePhotoButton=()=>{
   console.log("take phto button");
 }
+
+
 
   return (
     
@@ -113,7 +133,7 @@ const TakePhotoButton=()=>{
         }}
         >
          <Image 
-       source={{uri: DataBaseManager.getProfilePic()}}
+       source={{uri: getActiveProfilePic()}}
        style={styles.proflePic}
        />
         </View>
@@ -194,17 +214,17 @@ const TakePhotoButton=()=>{
          <SettingOptions 
          name={"Dark Mode"}
          onChange={setIsDarkMode}
-         value={isDarkMode}
+         value={getIsDarkMode()}
          />
          <SettingOptions 
          name={"Searchable account"}
          onChange={setIsSearchable}
-         value={isSearchable}
+         value={getIsSearchable()}
          />
          <SettingOptions 
          name={"Turn flash cards by shaking"}
-         onChange={setITurnFlashCardsByShaking}
-         value={isTurnFlashCardsByShaking}
+         onChange={setIsurnFlashCardsByShaking}
+         value={activeUserData?activeUserData.isTurnFlashCardsByShaking:false}
          />
       </View>
 

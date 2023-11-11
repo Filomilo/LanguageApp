@@ -27,6 +27,9 @@ const LoginScreen= (props: LoginScreenProps)=>{
   const {fireBaseLogin, isLogged}= useContext(FireBaseContext);
 
 
+
+  
+
   const Login=async () => {
     //todo login
     try{
