@@ -5,7 +5,7 @@ import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { darkModePrimaryColor, height, styles, width } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -17,6 +17,7 @@ import FindDecksScreen from './FindDecksScreen';
 import DataBaseManager from '../config/DataBaseManager';
 import FriendListElement from '../Components/FriendListElement';
 import SearchIcon from '../../assets/search.svg'
+import { FireBaseContext } from '../config/FireBaseContext';
 interface FindFriendsScreenProps{
   navigation: any;
 }
@@ -25,7 +26,8 @@ const Tab = createMaterialTopTabNavigator();
 
 const FindFriendsScreen= (props: FindFriendsScreenProps)=>{
 
-  const foundFriendList=DataBaseManager.getSearchedFriends();
+
+const {getSearchFriends} = useContext(FireBaseContext);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -64,14 +66,14 @@ value={searchTerm}
 
 </View>
 <FlatList 
-data={foundFriendList.list} 
+data={getSearchFriends(searchTerm)} 
 renderItem={(item)=>{return(
   <FriendListElement 
-  name={item.item.name}
-  id={item.item.id}
+  name={item.item.nick}
+  id={item.item.nick}
   isClickable={false}
   isAddable={true}
-  imageUri={item.item.photoURi}
+  imageUri={item.item.profilePic}
   addFunction={()=>{addConatct(item.item.id)}}
   />
 )}} />

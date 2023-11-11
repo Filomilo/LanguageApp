@@ -92,6 +92,14 @@ const FireBaseProvider = ({ children }) => {
         return !nickExists;
     }
 
+    const getSearchFriends=(query: string): any[] =>{
+        searcheResult=usersList.filter((elemnet)=>{
+            return elemnet.isSearchable && elemnet.nick!==activeUserNick && elemnet.nick.substring(0,query.length)===query;
+        })
+        
+        return searcheResult;
+    }
+
 
     const createUser=async (nick: string)=>
     {
@@ -244,7 +252,8 @@ try{
                 setIsDarkMode, getIsDarkMode,
                 setIsSearchable, getIsSearchable,
                 activeUserData,
-                wasRegistrtionSuccesful
+                wasRegistrtionSuccesful,
+                getSearchFriends
             }}
         >
             {children}
