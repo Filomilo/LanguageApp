@@ -15,7 +15,7 @@ const FireBaseProvider = ({ children }) => {
     const [wasRegistrtionSuccesful, setWasRegistrtionSuccesful] = useState(false);
     const [friendListRequest, setFriendListRequest] = useState([]);
     const [friendList, setFriendList] = useState([]);
-
+    const [isLoading,setIsLoading] = useState(false);
     const basePhoto = "https://firebasestorage.googleapis.com/v0/b/languageapp-43a7b.appspot.com/o/basicProfile.jpg?alt=media&token=27f19efa-85cc-4543-a151-341535290cdb";
 
 
@@ -33,13 +33,29 @@ const FireBaseProvider = ({ children }) => {
     return ref(db, "users/userData/" + nick);
     }
     
+    useEffect(()=>{
+        if(isLogged)
+        if(activeUserData!==null && activeUserData!==undefined )
+        {
+            setIsLoading(false)
+        }
+        else{
+            setIsLoading(true)
+        }
+    },[activeUserData])
+
 
     useEffect(() => {
+        if(activeUserNick=== null || activeUserNick===undefined)
+            setIsLoading(true);
+
         console.log("%%%%%%%%%%%%%%%%%% - " + activeUserNick);
         if (activeUserNick != null) {
             const unsubscribe = onValue(getActiveUserRef(), (snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
+                                console.log(" ||||||||||||||||||||||||||||||||||||| " + JSON.stringify(activeUserNick)+ " ||||||||||||||||||||||||||||||||||||| " )
+
                     setActiveUserData(data);
                     console.log("activeu se data: " + JSON.stringify(activeUserData));
                 }
@@ -50,6 +66,8 @@ const FireBaseProvider = ({ children }) => {
 
             })
         }
+
+
 
     }, [activeUserNick]);
 
@@ -101,7 +119,7 @@ const FireBaseProvider = ({ children }) => {
 
     const getSearchFriends=(query: string): any[] =>{
         searcheResult=usersList.filter((elemnet)=>{
-            return elemnet.isSearchable && elemnet.nick!==activeUserNick && elemnet.nick.substring(0,query.length)===query;
+            return elemnet.isSearchable && !elemnet.isFriend && elemnet.nick!==activeUserNick && elemnet.nick.substring(0,query.length)===query;
         })
         
         return searcheResult;
@@ -159,6 +177,10 @@ try{
     const usersListRef = ref(db, '/users/usersList');
     useEffect(() => {
 
+        if(isLogged){
+            if(activeUserData===null || activeUserData=== undefined)
+                setIsLoading(true);
+        }
 
         let friendsRequestArray=[];
 
@@ -170,13 +192,13 @@ try{
                 console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + JSON.stringify(friendsRequestArray)+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
             }
             else {
-                console.error('friends request data does not exist');
-                setUsersList([]);
+                console.error('friends request data does not exist: ' + snapshot.toJSON());
+                setFriendListRequest([]);
             }
 
         }
         )
-            let friendsListArray: any[];
+            let friendsListArray: any[]=[];
         const unsubscribeFriendList = onValue(getActiveUserFriendListRef(), (snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
@@ -186,7 +208,7 @@ try{
             }
             else {
                 console.error('friends request data does not exist');
-                setUsersList([]);
+                setFriendList([]);
             }
 
         }
@@ -194,14 +216,14 @@ try{
 
 
 
-
+        let usersArray: any[] 
 
         const unsubscribe = onValue(usersListRef, (snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
-                const usersArray: any[] = data ? Object.values(data) : [];
+                usersArray = data ? Object.values(data) : [];
                 usersArray.forEach((element)=>{
-                    if(friendsListArray.find((element2)=>{
+                    if(friendsRequestArray.find((element2)=>{
                         return element2.to===element.nick && element2.from===activeUserNick
                     })!==undefined)
                     {
@@ -211,8 +233,8 @@ try{
                     element.alreadySendRequest=false;
 
 
-                    if(friendsRequestArray.find((element2)=>{
-        
+                    if(friendsListArray.find((element2)=>{
+                        console.log("elemnt: " + element2.nick +"==="+element.nick);
                         return element2.nick===element.nick
                     })!==undefined)
                     {
@@ -232,6 +254,18 @@ try{
 
         }
         )
+
+
+        if(isLogged){
+            if(usersArray!==null && usersArray!== undefined && usersArray.length>0){
+                setIsLoading(false);
+            }
+            else
+            {
+                console.log(" ||||||||||||||||||||||||||||||||||||| " + JSON.stringify(usersArray)+ " ||||||||||||||||||||||||||||||||||||| " )
+
+            }
+        }
 
         return () => {
             unsubscribe();
@@ -321,6 +355,7 @@ try{
     return (
         <FireBaseContext.Provider
             value={{
+                isLoading,
                 isLogged,
                 fireBaseLogin,
                 logOut,

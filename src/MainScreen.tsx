@@ -13,7 +13,8 @@ import ScreenSelector from './ScreenSelector';
 import { auth } from './config/firebase-config'
 import { onAuthStateChanged } from 'firebase/auth';
 import { FireBaseContext,FireBaseProvider } from './config/FireBaseContext';
-
+import LoadingScreen from './Screens/LoadingScreen'
+import StatScreen from './Screens/StatScreen';
 
 const Stack = createStackNavigator();
 
@@ -21,7 +22,7 @@ const Stack = createStackNavigator();
 const MainScreen=()=>{
 
 
-   const {isLogged} = useContext(FireBaseContext);
+   const {isLogged, isLoading} = useContext(FireBaseContext);
 
 /*
    function changeOnAuth(NewUser){
@@ -37,9 +38,16 @@ const MainScreen=()=>{
 
 
 */
-
+if(isLoading)
+{
 return(
-
+   <View>
+      <LoadingScreen />
+   </View>
+)
+}
+else
+return(
 <NavigationContainer>
 <Stack.Navigator>
 {
@@ -78,6 +86,7 @@ return(
 </Stack.Navigator>
 </NavigationContainer>
 );
+
 }
 
 
