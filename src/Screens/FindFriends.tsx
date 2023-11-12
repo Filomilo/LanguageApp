@@ -65,6 +65,7 @@ value={searchTerm}
 />
 
 </View>
+
 <FlatList 
 data={getSearchFriends(searchTerm)} 
 renderItem={(item)=>{return(
@@ -73,8 +74,9 @@ renderItem={(item)=>{return(
   id={item.item.nick}
   isClickable={false}
   isAddable={true}
+  isAlreadySendRequset={item.item.alreadySendRequest}
   imageUri={item.item.profilePic}
-  addFunction={()=>{addConatct(item.item.id)}}
+  addFunction={()=>{addConatct(item.item.nick)}}
   />
 )}} />
 

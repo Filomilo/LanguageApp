@@ -14,15 +14,20 @@ const FireBaseProvider = ({ children }) => {
     const [activeUserData, setActiveUserData] = useState(null);
     const [wasRegistrtionSuccesful, setWasRegistrtionSuccesful] = useState(false);
     const [friendListRequest, setFriendListRequest] = useState([]);
-
+    const [friendList, setFriendList] = useState([]);
 
     const basePhoto = "https://firebasestorage.googleapis.com/v0/b/languageapp-43a7b.appspot.com/o/basicProfile.jpg?alt=media&token=27f19efa-85cc-4543-a151-341535290cdb";
 
 
     const getActiveUserRef = () => {
-        if(activeUserNick===null)
-        throw("error couldnt retive nick")
+       // if(activeUserNick===null)
+       // throw("error couldnt retive nick")
         return ref(db, "users/userData/" + activeUserNick);
+    }
+    const getActiveUserFriendListRef = () => {
+       // if(activeUserNick===null)
+       // throw("error couldnt retive nick")
+        return ref(db, "users/friends/friendsList/" + activeUserNick);
     }
    const  getUserRef=(nick)=>{
     return ref(db, "users/userData/" + nick);
@@ -153,10 +158,71 @@ try{
 
     const usersListRef = ref(db, '/users/usersList');
     useEffect(() => {
+
+
+        let friendsRequestArray=[];
+
+        const unsubscribeReuqest = onValue(friendsRequestListRef, (snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                friendsRequestArray = data ? Object.values(data) : [];
+                setFriendListRequest(friendsRequestArray);
+                console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + JSON.stringify(friendsRequestArray)+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            }
+            else {
+                console.error('friends request data does not exist');
+                setUsersList([]);
+            }
+
+        }
+        )
+            let friendsListArray: any[];
+        const unsubscribeFriendList = onValue(getActiveUserFriendListRef(), (snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                friendsListArray = data ? Object.values(data) : [];
+                setFriendList(friendsListArray);
+                console.log("()()()()()()()())()()()()()()()())" + JSON.stringify(friendsListArray)+"()()()()()()()())()()()()()()()())")
+            }
+            else {
+                console.error('friends request data does not exist');
+                setUsersList([]);
+            }
+
+        }
+        )
+
+
+
+
+
         const unsubscribe = onValue(usersListRef, (snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
                 const usersArray: any[] = data ? Object.values(data) : [];
+                usersArray.forEach((element)=>{
+                    if(friendsListArray.find((element2)=>{
+                        return element2.to===element.nick && element2.from===activeUserNick
+                    })!==undefined)
+                    {
+                        element.alreadySendRequest=true;
+                    }
+                    else
+                    element.alreadySendRequest=false;
+
+
+                    if(friendsRequestArray.find((element2)=>{
+        
+                        return element2.nick===element.nick
+                    })!==undefined)
+                    {
+                        element.isFriend=true;
+                    }
+                    else
+                    element.isFriend=false;
+
+
+                })
                 setUsersList(usersArray);
             }
             else {
@@ -169,31 +235,13 @@ try{
 
         return () => {
             unsubscribe();
+            unsubscribeReuqest();
         };
     }, [db])
 
 
     const friendsRequestListRef = ref(db, '/users/friends/requests');
-    useEffect(() => {
-        const unsubscribe = onValue(friendsRequestListRef, (snapshot) => {
-            if (snapshot.exists()) {
-                const data = snapshot.val();
-                const friendsRequestArray: any[] = data ? Object.values(data) : [];
-                setFriendListRequest(friendsRequestArray);
-                console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + JSON.stringify(friendsRequestArray)+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-            }
-            else {
-                console.error('friends request data does not exist');
-                setUsersList([]);
-            }
 
-        }
-        )
-
-        return () => {
-            unsubscribe();
-        };
-    }, [db])
 
 
 
@@ -263,7 +311,7 @@ try{
 
     
    const getFriendsRequests=()=>{
-    let arrayReuest= friendListRequest.filter((element)=>{return element.to===activeUserNick})
+    let arrayReuest= friendListRequest.filter((element)=>{return element.to===activeUserNick && !element.isFriend})
     arrayReuest.forEach((elemeent)=>{
         elemeent.profilePic=usersList[elemeent.fromIndx].profilePic;
     });

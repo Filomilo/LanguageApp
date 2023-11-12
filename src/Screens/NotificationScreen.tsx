@@ -125,8 +125,8 @@ const declineRequest=(id)=>{
         <FriendRequest
         name={item.item.from}
         photoUri={item.item.profilePic}
-        decline={()=>{declineRequest(item.item.id)}}
-        accept={()=>{acceptRequest(item.item.id)}}
+        decline={()=>{declineRequest(item.item.from)}}
+        accept={()=>{acceptRequest(item.item.from)}}
         />
     )
     }} />

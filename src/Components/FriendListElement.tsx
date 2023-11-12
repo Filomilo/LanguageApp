@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,TouchableOpacity,Image } from 'react-native';
-import { DarkModeColors, darkModePrimaryColor, styles, width } from '../Styles';
+import { DarkModeColors, darkModeHeaderColor, darkModePrimaryColor, styles, width } from '../Styles';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
@@ -54,8 +54,9 @@ const FriendListElement=(props)=>{
              >
                  <TouchableOpacity
                  onPress={()=>{addContact()}}
+                 disabled={props.isAlreadySendRequset}
                  >
-             <AddContactIcon width={width/9} height={width/9} fill={darkModePrimaryColor} />
+             <AddContactIcon width={width/9} height={width/9} fill={props.isAlreadySendRequset?darkModeHeaderColor:darkModePrimaryColor} />
              </TouchableOpacity>
             
             </View>
