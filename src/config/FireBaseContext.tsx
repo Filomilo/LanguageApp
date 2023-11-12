@@ -13,6 +13,8 @@ const FireBaseProvider = ({ children }) => {
     const [activeUserNick, setActiveUserNick] = useState(null);
     const [activeUserData, setActiveUserData] = useState(null);
     const [wasRegistrtionSuccesful, setWasRegistrtionSuccesful] = useState(false);
+    const [friendListRequest, setFriendListRequest] = useState([]);
+
 
     const basePhoto = "https://firebasestorage.googleapis.com/v0/b/languageapp-43a7b.appspot.com/o/basicProfile.jpg?alt=media&token=27f19efa-85cc-4543-a151-341535290cdb";
 
@@ -151,11 +153,6 @@ try{
 
     const usersListRef = ref(db, '/users/usersList');
     useEffect(() => {
-
-
-
-
-
         const unsubscribe = onValue(usersListRef, (snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
@@ -174,6 +171,30 @@ try{
             unsubscribe();
         };
     }, [db])
+
+
+    const friendsRequestListRef = ref(db, '/users/friends/requests');
+    useEffect(() => {
+        const unsubscribe = onValue(friendsRequestListRef, (snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                const friendsRequestArray: any[] = data ? Object.values(data) : [];
+                setFriendListRequest(friendsRequestArray);
+                console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + JSON.stringify(friendsRequestArray)+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            }
+            else {
+                console.error('friends request data does not exist');
+                setUsersList([]);
+            }
+
+        }
+        )
+
+        return () => {
+            unsubscribe();
+        };
+    }, [db])
+
 
 
     const updateActiveUserData = async (newData) => {
@@ -238,6 +259,17 @@ try{
     const getIsurnFlashCardsByShaking = (): boolean => {
         return activeUserData ? activeUserData.isTurnFlashCardsByShaking : false;
     }
+
+
+    
+   const getFriendsRequests=()=>{
+    let arrayReuest= friendListRequest.filter((element)=>{return element.to===activeUserNick})
+    arrayReuest.forEach((elemeent)=>{
+        elemeent.profilePic=usersList[elemeent.fromIndx].profilePic;
+    });
+    return arrayReuest;
+};
+
     return (
         <FireBaseContext.Provider
             value={{
@@ -253,7 +285,8 @@ try{
                 setIsSearchable, getIsSearchable,
                 activeUserData,
                 wasRegistrtionSuccesful,
-                getSearchFriends
+                getSearchFriends,
+                getFriendsRequests
             }}
         >
             {children}
@@ -261,7 +294,10 @@ try{
 
     )
 
+
 }
+
+
 
 
 export { FireBaseContext, FireBaseProvider }

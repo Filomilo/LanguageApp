@@ -3,7 +3,7 @@ import { StyleSheet, Text, View,Image } from 'react-native';
 import { DarkModeColors, darkModePrimaryColor, styles, width } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
-import React from 'react';
+import React, { useContext } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -18,6 +18,7 @@ import FindFriendsScreen from './FindFriends';
 import DeclineButton from '../../assets/x.svg'
 import AcceptButton from '../../assets/check.svg'
 import DataBaseManager from '../config/DataBaseManager';
+import { FireBaseContext } from '../config/FireBaseContext';
 
 interface NotificationScreenProps{
   navigation: any;
@@ -26,10 +27,10 @@ interface NotificationScreenProps{
 
 const NotificationScreen= (props: NotificationScreenProps)=>{
 
+const {getFriendsRequests} = useContext(FireBaseContext);
 
 
-
-  const friendRequest=DataBaseManager.getFriendRequests();
+  const FriendsRequests=getFriendsRequests();
 
 const acceptRequest=(id)=>{
   console.log(id + " accepted");
@@ -119,11 +120,11 @@ const declineRequest=(id)=>{
 <View style={[styles.mainContainer,DarkModeColors.TextInputColor]}>
 
 
-    <FlatList data={friendRequest.requests} 
+    <FlatList data={FriendsRequests} 
     renderItem={(item)=>{return(
         <FriendRequest
-        name={item.item.name}
-        photoUri={item.item.photoURi}
+        name={item.item.from}
+        photoUri={item.item.profilePic}
         decline={()=>{declineRequest(item.item.id)}}
         accept={()=>{acceptRequest(item.item.id)}}
         />
