@@ -369,6 +369,14 @@ try{
     return arrayReuest;
 };
 
+const getYourFriends=()=>{
+    let array=friendList;
+    array.forEach((element)=>{
+        element.profilePic=usersList[element.index].profilePic;
+    })
+    return array;
+}
+
     return (
         <FireBaseContext.Provider
             value={{
@@ -386,7 +394,8 @@ try{
                 activeUserData,
                 wasRegistrtionSuccesful,
                 getSearchFriends,
-                getFriendsRequests
+                getFriendsRequests,
+                getYourFriends
             }}
         >
             {children}

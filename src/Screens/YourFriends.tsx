@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { styles } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
-import React from 'react';
+import React, { useContext } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -16,6 +16,7 @@ import RecentDecksScreen from './RecentDecksScreen';
 import FindDecksScreen from './FindDecksScreen';
 import DataBaseManager from '../config/DataBaseManager';
 import FriendListElement from '../Components/FriendListElement';
+import { FireBaseContext } from '../config/FireBaseContext';
 
 interface YourFriendsScreenProps{
   navigation: any;
@@ -26,7 +27,10 @@ const Tab = createMaterialTopTabNavigator();
 
 const YourFriendsScreen= (props: YourFriendsScreenProps)=>{
 
-  const friendList=DataBaseManager.getYourFriends();
+  const {getYourFriends} = useContext(FireBaseContext);
+
+  const friendList=getYourFriends();
+
 
   const clickConatact=(id)=>{
     console.log("clikced user : " + id)
@@ -40,15 +44,15 @@ const YourFriendsScreen= (props: YourFriendsScreenProps)=>{
 <View style={styles.mainContainer}>
 
 <FlatList 
-data={friendList.list} 
+data={friendList} 
 renderItem={(item)=>{return(
   <FriendListElement 
-  name={item.item.name}
-  id={item.item.id}
+  name={item.item.nick}
+  id={item.item.nick}
   isClickable={true}
   isAddable={false}
-  imageUri={item.item.photoURi}
-  clickFunction={()=>{clickConatact(item.item.id)}}
+  imageUri={item.item.profilePic}
+  clickFunction={()=>{clickConatact(item.item.nick)}}
   />
 )}} />
 
