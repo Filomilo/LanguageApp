@@ -25,8 +25,8 @@ const FireBaseProvider = ({ children }) => {
         return ref(db, "users/userData/" + activeUserNick);
     }
     const getActiveUserFriendListRef = () => {
-       // if(activeUserNick===null)
-       // throw("error couldnt retive nick")
+        //if(activeUserNick===null)
+         //throw("error couldnt retive nick")
         return ref(db, "users/friends/friendsList/" + activeUserNick);
     }
    const  getUserRef=(nick)=>{
@@ -34,20 +34,44 @@ const FireBaseProvider = ({ children }) => {
     }
     
     useEffect(()=>{
-        if(isLogged)
+        //TODO SIMPLY IF ELSE
+        if(isLogged){
         if(activeUserData!==null && activeUserData!==undefined )
         {
+            console.log("###############################"+ "1");
             setIsLoading(false)
         }
         else{
+            console.log("###############################"+ "2");
             setIsLoading(true)
         }
-    },[activeUserData])
+
+        if(activeUserNick!==null && activeUserNick!==undefined )
+        {
+            console.log("###############################"+ "3");
+            setIsLoading(false)
+        }
+        else{
+            console.log("###############################"+ "4");
+            setIsLoading(true)
+        }
+        if(usersList!==null && usersList!==undefined && usersList.length>0 )
+        {
+            console.log("###############################"+ "5");
+            setIsLoading(false)
+        }
+        else{
+            console.log("###############################"+ "6");
+            console.log(JSON.stringify(usersList))
+            setIsLoading(true)
+        }
+    }
+
+    },[activeUserData , activeUserNick, usersList])
 
 
     useEffect(() => {
-        if(activeUserNick=== null || activeUserNick===undefined)
-            setIsLoading(true);
+
 
         console.log("%%%%%%%%%%%%%%%%%% - " + activeUserNick);
         if (activeUserNick != null) {
@@ -177,13 +201,11 @@ try{
     const usersListRef = ref(db, '/users/usersList');
     useEffect(() => {
 
-        if(isLogged){
-            if(activeUserData===null || activeUserData=== undefined)
-                setIsLoading(true);
-        }
+
+        if(activeUserNick!==null){
 
         let friendsRequestArray=[];
-
+     
         const unsubscribeReuqest = onValue(friendsRequestListRef, (snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
@@ -207,7 +229,7 @@ try{
                 console.log("()()()()()()()())()()()()()()()())" + JSON.stringify(friendsListArray)+"()()()()()()()())()()()()()()()())")
             }
             else {
-                console.error('friends request data does not exist');
+                console.error('friends list data does not exist' + JSON.stringify(getActiveUserFriendListRef()));
                 setFriendList([]);
             }
 
@@ -245,6 +267,7 @@ try{
 
 
                 })
+                console.log("setUSerList: "+ JSON.stringify(usersArray))
                 setUsersList(usersArray);
             }
             else {
@@ -256,22 +279,15 @@ try{
         )
 
 
-        if(isLogged){
-            if(usersArray!==null && usersArray!== undefined && usersArray.length>0){
-                setIsLoading(false);
-            }
-            else
-            {
-                console.log(" ||||||||||||||||||||||||||||||||||||| " + JSON.stringify(usersArray)+ " ||||||||||||||||||||||||||||||||||||| " )
 
-            }
-        }
 
         return () => {
             unsubscribe();
             unsubscribeReuqest();
+            unsubscribeFriendList();
         };
-    }, [db])
+    }
+    }, [db,activeUserNick])
 
 
     const friendsRequestListRef = ref(db, '/users/friends/requests');
@@ -293,7 +309,7 @@ try{
         // console.log(JSON.stringify(activeUserData));
         // console.log(JSON.stringify(usersList[activeUserData.index]));
         try {
-            return (usersList && activeUserData) ? usersList[activeUserData.index].profilePic : basePhoto;
+            return (usersList  && activeUserData!==null && activeUserData!==undefined && usersList[activeUserData.index]!== undefined ) ? usersList[activeUserData.index].profilePic : basePhoto;
         }
         catch (er) {
             console.error(er);
@@ -333,7 +349,8 @@ try{
     }
 
     const getIsSearchable = (): boolean => {
-        return (usersList && activeUserData) ? usersList[activeUserData.index].isSearchable : false;
+        console.log("&&&&&&&&&&&&&&&&&&&&"+JSON.stringify(usersList.length)+"%%%%%%%%%%%%%%%%%%%")
+        return (usersList!==undefined && activeUserData!==undefined &&  usersList[activeUserData.index]!==undefined) ? usersList[activeUserData.index].isSearchable : false;
     }
     const getIsDarkMode = (): boolean => {
         return activeUserData ? activeUserData.isDarkMode : false;
