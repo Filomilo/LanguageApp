@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { DarkModeColors, darkModePrimaryColor, height, styles, width } from '../Styles';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import LoginScreen from './LoginScreen';
@@ -15,6 +15,7 @@ import { DataSnapshot, getDatabase, onValue, ref } from 'firebase/database';
 import {auth} from '../config/firebase-config'
 import DeckButton from '../Components/DeckButton';
 import AddButton from '../../assets/Add_button.svg';
+import { FireBaseContext } from '../config/FireBaseContext';
 const Tab = createMaterialTopTabNavigator();
 
 
@@ -24,34 +25,14 @@ interface RecentDecksScreenProps{
 }
 
 const RecentDecksScreen= (props: RecentDecksScreenProps)=>{
-  const [decks, setDecks] = useState({}); 
+  const {getYourRecentDecks} = useContext(FireBaseContext)
+
+  const [decks, setDecks] = useState(getYourRecentDecks()); 
   const navigation=useNavigation();
-useEffect (()=>{
- 
-  const decksRef=ref(db,'/decks');
- 
 
 
-  const unsubscribe=onValue(decksRef,(snapshot)=>{
-    if(snapshot.exists()){
-    const data=snapshot.val();
-    const decksArray= data? Object.values(data):[];
-    setDecks(decksArray);
-  }
-  else
-  {
-    console.error('deecks data does not exist');
-    setDecks([]);
-  }
 
-  }
-  )
 
-  return ()=>{
-    unsubscribe();
-  };
-    
-},[db]);
 const addDeckButton=()=>{
   console.log("add button");
 }
@@ -83,9 +64,9 @@ data={decks}
 renderItem={({ item }) => (
   <DeckButton 
   deckTitle={item.name}
-  author={item.creator}
-  lastUsed={9}
-  amtOfCards={item.cards.length}
+  author={item.author}
+  lastUsed={item.last_used.toLocaleDateString("en-US")}
+  amtOfCards={item.amt_of_cards}
   lang_1={item.lang_1}
   lang_2={item.lang_2}
   showLastUsed={true}

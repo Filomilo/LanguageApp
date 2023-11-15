@@ -14,6 +14,8 @@ const FireBaseProvider = ({ children }) => {
     const [activeUserData, setActiveUserData] = useState(null);
     const [wasRegistrtionSuccesful, setWasRegistrtionSuccesful] = useState(false);
     const [friendListRequest, setFriendListRequest] = useState([]);
+    const [decksList,setDecksList] = useState([]);
+    const [activeUserDecksList,setActiveUserDecksList]  = useState([]);
     const [friendList, setFriendList] = useState([]);
     const [isLoading,setIsLoading] = useState(false);
     const basePhoto = "https://firebasestorage.googleapis.com/v0/b/languageapp-43a7b.appspot.com/o/basicProfile.jpg?alt=media&token=27f19efa-85cc-4543-a151-341535290cdb";
@@ -24,11 +26,26 @@ const FireBaseProvider = ({ children }) => {
        // throw("error couldnt retive nick")
         return ref(db, "users/userData/" + activeUserNick);
     }
+
+    const getActiveUserRecentDecksRef = () => {
+        // if(activeUserNick===null)
+        // throw("error couldnt retive nick")
+         return ref(db, "decks/deck_usage/"+activeUserNick );
+
+     }
+
     const getActiveUserFriendListRef = () => {
         //if(activeUserNick===null)
          //throw("error couldnt retive nick")
-        return ref(db, "users/friends/friendsList/" + activeUserNick);
+         return ref(db, "users/friends/friendsList/" + activeUserNick);
+        }
+ 
+    const getDecksListRef = () => {
+        //if(activeUserNick===null)
+         //throw("error couldnt retive nick")
+        return ref(db, "decks/decks_list/");
     }
+
    const  getUserRef=(nick)=>{
     return ref(db, "users/userData/" + nick);
     }
@@ -38,30 +55,24 @@ const FireBaseProvider = ({ children }) => {
         if(isLogged){
         if(activeUserData!==null && activeUserData!==undefined )
         {
-            console.log("###############################"+ "1");
             setIsLoading(false)
         }
         else{
-            console.log("###############################"+ "2");
             setIsLoading(true)
         }
 
         if(activeUserNick!==null && activeUserNick!==undefined )
         {
-            console.log("###############################"+ "3");
             setIsLoading(false)
         }
         else{
-            console.log("###############################"+ "4");
             setIsLoading(true)
         }
         if(usersList!==null && usersList!==undefined && usersList.length>0 )
         {
-            console.log("###############################"+ "5");
             setIsLoading(false)
         }
         else{
-            console.log("###############################"+ "6");
             console.log(JSON.stringify(usersList))
             setIsLoading(true)
         }
@@ -78,10 +89,7 @@ const FireBaseProvider = ({ children }) => {
             const unsubscribe = onValue(getActiveUserRef(), (snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
-                                console.log(" ||||||||||||||||||||||||||||||||||||| " + JSON.stringify(activeUserNick)+ " ||||||||||||||||||||||||||||||||||||| " )
-
                     setActiveUserData(data);
-                    console.log("activeu se data: " + JSON.stringify(activeUserData));
                 }
                 else {
                     console.error("active user darta doens not exist");
@@ -89,6 +97,36 @@ const FireBaseProvider = ({ children }) => {
                 }
 
             })
+
+
+
+
+
+      
+            let decksArray: any[]=[];
+            const unsubscribeDecksList = onValue(getActiveUserRecentDecksRef(), (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    decksArray = data ? Object.values(data) : [];
+                    setActiveUserDecksList(decksArray);
+                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                    console.log(getActiveUserRecentDecksRef())
+                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                }
+                else {
+                    console.error('active decks list data does not exist' + JSON.stringify(getActiveUserRecentDecksRef()));
+                    setDecksList([]);
+                }
+    
+            }
+            )
+    
+
+            return () => {
+                unsubscribe();
+                unsubscribeDecksList();
+            };
+
         }
 
 
@@ -118,7 +156,6 @@ const FireBaseProvider = ({ children }) => {
 
 
     const fireBaseLogin = async (email: string, password: string) => {
-        console.log("FireBase LOGIn: " + email + "____" + password);
         try {
             const response = await signInWithEmailAndPassword(auth, email, password);
             // console.log(JSON.stringify(users));
@@ -237,6 +274,26 @@ try{
         )
 
 
+        let decksArray: any[]=[];
+        const unsubscribeDecksList = onValue(getDecksListRef(), (snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                decksArray = data ? Object.values(data) : [];
+                console.log("*******************************")
+                console.log(decksArray)
+                console.log("*******************************")
+                setDecksList(decksArray);
+            }
+            else {
+                console.error('decks list data does not exist' + JSON.stringify(getDecksListRef()));
+                setDecksList([]);
+            }
+
+        }
+        )
+
+
+
 
         let usersArray: any[] 
 
@@ -285,6 +342,7 @@ try{
             unsubscribe();
             unsubscribeReuqest();
             unsubscribeFriendList();
+            unsubscribeDecksList();
         };
     }
     }, [db,activeUserNick])
@@ -293,6 +351,11 @@ try{
     const friendsRequestListRef = ref(db, '/users/friends/requests');
 
 
+
+    const getFindDeck=()=>{
+        let res: any[]=decksList.filter((element)=>{return element.visibilty})
+        return res;
+    }
 
 
     const updateActiveUserData = async (newData) => {
@@ -358,8 +421,6 @@ try{
     const getIsurnFlashCardsByShaking = (): boolean => {
         return activeUserData ? activeUserData.isTurnFlashCardsByShaking : false;
     }
-
-
     
    const getFriendsRequests=()=>{
     let arrayReuest= friendListRequest.filter((element)=>{return element.to===activeUserNick && !element.isFriend})
@@ -375,6 +436,27 @@ const getYourFriends=()=>{
         element.profilePic=usersList[element.index].profilePic;
     })
     return array;
+}
+
+
+const getYourRecentDecks=()=>{
+    let res: any[]=activeUserDecksList;
+    res.forEach((element)=>{
+        element.author=decksList[element.index].author;
+        element.lang_1=decksList[element.index].lang_1;
+        element.lang_2=decksList[element.index].lang_2;
+        element.amt_of_cards=decksList[element.index].amt_of_cards;
+        element.last_used=new Date( element.last_used);
+    })
+    res.sort((a,b)=>{
+      return   b.last_used - a.last_used
+    })
+    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+    
+    console.log(res)
+    
+    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+    return res;
 }
 
     return (
@@ -395,7 +477,9 @@ const getYourFriends=()=>{
                 wasRegistrtionSuccesful,
                 getSearchFriends,
                 getFriendsRequests,
-                getYourFriends
+                getYourFriends,
+                getFindDeck,
+                getYourRecentDecks
             }}
         >
             {children}

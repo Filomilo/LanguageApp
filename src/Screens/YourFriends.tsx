@@ -7,7 +7,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
 import React, { useContext } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';

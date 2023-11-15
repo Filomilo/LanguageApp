@@ -4,7 +4,7 @@ import { FlatList, Modal, StyleSheet, Text, View,TouchableOpacity } from 'react-
 import { DarkModeColors, darkModeHeaderColor, darkModePrimaryColor, darkModeTextInputColor, height, styles, width } from '../Styles';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import LoginScreen from './LoginScreen';
@@ -17,6 +17,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import Sort  from '../../assets/Sort.svg'
 import Filter from '../../assets/Fiilter.svg'
 import {languages} from '../config/LangagesData'
+import { FireBaseContext } from '../config/FireBaseContext';
 const Tab = createMaterialTopTabNavigator();
 
 
@@ -26,34 +27,12 @@ interface FindDecksScreenProps{
 
 const FindDecksScreen= (props: FindDecksScreenProps)=>{
 
-  const [decks, setDecks] = useState({}); 
+const {getFindDeck} = useContext(FireBaseContext); 
+
+  const [decks, setDecks] = useState(getFindDeck()); 
   const [isShowFilterModal, setIsShowFilterModal] = useState(false); 
 
   const navigation=useNavigation();
-useEffect (()=>{
- 
-  const decksRef=ref(db,'/decks');
- 
-  const unsubscribe=onValue(decksRef,(snapshot)=>{
-    if(snapshot.exists()){
-    const data=snapshot.val();
-    const decksArray= data? Object.values(data):[];
-    setDecks(decksArray);
-  }
-  else
-  {
-    console.error('deecks data does not exist');
-    setDecks([]);
-  }
-
-  }
-  )
-
-  return ()=>{
-    unsubscribe();
-  };
-    
-},[db]);
 
 const openDeck =(id)=>
 {
@@ -266,9 +245,9 @@ style={{
   renderItem={({ item }) => (
     <DeckButton 
     deckTitle={item.name}
-    author={item.creator}
+    author={item.author}
     lastUsed={9}
-    amtOfCards={item.cards.length}
+    amtOfCards={item.amt_of_cards}
     lang_1={item.lang_1}
     lang_2={item.lang_2}
     showLastUsed={false}
@@ -276,7 +255,7 @@ style={{
     } />
   )}
 />
-    
+
 
   </SafeAreaView>
 </View>
