@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { DarkModeColors, darkModeBackgroundColor, darkModePrimaryColor, styles, width } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
-import React from 'react';
+import React, { useContext } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -13,6 +13,7 @@ import { SafeAreaFrameContext, SafeAreaView } from 'react-native-safe-area-conte
 import RecentDecksScreen from './RecentDecksScreen';
 import FindDecksScreen from './FindDecksScreen';
 import {BarChart} from "react-native-chart-kit";
+import { FireBaseContext } from '../config/FireBaseContext';
 
 interface StatScreenProps{
   navigation: any;
@@ -21,6 +22,8 @@ const Tab = createMaterialTopTabNavigator();
 
 
 const StatScreen= (props: StatScreenProps)=>{
+
+const {getAmtOfDecks,getAvgFlashCards}= useContext(FireBaseContext);
 
   const data = {
     labels: ["01.8.10", "02.10", "03.10", "04.10", "05.10", "06.10", "07.10"],
@@ -31,8 +34,8 @@ const StatScreen= (props: StatScreenProps)=>{
     ]
   };
 
-  const avgFlashCard=34.3;
-  const amtOfDecks=33;
+  const avgFlashCard=getAvgFlashCards();
+  const amtOfDecks=getAmtOfDecks();
 
 
 

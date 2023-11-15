@@ -18,6 +18,7 @@ const FireBaseProvider = ({ children }) => {
     const [activeUserDecksList,setActiveUserDecksList]  = useState([]);
     const [friendList, setFriendList] = useState([]);
     const [isLoading,setIsLoading] = useState(false);
+    const [userStat,setUserStat]= useState([]);
     const basePhoto = "https://firebasestorage.googleapis.com/v0/b/languageapp-43a7b.appspot.com/o/basicProfile.jpg?alt=media&token=27f19efa-85cc-4543-a151-341535290cdb";
 
 
@@ -31,6 +32,11 @@ const FireBaseProvider = ({ children }) => {
         // if(activeUserNick===null)
         // throw("error couldnt retive nick")
          return ref(db, "decks/deck_usage/"+activeUserNick );
+
+     }
+
+     const getActiveUserStatRef=()=>{
+          return ref(db, "/users/userStat/flashCards/users/userStat/flashCards/"+activeUserNick );
 
      }
 
@@ -122,9 +128,30 @@ const FireBaseProvider = ({ children }) => {
             )
     
 
+            let statArray: any[]=[];
+            const unsubscribeStatList = onValue(getActiveUserStatRef(), (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    decksArray = data ? Object.values(data) : [];
+                    setUserStat(decksArray);
+                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                    console.log(getActiveUserRecentDecksRef())
+                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                }
+                else {
+                    console.error('active decks list data does not exist' + JSON.stringify(getActiveUserStatRef()));
+                    setDecksList([]);
+                }
+    
+            }
+            )
+
+
+
             return () => {
                 unsubscribe();
                 unsubscribeDecksList();
+                unsubscribeStatList();
             };
 
         }
@@ -438,6 +465,16 @@ const getYourFriends=()=>{
     return array;
 }
 
+const getAvgFlashCards=()=>{
+    let count: number=0;
+    let amt: number=0;
+    userStat.forEach((element)=>{
+        count++;
+        amt+=element.amt
+    });
+    return amt/count;
+}
+
 
 const getYourRecentDecks=()=>{
     let res: any[]=activeUserDecksList;
@@ -459,6 +496,21 @@ const getYourRecentDecks=()=>{
     return res;
 }
 
+
+const getAmtOfDecks=()=>{
+    let count: number=0;
+    decksList.forEach((element)=>{
+        if(element.author===activeUserNick)
+        count++;
+    })
+    return count;
+}
+
+
+
+
+
+
     return (
         <FireBaseContext.Provider
             value={{
@@ -479,7 +531,9 @@ const getYourRecentDecks=()=>{
                 getFriendsRequests,
                 getYourFriends,
                 getFindDeck,
-                getYourRecentDecks
+                getYourRecentDecks,
+                getAmtOfDecks,
+                getAvgFlashCards
             }}
         >
             {children}
