@@ -23,16 +23,9 @@ const Tab = createMaterialTopTabNavigator();
 
 const StatScreen= (props: StatScreenProps)=>{
 
-const {getAmtOfDecks,getAvgFlashCards}= useContext(FireBaseContext);
+const {getAmtOfDecks,getAvgFlashCards, getStatData}= useContext(FireBaseContext);
 
-  const data = {
-    labels: ["01.8.10", "02.10", "03.10", "04.10", "05.10", "06.10", "07.10"],
-    datasets: [
-      {
-        data: [20, 45, 28, 80, 99, 43,2]
-      }
-    ]
-  };
+const statData=getStatData();
 
   const avgFlashCard=getAvgFlashCards();
   const amtOfDecks=getAmtOfDecks();
@@ -56,7 +49,7 @@ style={styles.verticalContainer}
 
   
   <BarChart
-        data={data}
+        data={statData}
         width={width}
         height={200}
         yAxisLabel=""

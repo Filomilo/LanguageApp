@@ -38,7 +38,7 @@ return(
 
 <Drawer.Navigator
    drawerContent={props=> <CustomDrawer {...props}
-    
+    initialRouteName="Statistic"
    
    screenOptions={
     {overlayColor: 'transparent',

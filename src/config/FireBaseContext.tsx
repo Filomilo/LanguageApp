@@ -36,7 +36,7 @@ const FireBaseProvider = ({ children }) => {
      }
 
      const getActiveUserStatRef=()=>{
-          return ref(db, "/users/userStat/flashCards/users/userStat/flashCards/"+activeUserNick );
+          return ref(db, "/users/userStat/flashCards/"+activeUserNick );
 
      }
 
@@ -506,6 +506,62 @@ const getAmtOfDecks=()=>{
     return count;
 }
 
+const getStatData=()=>{
+    console.log("Data: " + 33)
+
+
+
+    let date: Date=new Date();
+    let data={} ;
+    data.labels=[];
+    data.datasets=[];
+    let datasetObject = {};
+    datasetObject.data=[];
+    for (let i=0;i<7;i++)
+    {
+        let currDate: Date=new Date();
+        currDate.setDate(date.getDate()-(6-i));
+        data.labels.push(new String(new String(new Number(currDate.getMonth()+1))+"."+currDate.getDate()));
+        let val=0;
+        userStat.forEach((element)=>{
+            console.log(new String (currDate.getFullYear()+"-"+currDate.getMonth()+"-"+currDate.getDate())+"==="+element.date)
+            if(new String (currDate.getFullYear()+"-"+new String(new Number(currDate.getMonth()+1))+"-"+currDate.getDate())==element.date)
+            {
+                console.log("corret")
+                val+=element.amt;
+            }
+        });
+       
+        datasetObject.data.push(val);
+    }
+
+
+/*
+ userStat.forEach((element)=>{
+        count++;
+        amt+=element.amt
+    });
+*/
+
+    //datasetObject.data = [1, 2, 3, 4, 5,6,7];
+    data.datasets.push(datasetObject);
+    
+    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+    console.log(JSON.stringify(data));
+    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+   
+   
+    /* data = {
+        labels: [new String(date.getMonth()+"."+date.getDate()), "", "", "", "", "", ""],
+        datasets: [
+          {
+            data: [50, 45, 28, 80, 99, 43,2]
+          }
+        ]
+      };
+*/
+      return data;
+}
 
 
 
@@ -533,7 +589,8 @@ const getAmtOfDecks=()=>{
                 getFindDeck,
                 getYourRecentDecks,
                 getAmtOfDecks,
-                getAvgFlashCards
+                getAvgFlashCards,
+                getStatData
             }}
         >
             {children}
