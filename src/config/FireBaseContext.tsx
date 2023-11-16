@@ -478,15 +478,17 @@ const getAvgFlashCards=()=>{
 
 const getYourRecentDecks=()=>{
     let res: any[]=activeUserDecksList;
+    let date: Date=new Date();
     res.forEach((element)=>{
         element.author=decksList[element.index].author;
         element.lang_1=decksList[element.index].lang_1;
         element.lang_2=decksList[element.index].lang_2;
-        element.amt_of_cards=decksList[element.index].amt_of_cards;
-        element.last_used=new Date( element.last_used);
+        element.amt_of_cards=decksList[element.index].amt_of_cards
+        let tmpDate=Math.floor((date.getTime()- new Date(element.last_used).getTime())/(1000*3600*24));
+        element.last_used=tmpDate
     })
     res.sort((a,b)=>{
-      return   b.last_used - a.last_used
+      return   a.last_used - b.last_used
     })
     console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     

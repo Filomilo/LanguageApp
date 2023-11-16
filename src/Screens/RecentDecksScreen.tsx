@@ -65,7 +65,7 @@ renderItem={({ item }) => (
   <DeckButton 
   deckTitle={item.name}
   author={item.author}
-  lastUsed={item.last_used.toLocaleDateString("en-US")}
+  lastUsed={item.last_used}
   amtOfCards={item.amt_of_cards}
   lang_1={item.lang_1}
   lang_2={item.lang_2}
