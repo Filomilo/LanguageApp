@@ -40,7 +40,7 @@ const openDeck =(id)=>
 {
   console.log('open deck: ' + id)
   props.navigation.navigate('DeckView',{
-   deckData: decks.find((deck) => deck.Id === id)
+  deckId: id
   });
 }
 
@@ -70,7 +70,7 @@ renderItem={({ item }) => (
   lang_1={item.lang_1}
   lang_2={item.lang_2}
   showLastUsed={true}
-   buttonPress={()=>{openDeck(item.Id)}
+   buttonPress={()=>{openDeck(item.id)}
   } />
 )}
 />
@@ -78,8 +78,7 @@ renderItem={({ item }) => (
 <TouchableOpacity
   style={styles.floatingButton}
   onPress={()=>{addDeckButton()}}
-  >
-    
+  > 
     <AddButton width={width/6} height={width/6} fill={darkModePrimaryColor} />
 
   </TouchableOpacity>

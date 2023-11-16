@@ -3,7 +3,7 @@ import { Modal, StyleSheet, Text, View } from 'react-native';
 import { DarkModeColors, darkModeBackgroundColor, darkModeMainTextColor, darkModePrimaryColor, darkModeTextInputColor, height, styles, width } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {  TouchableOpacity } from 'react-native';
 import EditButton  from '../../assets/Edit_fill.svg'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -23,6 +23,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import DeckButton from '../Components/DeckButton';
 import Trash from '../../assets/Trash.svg'
 import { Dropdown } from 'react-native-element-dropdown';
+import { FireBaseContext } from '../config/FireBaseContext';
 
 
 const testData = [
@@ -38,6 +39,7 @@ interface DeckViewScreenProps{
 
 const WordsPreview= (props)=>
 {
+
 
 return(
   <View>
@@ -185,17 +187,31 @@ return(
 
 
 
-const DeckViewScreen= (props: DeckViewScreenProps)=>{
+const DeckViewScreen= (props)=>{
+
+
+  const {getDeckData}=useContext(FireBaseContext)
+const [deckData,setDeckData]= useState(getDeckData(props.route.params.deckId))  
+
   const [modalVisible, setModalVisible] = useState(false);
   const [testVisible, setTestVisible] = useState(false);
 
 
 
-  const deckData=props.route.params.deckData;
-  const [deckName, setDecName]= useState(deckData.name);
+  const [deckName, setDecName]= useState("deckData.name");
   const [isEditing, setIsEdiing]= useState(false);
 
-
+  useEffect(() => {
+    const fetchData = async () => {
+        const data =await getDeckData(props.route.params.deckId);
+        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        console.log(data);
+        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        setDeckData(data); 
+    }
+    fetchData();
+    },[]);
+ 
 
   const learnDeck=()=>{
     setModalVisible(true)
@@ -421,7 +437,7 @@ style={[
                   ]
                   }   
                   selectedTextStyle={[styles.langageText,DarkModeColors.MainTextColor]}
-                  value=  {deckData.lang_1} 
+                  value=  {"deckData.lang_1"} 
 itemContainerStyle={ [ DarkModeColors.BackGroundColor]}
 itemTextStyle={DarkModeColors.MainTextColor}
 activeColor={darkModeTextInputColor}
@@ -440,7 +456,7 @@ style={[
                   ]
                   }   
                   selectedTextStyle={[styles.langageText,DarkModeColors.MainTextColor]}
-                  value=  {deckData.lang_2} 
+                  value=  {"deckData.lang_2"} 
 itemContainerStyle={ [ DarkModeColors.BackGroundColor]}
 itemTextStyle={DarkModeColors.MainTextColor}
 activeColor={darkModeTextInputColor}
@@ -483,7 +499,6 @@ style={
   }
 }
 >
-
 {
 (isEditing?(
 <>
@@ -531,6 +546,7 @@ style={
 )
 )
 }
+
 
 </View>
 

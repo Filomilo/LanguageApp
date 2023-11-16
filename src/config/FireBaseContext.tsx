@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import React, { createContext, useEffect, useState } from "react";
 import { auth, db } from "./firebase-config";
-import { onValue, push, ref, set, update } from "firebase/database";
+import { onValue, push, ref, set, update} from "firebase/database";
 
 
 const FireBaseContext = createContext({});
@@ -46,6 +46,12 @@ const FireBaseProvider = ({ children }) => {
          return ref(db, "users/friends/friendsList/" + activeUserNick);
         }
  
+const getDeckDataRef=(id: string)=>{
+   
+    return ref(db, "decks/decks_data/"+id);
+}
+
+
     const getDecksListRef = () => {
         //if(activeUserNick===null)
          //throw("error couldnt retive nick")
@@ -483,6 +489,8 @@ const getYourRecentDecks=()=>{
         element.author=decksList[element.index].author;
         element.lang_1=decksList[element.index].lang_1;
         element.lang_2=decksList[element.index].lang_2;
+        element.name=decksList[element.index].name;
+        element.id=decksList[element.index].ID;
         element.amt_of_cards=decksList[element.index].amt_of_cards
         let tmpDate=Math.floor((date.getTime()- new Date(element.last_used).getTime())/(1000*3600*24));
         element.last_used=tmpDate
@@ -566,6 +574,44 @@ const getStatData=()=>{
 }
 
 
+const getDeckData=async (id: string)=>{
+    let DeckData={};
+
+
+
+
+
+    DeckData = await new Promise((resolve, reject) => {
+        const unsubscribe = onValue(getDeckDataRef(id), (snapshot) => {
+          console.log('OPEN ' + id);
+          if (snapshot.exists()) {
+            const data = snapshot.val();
+            console.log('^^^^^^^^^^^^^^^^^');
+
+            console.log(data);
+            unsubscribe();
+            resolve(data); 
+          } else {
+            console.error('deck: ' + id + ' data does not exist' + JSON.stringify(getDeckDataRef(id)));
+            reject(new Error('Deck data does not exist'));
+          }
+        }, {
+          onlyOnce: true
+        });
+      });
+
+    console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££');
+    console.log(DeckData);
+    DeckData.name=decksList[DeckData.index].name;
+    DeckData.lang_1=decksList[DeckData.index].lang_1;
+    DeckData.lang_2=decksList[DeckData.index].lang_2;
+    console.log(DeckData);
+    console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££');
+
+
+      return DeckData;
+
+}
 
 
 
@@ -592,7 +638,8 @@ const getStatData=()=>{
                 getYourRecentDecks,
                 getAmtOfDecks,
                 getAvgFlashCards,
-                getStatData
+                getStatData,
+                getDeckData
             }}
         >
             {children}
