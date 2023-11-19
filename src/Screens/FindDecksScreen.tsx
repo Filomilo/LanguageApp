@@ -38,6 +38,15 @@ const openDeck =(id)=>
 {
 
 }
+useEffect(() => {
+  const unsubscribe = navigation.addListener('focus', () => {
+   
+
+    setDecks(getFindDeck())
+  });
+
+  return unsubscribe;
+}, [navigation]);
 
 const testData = [
   { label: 'popularity' },
