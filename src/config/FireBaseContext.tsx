@@ -576,11 +576,6 @@ const getStatData=()=>{
 
 const getDeckData=async (id: string)=>{
     let DeckData={};
-
-
-
-
-
     DeckData = await new Promise((resolve, reject) => {
         const unsubscribe = onValue(getDeckDataRef(id), (snapshot) => {
           console.log('OPEN ' + id);
@@ -605,13 +600,38 @@ const getDeckData=async (id: string)=>{
     DeckData.name=decksList[DeckData.index].name;
     DeckData.lang_1=decksList[DeckData.index].lang_1;
     DeckData.lang_2=decksList[DeckData.index].lang_2;
+    DeckData.visibilty=decksList[DeckData.index].visibilty;
     console.log(DeckData);
     console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££');
+
 
 
       return DeckData;
 
 }
+
+
+
+
+
+
+const saveDeckData=async (id: string, deckdata: {})=>{
+    let newDeckData={index: deckdata.index, cards: deckdata.cards};
+    let deckarray=decksList;
+    deckarray[deckdata.index].amt_of_cards=newDeckData.cards.length;
+    deckarray[deckdata.index].lang_2=deckdata.lang_2;
+    deckarray[deckdata.index].lang_2=deckdata.lang_2;
+    deckarray[deckdata.index].name=deckdata.name;
+    deckarray[deckdata.index].visibilty=deckdata.visibilty;
+    await set(getDeckDataRef(id),newDeckData);
+    await set(getDecksListRef(id),deckarray);
+
+}
+
+
+
+
+
 
 
 
@@ -639,7 +659,7 @@ const getDeckData=async (id: string)=>{
                 getAmtOfDecks,
                 getAvgFlashCards,
                 getStatData,
-                getDeckData
+                getDeckData,saveDeckData
             }}
         >
             {children}

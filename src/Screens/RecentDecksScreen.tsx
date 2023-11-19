@@ -29,8 +29,9 @@ const RecentDecksScreen= (props: RecentDecksScreenProps)=>{
 
   const [decks, setDecks] = useState(getYourRecentDecks()); 
   const navigation=useNavigation();
-
-
+  useEffect(()=>{
+    console.log("RRRRRRRRRRRRRRRRRREEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLOOOOOOOOOOOOOOAAAAAAAAAAAAAAADDDDDDDDDDDDDDD")
+  },[navigation])
 
 
 const addDeckButton=()=>{

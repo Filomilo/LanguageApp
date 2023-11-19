@@ -37,151 +37,6 @@ interface DeckViewScreenProps{
 }
 
 
-const WordsPreview= (props)=>
-{
-
-
-return(
-  <View>
-    
-  <View
-  style={
-    styles.horizontalContainer
-  }
-  >
-
-
-
-    
-
-    <Text
-    style={
-      [
-        DarkModeColors.MainTextColor,
-        styles.langWords
-      ]
-    }
-    >
-    {props.item.word_1}
-    </Text>
-    
-
-
-
-
-
-
-
-
-
-
-    <Arrow width={width/6} height={height*0.045} fill={darkModeMainTextColor} />
- 
-
-
-
-
-      <Text
-        style={
-          [
-            DarkModeColors.MainTextColor,
-            styles.langWords,
-          ]
-        }
-    >
-          {props.item.word_2}
-      
-    </Text>
- 
-
-
-
-
-
-  </View>
-       <View 
-       style=
-       {
-         [
-           styles.LineSeparator,
-           DarkModeColors.primaryColor,
-           {width: width*0.9,
-            marginHorizontal: width*0.1/2,
-            height: height*0.001
-          }
-          
-         ]
-       }
-       />
-       </View>
-)
-}
-
-
-const WordsEditing= (props)=>
-{
-
-return(
-  <View>
-    
-  <View
-  style={
-    styles.horizontalContainer
-  }
-  >
-
-    <TextInput
-    style={
-      [
-        DarkModeColors.MainTextColor,
-        styles.langWords,
-        DarkModeColors.TextInputColorBackground
-      ]
-    }
-    >
-    </TextInput>
-    
-
-
-    <Arrow width={width/6} height={height*0.045} fill={darkModeMainTextColor} />
- 
-      <TextInput
-        style={
-          [
-            DarkModeColors.MainTextColor,
-            styles.langWords,
-            DarkModeColors.TextInputColorBackground
-          ]
-        }
-    >
-      
-      
-    </TextInput>
-      <TouchableOpacity>
-    <Trash width={width/15} height={width/9}  fill={darkModePrimaryColor} />
-
-    </TouchableOpacity>
-
-
-
-  </View>
-       <View 
-       style=
-       {
-         [
-           styles.LineSeparator,
-           DarkModeColors.primaryColor,
-           {width: width*0.9,
-            marginHorizontal: width*0.1/2,
-            height: height*0.001
-          }
-          
-         ]
-       }
-       />
-       </View>
-)
-}
 
 
 
@@ -190,37 +45,35 @@ return(
 const DeckViewScreen= (props)=>{
 
 
-  const {getDeckData}=useContext(FireBaseContext)
-const [deckData,setDeckData]= useState(getDeckData(props.route.params.deckId))  
+  const {getDeckData,saveDeckData}=useContext(FireBaseContext)
+const [deckData,setDeckData]= useState({name: ''})  
 
   const [modalVisible, setModalVisible] = useState(false);
   const [testVisible, setTestVisible] = useState(false);
-
-
-
-  const [deckName, setDecName]= useState("deckData.name");
   const [isEditing, setIsEdiing]= useState(false);
 
   useEffect(() => {
+  
     const fetchData = async () => {
+      
         const data =await getDeckData(props.route.params.deckId);
-        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-        console.log(data);
-        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-        setDeckData(data); 
+        setDeckData(data);
+      
     }
     fetchData();
+
+  
+
     },[]);
  
 
-  const learnDeck=()=>{
-    setModalVisible(true)
-  }
 
-  const editDeck=()=>{
-   console.log('edit deck')
+const setDeckName= async (name: string)=>{
+  console.log(deckData.name);
+  setDeckData({...deckData,"name": name});
+}
 
-  }
+
 
   const closeTest=()=>{
     setTestVisible(false)
@@ -228,6 +81,8 @@ const [deckData,setDeckData]= useState(getDeckData(props.route.params.deckId))
 
   const editButton=()=>{
     console.log("edit button");
+    if(isEditing)
+    saveDeckData(props.route.params.deckId,deckData)
     setIsEdiing(!isEditing)
   }
 
@@ -236,9 +91,7 @@ const brainButton=()=>{
   setModalVisible(true);
 }
 
-const outsideofModal=()=>{
-  console.log("outsideofModal");
-}
+
 
   const openFlashCards=()=>{
     console.log('openFlashCards')
@@ -251,6 +104,200 @@ const outsideofModal=()=>{
     setTestVisible(true);
    }
  
+
+
+   const removeItem=(index)=>{
+    let arrayTmp: any[]=deckData.cards;
+    arrayTmp.splice(index,1);
+    setDeckData({...deckData, "cards": arrayTmp});
+
+   }
+
+  const onTextChane=(text: string, index: number, word: number)=>{
+    console.log("txt: "+ text+ "  index: " + index+ " word: "+ word);
+    let arrayTmp=deckData.cards;
+    console.log(arrayTmp);
+    if(word==0)
+    arrayTmp[index].word_1=text;
+  else
+  arrayTmp[index].word_2=text;
+
+  setDeckData({...deckData,cards: arrayTmp});
+  console.log(deckData);
+  }
+
+   const WordsPreview= (props)=>
+   {
+   
+   
+   return(
+     <View>
+       
+     <View
+     style={
+       styles.horizontalContainer
+     }
+     >
+   
+   
+   
+       
+   
+       <Text
+       style={
+         [
+           DarkModeColors.MainTextColor,
+           styles.langWords
+         ]
+       }
+       >
+       {props.item.word_1}
+       </Text>
+       
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+       <Arrow width={width/6} height={height*0.045} fill={darkModeMainTextColor} />
+    
+   
+   
+   
+   
+         <Text
+           style={
+             [
+               DarkModeColors.MainTextColor,
+               styles.langWords,
+             ]
+           }
+       >
+             {props.item.word_2}
+         
+       </Text>
+    
+   
+   
+   
+   
+   
+     </View>
+          <View 
+          style=
+          {
+            [
+              styles.LineSeparator,
+              DarkModeColors.primaryColor,
+              {width: width*0.9,
+               marginHorizontal: width*0.1/2,
+               height: height*0.001
+             }
+             
+            ]
+          }
+          />
+          </View>
+   )
+   }
+   
+
+   
+   const WordsEditing= (props)=>
+   {
+    const [focusText1,setFocusText1] = useState(props.item.word_1)
+    const [focusText2,setFocusText2] = useState(props.item.word_2)
+   return(
+     <View>
+       
+     <View
+     style={
+       styles.horizontalContainer
+     }
+     >
+   
+       <TextInput
+         key={`word1_${props.index}`}
+         onEndEditing={()=>{onTextChane(focusText1, props.index, 0)}}
+         value={focusText1}
+         onChangeText={setFocusText1}
+      // onFocus={()=>{onTextFocus(props.index,0)}}
+      // onBlur={()=>{onBlur()}}
+       style={
+         [
+           DarkModeColors.MainTextColor,
+           styles.langWords,
+           DarkModeColors.TextInputColorBackground
+         ]
+       }
+       >
+       </TextInput>
+       
+   
+   
+       <Arrow width={width/6} height={height*0.045} fill={darkModeMainTextColor} />
+    
+         <TextInput
+         key={`word2_${props.index}`}
+         onEndEditing={()=>{onTextChane(focusText1, props.index, 1)}}
+         value={focusText2}
+         onChangeText={setFocusText2}
+           style={
+             [
+               DarkModeColors.MainTextColor,
+               styles.langWords,
+               DarkModeColors.TextInputColorBackground
+             ]
+           }
+       >
+         
+         
+       </TextInput>
+         <TouchableOpacity
+         onPress={()=>{removeItem(props.index)}}
+         >
+       <Trash width={width/15} height={width/9}  fill={darkModePrimaryColor} />
+   
+       </TouchableOpacity>
+   
+   
+   
+     </View>
+          <View 
+          style=
+          {
+            [
+              styles.LineSeparator,
+              DarkModeColors.primaryColor,
+              {width: width*0.9,
+               marginHorizontal: width*0.1/2,
+               height: height*0.001
+             }
+             
+            ]
+          }
+          />
+          </View>
+   )
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
 
 <SafeAreaView style={[styles.mainContainer,DarkModeColors.BackGroundColor]}>
@@ -391,10 +438,10 @@ style={styles.deckViewTitleContainer}
 (isEditing?(
 <>
 <TextInput 
-onChangeText={setDecName}
+onChangeText={setDeckName}
 cursorColor={darkModePrimaryColor}
 style={[styles.deckViewTitleText,DarkModeColors.primaryColorText,DarkModeColors.TextInputColorBackground]}
-value={deckName}
+value={deckData.name}
 />
 
 </>
@@ -437,7 +484,7 @@ style={[
                   ]
                   }   
                   selectedTextStyle={[styles.langageText,DarkModeColors.MainTextColor]}
-                  value=  {"deckData.lang_1"} 
+                  value=  {deckData.lang_1} 
 itemContainerStyle={ [ DarkModeColors.BackGroundColor]}
 itemTextStyle={DarkModeColors.MainTextColor}
 activeColor={darkModeTextInputColor}
@@ -456,7 +503,7 @@ style={[
                   ]
                   }   
                   selectedTextStyle={[styles.langageText,DarkModeColors.MainTextColor]}
-                  value=  {"deckData.lang_2"} 
+                  value=  {deckData.lang_2} 
 itemContainerStyle={ [ DarkModeColors.BackGroundColor]}
 itemTextStyle={DarkModeColors.MainTextColor}
 activeColor={darkModeTextInputColor}
@@ -504,9 +551,10 @@ style={
 <>
 <FlatList 
   data={deckData.cards}
-  renderItem={({ item }) => (
+  renderItem={({ item,index }) => (
     <WordsEditing 
     item={item}
+    index={index}
      isEditing={isEditing}
      />
   )}
