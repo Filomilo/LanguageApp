@@ -573,8 +573,14 @@ const getStatData=()=>{
       return data;
 }
 
+const getIsCapableOfEdit=(id: number)=>{
+    console.log(decksList[id].author+ "===" + activeUserNick);
+    return decksList[id].author===activeUserNick
+}
+
 
 const getDeckData=async (id: string)=>{
+ 
     let DeckData={};
     DeckData = await new Promise((resolve, reject) => {
         const unsubscribe = onValue(getDeckDataRef(id), (snapshot) => {
@@ -605,7 +611,7 @@ const getDeckData=async (id: string)=>{
     console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££');
 
 
-
+   
       return DeckData;
 
 }
@@ -638,7 +644,7 @@ const saveDeckData=async (id: string, deckdata: {})=>{
     return (
         <FireBaseContext.Provider
             value={{
-                isLoading,
+                isLoading, setIsLoading,
                 isLogged,
                 fireBaseLogin,
                 logOut,
@@ -659,7 +665,8 @@ const saveDeckData=async (id: string, deckdata: {})=>{
                 getAmtOfDecks,
                 getAvgFlashCards,
                 getStatData,
-                getDeckData,saveDeckData
+                getDeckData,saveDeckData,
+                getIsCapableOfEdit
             }}
         >
             {children}

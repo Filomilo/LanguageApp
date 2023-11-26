@@ -34,10 +34,16 @@ const {getFindDeck} = useContext(FireBaseContext);
 
   const navigation=useNavigation();
 
-const openDeck =(id)=>
-{
+  const openDeck =(id)=>
+  {
+   
 
-}
+    console.log('open deck: ' + id)
+    props.navigation.navigate('DeckView',{
+    deckId: id
+    });
+  
+  }
 useEffect(() => {
   const unsubscribe = navigation.addListener('focus', () => {
    
@@ -260,7 +266,7 @@ style={{
     lang_1={item.lang_1}
     lang_2={item.lang_2}
     showLastUsed={false}
-     buttonPress={()=>{openDeck(item.Id)}
+    buttonPress={()=>{openDeck(item.ID)}
     } />
   )}
 />

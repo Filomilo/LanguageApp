@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Modal, StyleSheet, Text, View } from 'react-native';
+import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { DarkModeColors, darkModeBackgroundColor, darkModeMainTextColor, darkModePrimaryColor, darkModeTextInputColor, height, styles, width } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
@@ -24,6 +24,8 @@ import DeckButton from '../Components/DeckButton';
 import Trash from '../../assets/Trash.svg'
 import { Dropdown } from 'react-native-element-dropdown';
 import { FireBaseContext } from '../config/FireBaseContext';
+import AddButton from '../../assets/Add_button.svg';
+import { serializer } from '../../metro.config';
 
 
 const testData = [
@@ -45,22 +47,40 @@ interface DeckViewScreenProps{
 const DeckViewScreen= (props)=>{
 
 
-  const {getDeckData,saveDeckData}=useContext(FireBaseContext)
+  const {getDeckData,saveDeckData,   getIsCapableOfEdit}=useContext(FireBaseContext)
 const [deckData,setDeckData]= useState({name: ''})  
 
   const [modalVisible, setModalVisible] = useState(false);
   const [testVisible, setTestVisible] = useState(false);
   const [isEditing, setIsEdiing]= useState(false);
+  const [isCapaableOfEdit, setIsCapaableOfEdit]=useState(false);
+  const [isLoading,setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);  
+    const unsubscribe = props.navigation.addListener('focus', () => {
+
+
+      setDeckData({name: ''});
+      console.log("(*******************************************")
+      const fetchData = async () => {
+        setIsEdiing(false)
+        const data =await getDeckData(props.route.params.deckId);
+        setDeckData(data);
+        setIsCapaableOfEdit(getIsCapableOfEdit(data.index))
+
+    }
+    fetchData();
+    setIsLoading(false);  
+    });
+    
+    return unsubscribe;
+ }, [props.route]);
+
 
   useEffect(() => {
   
-    const fetchData = async () => {
-      
-        const data =await getDeckData(props.route.params.deckId);
-        setDeckData(data);
-      
-    }
-    fetchData();
+
 
   
 
@@ -77,6 +97,17 @@ const setDeckName= async (name: string)=>{
 
   const closeTest=()=>{
     setTestVisible(false)
+  }
+
+  const onAddButton=()=>{
+    console.log("aaaaaaaaaa")
+    const newCards = [...deckData.cards, { "word_1": "", "word_2": "" }];
+
+
+    const updatedDeckData = { ...deckData, cards: newCards };
+    
+
+    setDeckData(updatedDeckData);
   }
 
   const editButton=()=>{
@@ -129,7 +160,7 @@ const brainButton=()=>{
    const WordsPreview= (props)=>
    {
    
-   
+
    return(
      <View>
        
@@ -297,7 +328,7 @@ const brainButton=()=>{
 
 
 
-
+   if(!isLoading)
   return (
 
 <SafeAreaView style={[styles.mainContainer,DarkModeColors.BackGroundColor]}>
@@ -410,7 +441,9 @@ onPress={editButton}
 style={styles.rightUpperDeckButton}
 >
   {
-(isEditing?(
+(
+  isCapaableOfEdit?(
+  isEditing ?(
 <>
 <Save width={width/9} height={width/9}  fill={darkModePrimaryColor} />
 </>
@@ -421,6 +454,10 @@ style={styles.rightUpperDeckButton}
 </>
 )
 )
+:
+(<></>)
+)
+
 }
 
 </View>
@@ -543,6 +580,7 @@ style={[styles.horizontalContainer,{
 style={
   {
     flex: 1
+    
   }
 }
 >
@@ -551,6 +589,7 @@ style={
 <>
 <FlatList 
   data={deckData.cards}
+  
   renderItem={({ item,index }) => (
     <WordsEditing 
     item={item}
@@ -564,9 +603,13 @@ style={
       
     }}
   />
-  
-
-
+  <Pressable 
+  onPress={()=>{onAddButton()}}
+  >
+  <View style={{justifyContent: 'center', alignContent: 'center', alignItems: 'center', marginBottom: width/20, marginTop: width/30}}>
+<AddButton width={width/7} height={width/7} fill={darkModePrimaryColor} />
+</View>
+</Pressable>
 
 </>
 ):
@@ -648,6 +691,11 @@ onPress={()=>{brainButton()}}
 </SafeAreaView>
 
   );
+  
+  else
+  {
+    return(<View style={styles.mainContainer} ></View>)
+  }
 };
 export default DeckViewScreen;
 

@@ -16,6 +16,8 @@ import {auth} from '../config/firebase-config'
 import DeckButton from '../Components/DeckButton';
 import AddButton from '../../assets/Add_button.svg';
 import { FireBaseContext } from '../config/FireBaseContext';
+import { CommonActions } from "@react-navigation/native";
+
 const Tab = createMaterialTopTabNavigator();
 
 
@@ -24,8 +26,14 @@ interface RecentDecksScreenProps{
   navigation: any;
 }
 
+
+
+
+
+
+
 const RecentDecksScreen= (props: RecentDecksScreenProps)=>{
-  const {getYourRecentDecks} = useContext(FireBaseContext)
+  const {getYourRecentDecks,setIsLoading} = useContext(FireBaseContext)
 
   const [decks, setDecks] = useState(getYourRecentDecks()); 
   const navigation=useNavigation();
@@ -45,10 +53,14 @@ const addDeckButton=()=>{
 }
 const openDeck =(id)=>
 {
+ 
+
+
   console.log('open deck: ' + id)
   props.navigation.navigate('DeckView',{
   deckId: id
   });
+
 }
 
 
