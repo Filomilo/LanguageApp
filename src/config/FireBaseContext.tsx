@@ -2,7 +2,7 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndP
 import React, { createContext, useEffect, useState } from "react";
 import { auth, db } from "./firebase-config";
 import { onValue, push, ref, set, update} from "firebase/database";
-
+import uuid from 'react-native-uuid';
 
 const FireBaseContext = createContext({});
 
@@ -85,7 +85,7 @@ const getDeckDataRef=(id: string)=>{
             setIsLoading(false)
         }
         else{
-            console.log(JSON.stringify(usersList))
+           // console.log(JSON.stringify(usersList))
             setIsLoading(true)
         }
     }
@@ -96,7 +96,7 @@ const getDeckDataRef=(id: string)=>{
     useEffect(() => {
 
 
-        console.log("%%%%%%%%%%%%%%%%%% - " + activeUserNick);
+       // console.log("%%%%%%%%%%%%%%%%%% - " + activeUserNick);
         if (activeUserNick != null) {
             const unsubscribe = onValue(getActiveUserRef(), (snapshot) => {
                 if (snapshot.exists()) {
@@ -121,9 +121,9 @@ const getDeckDataRef=(id: string)=>{
                     const data = snapshot.val();
                     decksArray = data ? Object.values(data) : [];
                     setActiveUserDecksList(decksArray);
-                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                    console.log(getActiveUserRecentDecksRef())
-                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                   // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                  //  console.log(getActiveUserRecentDecksRef())
+                  //  console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
                 }
                 else {
                     console.error('active decks list data does not exist' + JSON.stringify(getActiveUserRecentDecksRef()));
@@ -140,9 +140,9 @@ const getDeckDataRef=(id: string)=>{
                     const data = snapshot.val();
                     decksArray = data ? Object.values(data) : [];
                     setUserStat(decksArray);
-                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                    console.log(getActiveUserRecentDecksRef())
-                    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                  //  console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                  //  console.log(getActiveUserRecentDecksRef())
+                  //  console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
                 }
                 else {
                     console.error('active decks list data does not exist' + JSON.stringify(getActiveUserStatRef()));
@@ -281,7 +281,7 @@ try{
                 const data = snapshot.val();
                 friendsRequestArray = data ? Object.values(data) : [];
                 setFriendListRequest(friendsRequestArray);
-                console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + JSON.stringify(friendsRequestArray)+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                //console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + JSON.stringify(friendsRequestArray)+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
             }
             else {
                 console.error('friends request data does not exist: ' + snapshot.toJSON());
@@ -296,7 +296,7 @@ try{
                 const data = snapshot.val();
                 friendsListArray = data ? Object.values(data) : [];
                 setFriendList(friendsListArray);
-                console.log("()()()()()()()())()()()()()()()())" + JSON.stringify(friendsListArray)+"()()()()()()()())()()()()()()()())")
+               // console.log("()()()()()()()())()()()()()()()())" + JSON.stringify(friendsListArray)+"()()()()()()()())()()()()()()()())")
             }
             else {
                 console.error('friends list data does not exist' + JSON.stringify(getActiveUserFriendListRef()));
@@ -312,9 +312,9 @@ try{
             if (snapshot.exists()) {
                 const data = snapshot.val();
                 decksArray = data ? Object.values(data) : [];
-                console.log("*******************************")
-                console.log(decksArray)
-                console.log("*******************************")
+                //console.log("*******************************")
+               // console.log(decksArray)
+              //  console.log("*******************************")
                 setDecksList(decksArray);
             }
             else {
@@ -346,7 +346,7 @@ try{
 
 
                     if(friendsListArray.find((element2)=>{
-                        console.log("elemnt: " + element2.nick +"==="+element.nick);
+                       // console.log("elemnt: " + element2.nick +"==="+element.nick);
                         return element2.nick===element.nick
                     })!==undefined)
                     {
@@ -357,7 +357,7 @@ try{
 
 
                 })
-                console.log("setUSerList: "+ JSON.stringify(usersArray))
+               // console.log("setUSerList: "+ JSON.stringify(usersArray))
                 setUsersList(usersArray);
             }
             else {
@@ -438,14 +438,14 @@ try{
             newData[activeUserData.index].isSearchable = state;
             setUsersList(newData);
 
-            console.log("srerachable updaet: " + JSON.stringify(usersList[activeUserData.index]));
-            console.log("srerachable updaet: " + JSON.stringify(newData[activeUserData.index]));
+          //  console.log("srerachable updaet: " + JSON.stringify(usersList[activeUserData.index]));
+          //  console.log("srerachable updaet: " + JSON.stringify(newData[activeUserData.index]));
             updateUserList(newData);
         }
     }
 
     const getIsSearchable = (): boolean => {
-        console.log("&&&&&&&&&&&&&&&&&&&&"+JSON.stringify(usersList.length)+"%%%%%%%%%%%%%%%%%%%")
+       // console.log("&&&&&&&&&&&&&&&&&&&&"+JSON.stringify(usersList.length)+"%%%%%%%%%%%%%%%%%%%")
         return (usersList!==undefined && activeUserData!==undefined &&  usersList[activeUserData.index]!==undefined) ? usersList[activeUserData.index].isSearchable : false;
     }
     const getIsDarkMode = (): boolean => {
@@ -483,26 +483,32 @@ const getAvgFlashCards=()=>{
 
 
 const getYourRecentDecks=()=>{
-    let res: any[]=activeUserDecksList;
+    let res: any[]= [];
     let date: Date=new Date();
-    res.forEach((element)=>{
-        element.author=decksList[element.index].author;
-        element.lang_1=decksList[element.index].lang_1;
-        element.lang_2=decksList[element.index].lang_2;
-        element.name=decksList[element.index].name;
-        element.id=decksList[element.index].ID;
-        element.amt_of_cards=decksList[element.index].amt_of_cards
-        let tmpDate=Math.floor((date.getTime()- new Date(element.last_used).getTime())/(1000*3600*24));
-        element.last_used=tmpDate
+    let i=0;
+    activeUserDecksList.forEach((element)=>{
+        let tempObj: any = {}; 
+        tempObj.author = decksList[element.index].author;
+        tempObj.lang_1 = decksList[element.index].lang_1;
+        tempObj.lang_2 = decksList[element.index].lang_2;
+        tempObj.name = decksList[element.index].name;
+        tempObj.id = decksList[element.index].ID;
+        tempObj.amt_of_cards = decksList[element.index].amt_of_cards;
+    
+        let tmpDate = Math.floor((date.getTime() - new Date(element.last_used).getTime()) / (1000 * 3600 * 24));
+        tempObj.last_used = tmpDate;
+    
+        res.push(tempObj); 
+        i++;
     })
     res.sort((a,b)=>{
       return   a.last_used - b.last_used
     })
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+    console.log("res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res ")
     
     console.log(res)
-    
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+    console.log("res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res ")
+
     return res;
 }
 
@@ -517,7 +523,7 @@ const getAmtOfDecks=()=>{
 }
 
 const getStatData=()=>{
-    console.log("Data: " + 33)
+   // console.log("Data: " + 33)
 
 
 
@@ -534,7 +540,7 @@ const getStatData=()=>{
         data.labels.push(new String(new String(new Number(currDate.getMonth()+1))+"."+currDate.getDate()));
         let val=0;
         userStat.forEach((element)=>{
-            console.log(new String (currDate.getFullYear()+"-"+currDate.getMonth()+"-"+currDate.getDate())+"==="+element.date)
+        //    console.log(new String (currDate.getFullYear()+"-"+currDate.getMonth()+"-"+currDate.getDate())+"==="+element.date)
             if(new String (currDate.getFullYear()+"-"+new String(new Number(currDate.getMonth()+1))+"-"+currDate.getDate())==element.date)
             {
                 console.log("corret")
@@ -556,9 +562,9 @@ const getStatData=()=>{
     //datasetObject.data = [1, 2, 3, 4, 5,6,7];
     data.datasets.push(datasetObject);
     
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-    console.log(JSON.stringify(data));
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+  //  console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+  //  console.log(JSON.stringify(data));
+  //  console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
    
    
     /* data = {
@@ -574,7 +580,7 @@ const getStatData=()=>{
 }
 
 const getIsCapableOfEdit=(id: number)=>{
-    console.log(decksList[id].author+ "===" + activeUserNick);
+   // console.log(decksList[id].author+ "===" + activeUserNick);
     return decksList[id].author===activeUserNick
 }
 
@@ -584,12 +590,12 @@ const getDeckData=async (id: string)=>{
     let DeckData={};
     DeckData = await new Promise((resolve, reject) => {
         const unsubscribe = onValue(getDeckDataRef(id), (snapshot) => {
-          console.log('OPEN ' + id);
+          //console.log('OPEN ' + id);
           if (snapshot.exists()) {
             const data = snapshot.val();
-            console.log('^^^^^^^^^^^^^^^^^');
+           // console.log('^^^^^^^^^^^^^^^^^');
 
-            console.log(data);
+         //   console.log(data);
             unsubscribe();
             resolve(data); 
           } else {
@@ -601,14 +607,14 @@ const getDeckData=async (id: string)=>{
         });
       });
 
-    console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££');
-    console.log(DeckData);
+    //console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££');
+   // console.log(DeckData);
     DeckData.name=decksList[DeckData.index].name;
     DeckData.lang_1=decksList[DeckData.index].lang_1;
     DeckData.lang_2=decksList[DeckData.index].lang_2;
     DeckData.visibilty=decksList[DeckData.index].visibilty;
-    console.log(DeckData);
-    console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££');
+    //console.log(DeckData);
+   // console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££');
 
 
    
@@ -617,7 +623,70 @@ const getDeckData=async (id: string)=>{
 }
 
 
+const createDeck= async ()=>{
+    //console.log("deck creation");
+    let id=uuid.v4();
+    let newlistData=   {
+        "ID": id,
+        "amt_of_cards": 0,
+        "author": activeUserNick,
+        "lang_1": "none",
+        "lang_2": "none",
+        "name": activeUserNick+"\'s deck",
+        "visibilty": false
+      };
+      
 
+      let tmpdeckList=decksList;
+       let index: Number=tmpdeckList.length;
+      tmpdeckList.push(newlistData);
+      await set(getDecksListRef(id),tmpdeckList);
+
+
+      let neDeckData=
+    {
+      "cards": [
+        {
+          "word_1": "",
+          "word_2": ""
+        },
+      ],
+      "index": index
+    }
+    await set(getDeckDataRef(id),neDeckData);
+   
+
+    let decksArray: any[]=[];
+     await onValue(getActiveUserRecentDecksRef(), (snapshot) => {
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            decksArray = data ? Object.values(data) : [];
+            setActiveUserDecksList(decksArray);
+          //  console.log(getActiveUserRecentDecksRef())
+          console.log("tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList ")
+          console.log(decksArray)
+          console.log("tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList ")
+        
+        }
+  
+    }
+    )
+
+
+
+let tmprecetnDeckList=decksArray;
+let newUsagedata={
+    "index": index,
+    "last_used": new Date().toISOString(),
+    "name": id
+  };
+  tmprecetnDeckList.push(newUsagedata);
+  await set( getActiveUserRecentDecksRef(),tmprecetnDeckList);
+
+
+
+    return id;
+}
 
 
 
@@ -666,7 +735,8 @@ const saveDeckData=async (id: string, deckdata: {})=>{
                 getAvgFlashCards,
                 getStatData,
                 getDeckData,saveDeckData,
-                getIsCapableOfEdit
+                getIsCapableOfEdit,
+                createDeck
             }}
         >
             {children}

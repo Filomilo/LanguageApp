@@ -237,7 +237,9 @@ const brainButton=()=>{
    )
    }
    
-
+const onOutisedeModal=()=>{
+  console.log("outdisde");
+}
    
    const WordsEditing= (props)=>
    {
@@ -317,53 +319,26 @@ const brainButton=()=>{
    )
    }
 
-
-
-
-
-
-
-
-
-
-
-
-   if(!isLoading)
-  return (
-
-<SafeAreaView style={[styles.mainContainer,DarkModeColors.BackGroundColor]}>
-
-
-
-<Modal
-visible={testVisible}
->
-
-<View
-style={[
-  styles.mainContainer,
-  {
-
-  }
-]}
->
-<TestScreen close={closeTest} />
-</View>
-
-</Modal>
-
+   const ModalWindow=()=>{
+      return(
 <Modal
 visible={modalVisible}
 transparent={true}
 >
-
+  <View
+  style={{width: width, height:  height}}
+  >
+<Pressable
+onPress={()=>{onOutisedeModal()}}
+>
 <View
 style={[
   styles.mainContainer,
   {
     alignContent: 'center',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
   }
 ]}
 >
@@ -431,6 +406,45 @@ style={[
 
 </View>
 </View>
+</Pressable>
+</View>
+</Modal>
+
+
+      );
+   }
+
+
+
+
+
+
+
+
+
+
+   if(!isLoading)
+  return (
+
+<SafeAreaView style={[styles.mainContainer,DarkModeColors.BackGroundColor]}>
+
+<ModalWindow />
+
+<Modal
+visible={testVisible}
+>
+
+<View
+style={[
+  styles.mainContainer,
+  {
+
+  }
+]}
+>
+<TestScreen close={closeTest} />
+</View>
+
 </Modal>
 
 

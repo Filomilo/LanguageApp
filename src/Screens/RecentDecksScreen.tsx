@@ -33,13 +33,14 @@ interface RecentDecksScreenProps{
 
 
 const RecentDecksScreen= (props: RecentDecksScreenProps)=>{
-  const {getYourRecentDecks,setIsLoading} = useContext(FireBaseContext)
+  const {getYourRecentDecks,setIsLoading,createDeck} = useContext(FireBaseContext)
 
   const [decks, setDecks] = useState(getYourRecentDecks()); 
   const navigation=useNavigation();
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-     
+      let array=[...getYourRecentDecks()]
+      setDecks(array);
       console.log("REEEEEEEELOOOOOADDADAD")
 
     });
@@ -48,15 +49,22 @@ const RecentDecksScreen= (props: RecentDecksScreenProps)=>{
   }, [navigation]);
 
 
-const addDeckButton=()=>{
+const addDeckButton=async ()=>{
+ 
   console.log("add button");
+   id=await createDeck();
+   let array=[...getYourRecentDecks()]
+  await setDecks(array);
+  openDeck(id)
 }
 const openDeck =(id)=>
 {
  
 
-
-  console.log('open deck: ' + id)
+  console.log('open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ')
+  console.log('open deck: ' + JSON.stringify(id))
+  
+  console.log('open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ')
   props.navigation.navigate('DeckView',{
   deckId: id
   });
