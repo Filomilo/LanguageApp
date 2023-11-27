@@ -238,7 +238,7 @@ const brainButton=()=>{
    }
    
 const onOutisedeModal=()=>{
-  console.log("outdisde");
+  setModalVisible(false)
 }
    
    const WordsEditing= (props)=>
@@ -325,12 +325,12 @@ const onOutisedeModal=()=>{
 visible={modalVisible}
 transparent={true}
 >
-  <View
-  style={{width: width, height:  height}}
-  >
 <Pressable
 onPress={()=>{onOutisedeModal()}}
 >
+  <View
+  style={{width: width, height:  height}}
+  >
 <View
 style={[
   styles.mainContainer,
@@ -406,8 +406,10 @@ style={[
 
 </View>
 </View>
-</Pressable>
+
+
 </View>
+</Pressable>
 </Modal>
 
 
