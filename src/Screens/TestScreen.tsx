@@ -3,7 +3,7 @@ import { Modal, StyleSheet, Text, View } from 'react-native';
 import { DarkModeColors, darkModePrimaryColor, darkModeTextInputColor, height, styles, width } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -22,6 +22,7 @@ import ArrowLeft from '../../assets/Expand_left.svg'
 import ArrowRIght from '../../assets/Expand_right.svg'
 import ProgresDots from '../Components/ProgresDots';
 import TestQuestion from '../Components/TestQuestion';
+import { FireBaseContext } from '../config/FireBaseContext';
 
 interface TestScreenProps{
   navigation: any;
@@ -29,56 +30,41 @@ interface TestScreenProps{
 const Tab = createMaterialTopTabNavigator();
 
 
-const TestScreen= ({close})=>{
+const TestScreen= ({close,cards})=>{
 
+  const {getTestData}= useContext(FireBaseContext)
 
+  const [testData, settestData]= useState(getTestData(cards));
   const [showResult, setshowResult]= useState(false);
   const [Result, setsResult]= useState(0);
   const [wordNum, setFwordNum]= useState(1);
-  const [WordAmt, setWordAmt]= useState(3);
+  const [WordAmt, setWordAmt]= useState(testData.length);
   
   const calcResult=()=>{
+    let correct=0;
+
+    for(let i=0;i<testData.length;i++)
+     {
+      if(testData[i].type==="closed")
+      {
+        if(testData[i].corrected===testData[i].selected)
+        correct++;
+      }
+      else{
+        if(testData[i].correct===testData[i].filled)
+        correct++;
+      }
+    }
+    console.log("_______________________________________________________________")
+    console.log(JSON.stringify(testData))
+    console.log("_______________________________________________________________")
+
+    setsResult(correct)
     setshowResult(true)
   }
 
 
-  const testDataExample=[
-    {
-      word: "word1",
-      type: "closed",
-      anwsers: [
-        {value: "rower", id: 0}
-        ,
-        {value: "slonce", id: 1}, 
-        {value: "ankieta", id: 2}, 
-        {value: "test", id: 3}
-        ],
-      selected: -1,
-      corrected: 1
-    },
-   
-    {
-      word: "word2",
-      type: "open",
-      correct: 'wyraz2',
-      filled: ""
-    },
-    {
-      word: "wyraz",
-      type: "closed",
-      anwsers:  [
-        {value: "bike", id: 0}
-        ,
-        {value: "sun", id: 1}, 
-        {value: "survey", id: 2}, 
-        {value: "test", id: 3}
-        ],
-      selected: -1,
-      corrected: 2
-    },
-  ];
 
-  const [testData, settestData]= useState(testDataExample);
 
   const  arrowLeftButton=()=>{
     console.log("arrowLeftButton ")
@@ -87,7 +73,7 @@ const TestScreen= ({close})=>{
   
   const  arrowRightButton=()=>{
     console.log("arrowRightButton ")
-    setFwordNum(wordNum+1>WordAmt?3:wordNum+1)
+    setFwordNum(wordNum+1>testData.length?testData.length:wordNum+1)
   }
 
   const checkMarkButton=()=>{
@@ -178,7 +164,7 @@ style={[
 </Text>
 <ProgresDots
  progressDots={wordNum}
- progresMaxs={WordAmt}
+ progresMaxs={testData.length}
  width={width} 
  height={1}
  color={darkModePrimaryColor}
@@ -209,13 +195,13 @@ style={[
   styles.langageText
 ]}
 >
-  {testData[wordNum-1].word}
+{testData[wordNum - 1].word}
 </Text>
 
 
 
   </View>
-  
+
   <View
 style={
   {
@@ -224,14 +210,21 @@ style={
   }
 }
 >
+
+
+{testData === undefined ? (
+  <></>
+) : (
   <TestQuestion
-   data={testData}
-   index={[wordNum-1]}
-   setData={(arg)=>{settestData(arg);
-  console.log("test");
-  console.log(JSON.stringify(arg));
-  }}
-   />
+    data={testData}
+    index={[wordNum - 1]}
+    setData={(arg) => {
+      settestData(arg);
+      console.log("test");
+      console.log(JSON.stringify(arg));
+    }}
+  />
+)}
   </View>
 
 

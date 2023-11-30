@@ -703,8 +703,155 @@ const saveDeckData=async (id: string, deckdata: {})=>{
 
 }
 
+function getRndInteger(min:number, max:number) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+  }
+  function scarambleArrat(arr){
+    for (let i = arr.length - 1; i > 0; i--) {
+     const j = getRndInteger(0, arr.length);
+     [arr[i], arr[j]] = [arr[j], arr[i]];
+   }   
+   return arr;
+   }
+   const getTestData=(cards)=>
+{
+    
+
+    if (cards===undefined){
+        console.error("undefined decks")
+        return [];
+    }
+
+    let amtOfOpenQuestion=0;
+    let amtOfClosedQuestions=0;
+
+    if(cards.length<5)
+    {
+        amtOfOpenQuestion=cards.length;
+    }
+    else
+    {
+        amtOfOpenQuestion=~~(cards.length*0.5);
+        amtOfClosedQuestions=~~(cards.length*0.3);
+    }
+    const openQuestionWords = new Set();
+
+    while(openQuestionWords.size<amtOfOpenQuestion)
+    {
+        openQuestionWords.add(getRndInteger(0,cards.length-1));
+    }
+
+    const closeduestionWords = new Set();
 
 
+    while(closeduestionWords.size<=amtOfClosedQuestions)
+    {
+        closeduestionWords.add(getRndInteger(0,cards.length-1));
+    }
+
+
+
+    const tstData=[];
+
+
+    closeduestionWords.forEach(element => {
+     
+        const amtoFAcnwser=4;
+        const nawsers = new Set();
+        nawsers.add(element);
+        
+        while(nawsers.size<amtoFAcnwser)
+        {
+       
+           nawsers.add(getRndInteger(0,cards.length-1));
+         
+        }
+        let arraytmp = [...nawsers];
+        arraytmp=scarambleArrat(arraytmp);
+        
+            console.log(nawsers)
+        let anwsersObject=[]
+        let i=0;
+        let correct=-1;
+        arraytmp.forEach(element2=>{
+               if(element2!=undefined){
+            if(element2==element)
+            {correct=i;}
+            
+            console.log(closeduestionWords)
+             console.log(element2)
+            let enrty= {value: cards[element2].word_2, id: i++}
+            anwsersObject.push(enrty);
+               }
+        })
+
+        let newEntry=
+          {
+            word: cards[element].word_1,
+            type: "closed",
+            anwsers: anwsersObject,
+            selected: -1,
+            corrected: correct
+          };
+
+          if(newEntry!==null)
+         tstData.push(newEntry);
+        
+    });
+
+
+    openQuestionWords.forEach(element => {
+        let newEntry= {
+            word: cards[element].word_1,
+            type: "open",
+            correct: cards[element].word_2,
+            filled: ""
+          };
+          if(newEntry!==null)
+          tstData.push(newEntry);
+    });
+
+
+const testDataExample=[
+    {
+      word: "word1",
+      type: "closed",
+      anwsers: [
+        {value: "rower", id: 0}
+        ,
+        {value: "slonce", id: 1}, 
+        {value: "ankieta", id: 2}, 
+        {value: "test", id: 3}
+        ],
+      selected: -1,
+      corrected: 1
+    },
+   
+    {
+      word: "word2",
+      type: "open",
+      correct: 'wyraz2',
+      filled: ""
+    },
+    {
+      word: "wyraz",
+      type: "closed",
+      anwsers:  [
+        {value: "bike", id: 0}
+        ,
+        {value: "sun", id: 1}, 
+        {value: "survey", id: 2}, 
+        {value: "test", id: 3}
+        ],
+      selected: -1,
+      corrected: 2
+    },
+  ];
+scarmbled=scarambleArrat(tstData);
+//return testDataExample;
+return scarmbled;
+
+}
 
 
 
@@ -736,7 +883,8 @@ const saveDeckData=async (id: string, deckdata: {})=>{
                 getStatData,
                 getDeckData,saveDeckData,
                 getIsCapableOfEdit,
-                createDeck
+                createDeck,
+                getTestData
             }}
         >
             {children}

@@ -138,23 +138,26 @@ const brainButton=()=>{
 
 
    const removeItem=(index)=>{
+    if(deckData.cards.length>1){
     let arrayTmp: any[]=deckData.cards;
     arrayTmp.splice(index,1);
     setDeckData({...deckData, "cards": arrayTmp});
-
+    }
    }
 
   const onTextChane=(text: string, index: number, word: number)=>{
-    console.log("txt: "+ text+ "  index: " + index+ " word: "+ word);
+    
+   // console.log("txt: "+ text+ "  index: " + index+ " word: "+ word);
     let arrayTmp=deckData.cards;
-    console.log(arrayTmp);
+    //console.log(arrayTmp);
     if(word==0)
     arrayTmp[index].word_1=text;
   else
   arrayTmp[index].word_2=text;
 
   setDeckData({...deckData,cards: arrayTmp});
-  console.log(deckData);
+ 
+  //console.log(deckData);
   }
 
    const WordsPreview= (props)=>
@@ -428,7 +431,7 @@ style={[
    if(!isLoading)
   return (
 
-<SafeAreaView style={[styles.mainContainer,DarkModeColors.BackGroundColor]}>
+<View style={[styles.mainContainer,DarkModeColors.BackGroundColor]}>
 
 <ModalWindow />
 
@@ -444,7 +447,7 @@ style={[
   }
 ]}
 >
-<TestScreen close={closeTest} />
+<TestScreen close={closeTest} cards={deckData.cards}/>
 </View>
 
 </Modal>
@@ -704,7 +707,7 @@ onPress={()=>{brainButton()}}
 
 </View>
 
-</SafeAreaView>
+</View>
 
   );
   
