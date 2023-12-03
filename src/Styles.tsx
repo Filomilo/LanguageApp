@@ -266,6 +266,20 @@ export const styles = StyleSheet.create({
     loginButtonText:{
       fontSize: height*0.04,
       color: darkModeBackgroundColor
+    },
+    camera: {
+      flex: 1,
+    },
+    cameraButtonContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      backgroundColor: 'transparent',
+      margin: 64,
+    },
+    cameraButton: {
+      flex: 1,
+      alignSelf: 'flex-end',
+      alignItems: 'center',
     }
   
    

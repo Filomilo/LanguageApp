@@ -17,6 +17,7 @@ import SettingsScreen from './Screens/SettingsScreen';
 import NotificationScreen from './Screens/NotificationScreen';
 import FlashCardScreen from './Screens/FlashCardScreen';
 import ContactInfo from './Screens/ContactInfo';
+import CameraScreen from './Screens/CameraScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -182,6 +183,20 @@ options={
         backgroundColor: darkModeHeaderColor,
         
     }
+}
+
+    
+    }
+/>
+
+
+<Drawer.Screen name="Camera" component={CameraScreen} 
+options={
+    {
+        headerShown: false,
+    drawerItemStyle: {display: 'none'},
+    
+
 }
 
     

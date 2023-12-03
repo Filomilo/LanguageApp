@@ -107,6 +107,7 @@ const ChoosePhotoButton=()=>{
 
 const TakePhotoButton=()=>{
   console.log("take phto button");
+  props.navigation.navigate('Camera');
 }
 
 
