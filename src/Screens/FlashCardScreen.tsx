@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { styles, DarkModeColors, width, darkModeTextInputColor, darkModePrimaryColor, darkModeBackgroundColor, darkModeHeaderColor, height, darkModeMainTextColor } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Switch, TouchableOpacity } from 'react-native-gesture-handler';
 import { useState } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -17,38 +17,129 @@ import * as Progress from 'react-native-progress';
 import CardsIcon from '../../assets/cards.svg'
 import ArrowLeft from '../../assets/Expand_left.svg'
 import ArrowRIght from '../../assets/Expand_right.svg'
-interface FlashCardScreenProps{
-  navigation: any;
-}
+import { FireBaseContext } from '../config/FireBaseContext';
+
 const Tab = createMaterialTopTabNavigator();
 
 
-const FlashCardScreen= (props: FlashCardScreenProps)=>{
+const FlashCardScreen= (props)=>{
+const {scarambleArrat} = useContext(FireBaseContext);
 
-
-const [flashCardText, setFlashCardText]= useState("example");
-const [flashCardNum, setflashCardNum]= useState(10);
-
-const [flashCardAmt, setflashCardAmt]= useState(20);
+const [flashCardText, setFlashCardText]= useState("-");
+const [flashCardNum, setflashCardNum]= useState(1);
+const [flashCardData,setflashCardData] = useState(props.route.params.deck.deck);
+const [flashCardAmt, setflashCardAmt]= useState(1);
 const [isReversed, setisReversed] = useState(false);
+const [isFlipeed, setisFlipeed] = useState(false);
+const [isLoading, setIsLoading] = useState(true);
+
+useEffect(() => {
+  setIsLoading(true);
+  setflashCardAmt(1);
+  const unsubscribe = props.navigation.addListener('focus', () => {
+    console.log('(*******************************************');
+    const fetchData = async () => {
+      await setflashCardData(props.route.params.deck.deck);
+      await setflashCardNum(1);
+      
+      console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEENNNNNNNNNNNNNNNNNNNNNNNNNN"+ "\n");
+      console.log(flashCardData);
+      updateText();
+    };
+    fetchData();
+    setIsLoading(false);
+  });
+
+  return unsubscribe;
+}, [props.route]);
+
+
+useEffect(()=>{
+  setflashCardAmt(flashCardData.cards.length);
+
+},[flashCardData])
+
+useEffect(()=>{
+  updateText();
+},[isReversed])
 
 const shuffleButton=()=>{
-  console.log("shuffle ")
+  
+  let tmpFlashCarddata={...flashCardData};
+  tmpFlashCarddata.cards=scarambleArrat(flashCardData.cards);
+  console.log(tmpFlashCarddata);
+ // arr = arr.filter(function (element) {
+  //  return element !== undefined && element !== null ;
+  //});
+  setflashCardData(tmpFlashCarddata);
+  updateText();
 }
 const  returnButton=()=>{
   console.log("return ")
 }
 
+const updateText=()=>
+{
+  let cards=flashCardData.cards.filter((element)=>{
+    return element!==undefined
+  })
+  console.log("__________________________________________")
+  console.log(JSON.stringify(flashCardData.cards));
+    console.log("__________________________________________")
+  if(!isReversed)
+  setFlashCardText(cards[flashCardNum-1].word_1);
+else
+{
+  setFlashCardText(cards[flashCardNum-1].word_2);
+}
+}
+
+const recerseswtich=(state)=>{
+  setisReversed(state);
+  updateText();
+}
+
+
 const  arrowLeftButton=()=>{
-  console.log("arrowLeftButton ")
+  if(flashCardNum>1){
+    setisFlipeed(false);
+    setflashCardNum(flashCardNum-1);
+    updateText();
+  }
 }
 
 const  arrowRightButton=()=>{
-  console.log("arrowRightButton ")
+  setisFlipeed(false);
+  console.log("::::::::::::" + flashCardNum)
+  if(flashCardNum<flashCardAmt){
+  setflashCardNum(flashCardNum+1);
+  updateText();
+  console.log("::::::::::::" + flashCardNum)
+}
 }
 const  flashCardClickButton=()=>{
   console.log("flashCardClickButton ")
+  setisFlipeed(!isFlipeed)
 }
+/*
+return(
+  <SafeAreaView style={[styles.container,styles.mainContainer]}>
+    <Text style={styles.textButton}>
+      {JSON.stringify(props)}
+    </Text>
+  </SafeAreaView>
+);
+*/
+if(isLoading)
+return(
+  <View>
+    <Text>
+      loding
+    </Text>
+  </View>
+)
+
+
   return (
   
 <View style={[styles.container, DarkModeColors.BackGroundColor,{flex: 1}]}>
@@ -109,7 +200,7 @@ style={[{
     DarkModeColors.primaryColorText
   ]
   }>
-    {flashCardText}
+    { flashCardData.cards[flashCardNum-1]!==null? (isFlipeed !== isReversed?flashCardData.cards[flashCardNum-1].word_1:flashCardData.cards[flashCardNum-1].word_2):''}
   </Text>
 
 
@@ -141,7 +232,7 @@ style={[{
   >
 <Switch 
 value={isReversed}
-onValueChange={setisReversed}
+onValueChange={recerseswtich}
 thumbColor={darkModeTextInputColor}
 trackColor={{false: darkModeHeaderColor, true: darkModePrimaryColor}}
 />
