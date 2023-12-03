@@ -794,8 +794,9 @@ function getRndInteger(min:number, max:number) {
             corrected: correct
           };
 
-          if(newEntry!==null)
+          if(newEntry!==null && newEntry!==undefined){
          tstData.push(newEntry);
+          }
         
     });
 
@@ -807,47 +808,19 @@ function getRndInteger(min:number, max:number) {
             correct: cards[element].word_2,
             filled: ""
           };
-          if(newEntry!==null)
+          if(newEntry!=null && newEntry!=undefined){
           tstData.push(newEntry);
+          }
     });
 
 
-const testDataExample=[
-    {
-      word: "word1",
-      type: "closed",
-      anwsers: [
-        {value: "rower", id: 0}
-        ,
-        {value: "slonce", id: 1}, 
-        {value: "ankieta", id: 2}, 
-        {value: "test", id: 3}
-        ],
-      selected: -1,
-      corrected: 1
-    },
-   
-    {
-      word: "word2",
-      type: "open",
-      correct: 'wyraz2',
-      filled: ""
-    },
-    {
-      word: "wyraz",
-      type: "closed",
-      anwsers:  [
-        {value: "bike", id: 0}
-        ,
-        {value: "sun", id: 1}, 
-        {value: "survey", id: 2}, 
-        {value: "test", id: 3}
-        ],
-      selected: -1,
-      corrected: 2
-    },
-  ];
 scarmbled=scarambleArrat(tstData);
+
+
+scarmbled = scarmbled.filter(function( element ) {
+    return element !== undefined;
+ });
+
 //return testDataExample;
 return scarmbled;
 
