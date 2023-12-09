@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import {
   DarkModeColors,
   darkModePrimaryColor,
@@ -32,6 +32,9 @@ import AddButton from '../../assets/Add_button.svg';
 import DataBaseManager from '../config/DataBaseManager';
 import { Camera, CameraType } from 'expo-camera';
 import { Button} from 'react-native';
+import CameraButton from '../../assets/Camera.svg'
+import CameraReverse from '../../assets/camera-flip-outline.svg'
+import {  darkModeHeaderColor } from '../Styles';
 
 const CameraScreen = (props) => {
   
@@ -39,12 +42,16 @@ const CameraScreen = (props) => {
     const [permission, requestPermission] = Camera.useCameraPermissions();
   
     if (!permission) {
-      // Camera permissions are still loading
-      return <View />;
+      return (<View > 
+        <Text>
+          Couldnt acces permissions for camera
+        </Text>
+        </View>
+        );
     }
   
     if (!permission.granted) {
-      // Camera permissions are not granted yet
+  
       return (
         <View style={styles.container}>
           <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
@@ -54,13 +61,23 @@ const CameraScreen = (props) => {
     }
   
     function toggleCameraType() {
+      console.log("camera toggle")
       setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
     }
   
     return (
-      <View style={styles.cameraContainer}>
-        <Camera style={styles.camera} type={type}>
-    
+      <View style={[styles.cameraContainer]}>
+        <Camera style={styles.camera} type={type} ratio='1:1'>
+         <View style={{flex: 1}}>
+          <View style={{flex: 1, alignContent: 'flex-end', justifyContent: 'flex-end', margin: width*0.1}}>
+<View style={{flexDirection: 'row'}}>
+<CameraButton width={width/5} height={width/5} fill={darkModePrimaryColor}  style={{marginHorizontal: width*0.1}}/>
+<Pressable onPress={()=>{toggleCameraType()}} >
+<CameraReverse width={width/5} height={width/5} fill={darkModePrimaryColor} style={{marginHorizontal: width*0.1}}/>
+</Pressable>
+</View>
+</View>
+         </View>
         </Camera>
       </View>
     );

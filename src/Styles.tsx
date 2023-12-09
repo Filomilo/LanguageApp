@@ -269,6 +269,11 @@ export const styles = StyleSheet.create({
     },
     camera: {
       flex: 1,
+
+    },
+    cameraContainer: {
+      flex: 1,
+
     },
     cameraButtonContainer: {
       flex: 1,

@@ -103,6 +103,9 @@ const logOutButton=()=>{
 
 const ChoosePhotoButton=()=>{
   console.log("Choose phto button");
+  props.navigation.navigate('FilePicker');
+
+  
 }
 
 const TakePhotoButton=()=>{

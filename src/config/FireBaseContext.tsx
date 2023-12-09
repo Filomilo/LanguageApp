@@ -6,8 +6,9 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import React, { createContext, useEffect, useState } from 'react';
-import { auth, db } from './firebase-config';
-import { onValue, push, ref, set, update } from 'firebase/database';
+import { auth, db, storage } from './firebase-config';
+import { onValue, push, ref, set, update, } from 'firebase/database';
+import {getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage';
 import uuid from 'react-native-uuid';
 
 const FireBaseContext = createContext({});
@@ -791,6 +792,48 @@ const FireBaseProvider = ({ children }) => {
     return scarmbled;
   };
 
+
+  const uploadNewFile=async (uri: string)=>{
+    console.log(uri);
+
+
+    try {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      console.log(JSON.stringify(blob));
+
+const uniqueFilename = `${uuid.v4()}.jpeg`;
+const storageReferance= storageRef(storage,"images/${fileName}");
+     // const storageRef = firebase.storage().ref().child(`images/${fileName}`);
+     const snapshot = await uploadBytes(storageReferance, blob);
+ 
+     const downloadURL = await getDownloadURL(storageReferance);
+
+      let newData= [...usersList];
+      newData.forEach((element)=>{
+         if(element.nick===activeUserNick)
+         {
+          element.profilePic=downloadURL;
+         }
+      })
+
+    updateUserList(newData);
+
+
+
+
+    return true;
+   
+    } catch (error) {
+      console.error('Error:', error);
+      return false;
+    }
+
+  }
+
+
+
+
   return (
     <FireBaseContext.Provider
       value={{
@@ -825,6 +868,7 @@ const FireBaseProvider = ({ children }) => {
         createDeck,
         getTestData,
         scarambleArrat,
+        uploadNewFile
       }}
     >
       {children}

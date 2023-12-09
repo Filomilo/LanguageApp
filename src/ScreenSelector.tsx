@@ -18,6 +18,7 @@ import NotificationScreen from './Screens/NotificationScreen';
 import FlashCardScreen from './Screens/FlashCardScreen';
 import ContactInfo from './Screens/ContactInfo';
 import CameraScreen from './Screens/CameraScreen';
+import FilePickerScren from './Screens/FilePickerScren';
 
 const Drawer = createDrawerNavigator();
 
@@ -199,10 +200,18 @@ options={
 
 }
 
-    
+
     }
 />
 
+<Drawer.Screen name="FilePicker" component={FilePickerScren} 
+options={
+    {
+        headerShown: false,
+    drawerItemStyle: {display: 'none'},
+}
+    }
+/>
 
 </Drawer.Navigator>
 
