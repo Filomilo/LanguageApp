@@ -7,7 +7,7 @@ import LoadingScreen from './LoadingScreen';
 
 
 
-const FilePickerScren=()=> {
+const FilePickerScren=(props)=> {
   const [image, setImage] = useState(null);
     const [statusCommunicate,setStatsusCommunicate]=useState("");
     const [isLaoding,setIsLoading]=useState(false);
@@ -15,6 +15,18 @@ const FilePickerScren=()=> {
 
   const {uploadNewFile} = useContext(FireBaseContext);
 
+
+  useEffect(()=>{
+    setStatsusCommunicate("");
+    setImage(null)
+    console.log("USEFFFFFFFFFFFFFFFFCT")
+    if(props.route.params){
+    setIsLoading(true)
+console.log(JSON.stringify(props))
+setImage(props.route.params.uri)
+      setIsLoading(false);
+}
+  },[props.route]);
 
 
   const pickImage = async () => {
@@ -47,12 +59,16 @@ const FilePickerScren=()=> {
         setStatsusCommunicate("somehtign went worng whene sending file")
     }
     setIsLoading(false)
+    props.navigation.navigate('Options');
   }
 
   const decline=()=>{
     console.log("decline")
     setImage(null);
-  
+    if(props.route.params)
+    {
+      props.navigation.navigate('Camera');
+    }
 }
 
   const ButtonPick=()=>{

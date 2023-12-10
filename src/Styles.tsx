@@ -269,6 +269,8 @@ export const styles = StyleSheet.create({
     },
     camera: {
       flex: 1,
+      width: width,
+      height: width/9*16
 
     },
     cameraContainer: {

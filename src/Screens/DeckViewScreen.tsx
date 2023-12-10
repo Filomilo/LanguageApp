@@ -74,6 +74,11 @@ const DeckViewScreen = (props) => {
     return unsubscribe;
   }, [props.route]);
 
+const goBack=()=>{
+  console.log("go back")
+  props.navigation.goBack();
+}
+
 
   const setDeckName = async (name: string) => {
     console.log(deckData.name);
@@ -517,7 +522,7 @@ const DeckViewScreen = (props) => {
         </View>
 
         <View style={[styles.BottomButtonsContainer, {}]}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>{goBack()}}>
             <View style={[DarkModeColors.primaryColor, styles.BottomButton]}>
               <ArrowReturn
                 width={width / 11}
