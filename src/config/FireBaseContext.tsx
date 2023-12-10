@@ -389,6 +389,7 @@ const FireBaseProvider = ({ children }) => {
       const newData = { ...activeUserData, isTurnFlashCardsByShaking: state };
       setActiveUserData(newData);
       updateActiveUserData(newData);
+      console.log("**********************************]\n"+JSON.stringify(activeUserData))
     }
   };
   const setIsDarkMode = (state: boolean) => {
@@ -831,7 +832,10 @@ const storageReferance= storageRef(storage,"images/${fileName}");
 
   }
 
-
+const getShouldShake=()=>{
+  console.log("(((((((((((((((((((((((((((((((((("+activeUserData.isTurnFlashCardsByShaking+"))))))))))))))))")
+  return activeUserData.isTurnFlashCardsByShaking;
+}
 
 
   return (
@@ -868,7 +872,8 @@ const storageReferance= storageRef(storage,"images/${fileName}");
         createDeck,
         getTestData,
         scarambleArrat,
-        uploadNewFile
+        uploadNewFile,
+        getShouldShake
       }}
     >
       {children}

@@ -18,12 +18,15 @@ import CardsIcon from '../../assets/cards.svg'
 import ArrowLeft from '../../assets/Expand_left.svg'
 import ArrowRIght from '../../assets/Expand_right.svg'
 import { FireBaseContext } from '../config/FireBaseContext';
-
+import { Accelerometer } from "expo-sensors";
+import LoadingScreen from './LoadingScreen';
+import { Mutex }  from 'async-mutex';
+import { useFocusEffect } from '@react-navigation/native';
 const Tab = createMaterialTopTabNavigator();
 
 
 const FlashCardScreen= (props)=>{
-const {scarambleArrat} = useContext(FireBaseContext);
+const {scarambleArrat,getShouldShake} = useContext(FireBaseContext);
 
 const [flashCardText, setFlashCardText]= useState("-");
 const [flashCardNum, setflashCardNum]= useState(1);
@@ -32,6 +35,16 @@ const [flashCardAmt, setflashCardAmt]= useState(1);
 const [isReversed, setisReversed] = useState(false);
 const [isFlipeed, setisFlipeed] = useState(false);
 const [isLoading, setIsLoading] = useState(true);
+
+const goBack=()=>{
+  console.log("go")
+  _unsubscribe();
+  props.navigation.goBack();
+
+}
+
+
+
 
 useEffect(() => {
   setIsLoading(true);
@@ -48,9 +61,10 @@ useEffect(() => {
     };
     fetchData();
     setIsLoading(false);
+    
   });
 
-  return unsubscribe;
+  return ()=>{unsubscribe();};
 }, [props.route]);
 
 
@@ -75,6 +89,7 @@ const shuffleButton=()=>{
   updateText();
 }
 const  returnButton=()=>{
+  goBack();
   console.log("return ")
 }
 
@@ -100,6 +115,85 @@ const recerseswtich=(state)=>{
 }
 
 
+
+  //////////////////////////////////////////
+  const [subscription, setSubscription] = useState(null);
+
+  const _unsubscribe = () => {
+    subscription && subscription.remove();
+    setSubscription(null);
+  };
+
+  const [accc,setAccc]= useState(0);
+  const sensibility = 1.5;
+
+useEffect(()=>{
+  console.log("acc")
+  if (accc >= sensibility) {
+    onShake();
+
+  }
+},[accc])
+
+  const onShake=async ()=>{
+    console.log("---------------------------------------shake----------------------------" + isFlipeed)
+    await setisFlipeed(!isFlipeed)
+    //console.log("---------------------------------------shake===========================" + isFlipeed)
+
+  }
+  useEffect(() => {
+    console.log("---------------------------------------shake===========================" + isFlipeed);
+  }, [isFlipeed]);
+  const _subscribe = () => {
+    
+    if(!getShouldShake()){
+      Accelerometer.setUpdateInterval(1000*60*60*24*366);
+    }
+    else
+    Accelerometer.setUpdateInterval(700);
+    setSubscription(Accelerometer.addListener((data)=>{
+      const acceleration = Math.sqrt(data.x * data.x + data.y * data.y + data.z * data.z);
+      console.log(acceleration)
+      setAccc(acceleration)
+
+
+    }));
+    
+  };
+
+
+
+
+
+
+
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+      _subscribe();
+ 
+      return () => {
+     
+        _unsubscribe()
+      };
+    }, [])
+  );
+
+
+
+
+  
+  ////////////////////////////////
+
+
+
+
+
+
+
+
+
 const  arrowLeftButton=()=>{
   if(flashCardNum>1){
     setisFlipeed(false);
@@ -117,9 +211,8 @@ const  arrowRightButton=()=>{
   console.log("::::::::::::" + flashCardNum)
 }
 }
-const  flashCardClickButton=()=>{
-  console.log("flashCardClickButton ")
-  setisFlipeed(!isFlipeed)
+const   flashCardClickButton=async ()=>{
+  await setisFlipeed(!isFlipeed)
 }
 /*
 return(
@@ -133,9 +226,7 @@ return(
 if(isLoading)
 return(
   <View>
-    <Text>
-      loding
-    </Text>
+   <LoadingScreen />
   </View>
 )
 

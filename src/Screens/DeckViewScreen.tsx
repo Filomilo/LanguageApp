@@ -75,7 +75,7 @@ const DeckViewScreen = (props) => {
   }, [props.route]);
 
 const goBack=()=>{
-  console.log("go back")
+  console.log("go")
   props.navigation.goBack();
 }
 

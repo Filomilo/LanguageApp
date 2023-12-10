@@ -35,6 +35,7 @@ interface RecentDecksScreenProps{
 const RecentDecksScreen= (props: RecentDecksScreenProps)=>{
   const {getYourRecentDecks,setIsLoading,createDeck} = useContext(FireBaseContext)
 
+
   const [decks, setDecks] = useState(getYourRecentDecks()); 
   const navigation=useNavigation();
   useEffect(() => {
