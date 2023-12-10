@@ -158,14 +158,16 @@ options={
     {
         headerTintColor: darkModePrimaryColor,
         headerPressColor: darkModePrimaryColor,
-        headerTitle: (props)=> <Header {...props} />,
+        //headerTitle: (props)=> <Header {...props} />,
     drawerItemStyle: {display: 'none'},
-    
+   // headerTitle: () => <WorkHeader navigation={navigation} />,
+    headerLeft: null,
     headerStyle: {
         backgroundColor: darkModeHeaderColor,
         
     }
 }
+
 
     
     }
