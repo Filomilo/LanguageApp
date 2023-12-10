@@ -38,6 +38,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { FireBaseContext } from '../config/FireBaseContext';
 import AddButton from '../../assets/Add_button.svg';
 import { serializer } from '../../metro.config';
+import LoadingScreen from './LoadingScreen';
 
 const testData = [{ label: 'eng' }, { label: 'pl' }];
 
@@ -97,6 +98,26 @@ const goBack=()=>{
 
     setDeckData(updatedDeckData);
   };
+
+
+  const langChnage=async (langNum: number,item :any)=>
+  {
+
+   if(langNum==1)
+   {
+    console.log("lang1");
+    await setDeckData({ ...deckData, lang_1: item.label });
+   }
+   else
+   {
+    console.log("lang2");
+    await setDeckData({ ...deckData, lang_2: item.label });
+   }
+
+   console.log(JSON.stringify(deckData));
+   
+  }
+
 
   const editButton = () => {
     console.log('edit button');
@@ -411,8 +432,8 @@ const goBack=()=>{
                     data={testData}
                     labelField="label"
                     valueField="label"
-                    onChange={() => {
-                      console.log('needs implemation');
+                    onChange={(item) => {
+                      langChnage(1,item);
                     }}
                     style={[
                       styles.langageText,
@@ -433,8 +454,8 @@ const goBack=()=>{
                     data={testData}
                     labelField="label"
                     valueField="label"
-                    onChange={() => {
-                      console.log('needs implemation');
+                    onChange={(item) => {
+                      langChnage(2,item);
                     }}
                     style={[
                       styles.langageText,
@@ -560,7 +581,7 @@ const goBack=()=>{
  
     );
   else {
-    return <View style={styles.mainContainer}></View>;
+    return <LoadingScreen />;
   }
 };
 export default DeckViewScreen;

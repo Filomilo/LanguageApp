@@ -680,12 +680,13 @@ const FireBaseProvider = ({ children }) => {
     let newDeckData = { index: deckdata.index, cards: deckdata.cards };
     let deckarray = decksList;
     deckarray[deckdata.index].amt_of_cards = newDeckData.cards.length;
-    deckarray[deckdata.index].lang_2 = deckdata.lang_2;
+    deckarray[deckdata.index].lang_1 = deckdata.lang_1;
     deckarray[deckdata.index].lang_2 = deckdata.lang_2;
     deckarray[deckdata.index].name = deckdata.name;
     deckarray[deckdata.index].visibilty = deckdata.visibilty;
     await set(getDeckDataRef(id), newDeckData);
     await set(getDecksListRef(id), deckarray);
+    
   };
 
   function getRndInteger(min: number, max: number) {
