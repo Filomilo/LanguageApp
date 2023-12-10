@@ -7,7 +7,7 @@ import {
 } from 'firebase/auth';
 import React, { createContext, useEffect, useState } from 'react';
 import { auth, db, storage } from './firebase-config';
-import { onValue, push, ref, set, update, } from 'firebase/database';
+import { onValue, push, ref, set, update,get } from 'firebase/database';
 import {getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage';
 import uuid from 'react-native-uuid';
 
@@ -38,6 +38,12 @@ const FireBaseProvider = ({ children }) => {
     // if(activeUserNick===null)
     // throw("error couldnt retive nick")
     return ref(db, 'decks/deck_usage/' + activeUserNick);
+  };
+
+  const getUserRecentDecksRef = (nick) => {
+    // if(activeUserNick===null)
+    // throw("error couldnt retive nick")
+    return ref(db, 'decks/deck_usage/' + nick);
   };
 
   const getActiveUserStatRef = () => {
@@ -804,7 +810,7 @@ const FireBaseProvider = ({ children }) => {
       console.log(JSON.stringify(blob));
 
 const uniqueFilename = `${uuid.v4()}.jpeg`;
-const storageReferance= storageRef(storage,"images/${fileName}");
+const storageReferance= storageRef(storage,"images/"+uniqueFilename);
      // const storageRef = firebase.storage().ref().child(`images/${fileName}`);
      const snapshot = await uploadBytes(storageReferance, blob);
  
@@ -836,6 +842,79 @@ const getShouldShake=()=>{
   console.log("(((((((((((((((((((((((((((((((((("+activeUserData.isTurnFlashCardsByShaking+"))))))))))))))))")
   return activeUserData.isTurnFlashCardsByShaking;
 }
+const getContactInfo=async (id)=>{
+
+  let acualData={};
+  userData=usersList.find((element)=> element.id===id)
+
+
+  let decskDaa= await getUserRecentDecks(userData.nick)
+  userData.decks=decskDaa ;
+
+
+
+
+
+
+  console.log("###############################################")
+
+  console.log(JSON.stringify(decskDaa));
+  console.log("###############################################")
+   return userData;
+}
+
+
+
+
+
+const getUserRecentDecks = async (nick) => {
+  let res: any[] = [];
+  let date: Date = new Date();
+  let i = 0;
+  let decks=[];
+
+  await get(getUserRecentDecksRef(nick)).then((snapshot) => {
+    if (snapshot.exists()) {
+      decks  = snapshot.val();
+      console.log('Data:', decks);
+    } else {
+      console.log('No data available');
+    }
+  }).catch((error) => {
+    console.error('Error getting data:', error);
+  });
+
+
+
+
+
+  decks.forEach((element) => {
+    let tempObj: any = {};
+    tempObj.author = decksList[element.index].author;
+    tempObj.lang_1 = decksList[element.index].lang_1;
+    tempObj.lang_2 = decksList[element.index].lang_2;
+    tempObj.name = decksList[element.index].name;
+    tempObj.id = decksList[element.index].ID;
+    tempObj.amt_of_cards = decksList[element.index].amt_of_cards;
+
+    let tmpDate = Math.floor(
+      (date.getTime() - new Date(element.last_used).getTime()) /
+        (1000 * 3600 * 24)
+    );
+    tempObj.last_used = tmpDate;
+
+    res.push(tempObj);
+    i++;
+  });
+  res.sort((a, b) => {
+    return a.last_used - b.last_used;
+  });
+
+  return res;
+};
+
+
+
 
 
   return (
@@ -873,7 +952,8 @@ const getShouldShake=()=>{
         getTestData,
         scarambleArrat,
         uploadNewFile,
-        getShouldShake
+        getShouldShake,
+        getContactInfo
       }}
     >
       {children}

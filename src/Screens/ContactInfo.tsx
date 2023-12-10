@@ -8,9 +8,9 @@ import {
   styles,
   width,
 } from '../Styles';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   FlatList,
   ScrollView,
@@ -30,11 +30,44 @@ import { auth } from '../config/firebase-config';
 import DeckButton from '../Components/DeckButton';
 import AddButton from '../../assets/Add_button.svg';
 import DataBaseManager from '../config/DataBaseManager';
+import { FireBaseContext } from '../config/FireBaseContext';
 
 const ContactInfo = (props) => {
   const id = props.id;
 
-  const contactData = DataBaseManager.getContactInfo(id);
+  const [contactData,setContactData]= useState({decks: []});
+  const{getContactInfo}= useContext(FireBaseContext);
+
+  
+  const fetchData=async ()=>{
+    let data=await getContactInfo(props.id);
+    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"+JSON.stringify(data)+"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+    setContactData(data);
+  }
+
+  useFocusEffect(
+    React.useCallback( () => {
+      fetchData();
+      return () => {
+        setContactData({});
+      };
+    }, [])
+  );
+  const openDeck =(id)=>
+  {
+   
+  
+    console.log('open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ')
+    console.log('open deck: ' + JSON.stringify(id))
+    
+    console.log('open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ')
+    props.navigation.navigate('DeckView',{
+    deckId: id
+    });
+  
+  }
+
+
 
   return (
     <View style={styles.mainContainer}>
@@ -54,7 +87,7 @@ const ContactInfo = (props) => {
             }}
           >
             <Image
-              source={{ uri: contactData.photoUri }}
+              source={{ uri: contactData.profilePic }}
               style={[
                 styles.proflePic,
                 {
@@ -79,12 +112,12 @@ const ContactInfo = (props) => {
                 deckTitle={item.name}
                 author={item.creator}
                 lastUsed={9}
-                amtOfCards={item.cards.length}
+                amtOfCards={item.amt_of_cards}
                 lang_1={item.lang_1}
                 lang_2={item.lang_2}
                 showLastUsed={true}
                 buttonPress={() => {
-                  openDeck(item.Id);
+                  openDeck(item.id);
                 }}
               />
             )}
