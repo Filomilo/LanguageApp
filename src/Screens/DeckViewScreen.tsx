@@ -332,6 +332,7 @@ const goBack=()=>{
 
   if (!isLoading)
     return (
+
       <View style={[styles.mainContainer, DarkModeColors.BackGroundColor]}>
         <ModalWindow />
 
@@ -340,7 +341,15 @@ const goBack=()=>{
             <TestScreen close={closeTest} cards={deckData.cards} />
           </View>
         </Modal>
-
+      <View
+      style={{
+        position: 'absolute',
+        width: width,
+        height: height,
+        flex: 1,
+        
+      }}
+      >
         <TouchableOpacity onPress={editButton}>
           <View style={styles.rightUpperDeckButton}>
             {isCapaableOfEdit ? (
@@ -547,6 +556,8 @@ const goBack=()=>{
           </TouchableOpacity>
         </View>
       </View>
+      </View>
+ 
     );
   else {
     return <View style={styles.mainContainer}></View>;

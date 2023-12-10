@@ -1,5 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StatusBar } from 'expo-status-bar'
+import { StyleSheet, Text, View, Image } from 'react-native'
 import {
   DarkModeColors,
   darkModePrimaryColor,
@@ -7,67 +7,72 @@ import {
   height,
   styles,
   width,
-} from '../Styles';
-import { NavigationContainer, useFocusEffect, useNavigation } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import React, { useContext, useEffect, useState } from 'react';
+} from '../Styles'
+import {
+  NavigationContainer,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   FlatList,
   ScrollView,
   TouchableOpacity,
-} from 'react-native-gesture-handler';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import LoginScreen from './LoginScreen';
-import RegisterScreen from './RegisterScreen';
+} from 'react-native-gesture-handler'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import LoginScreen from './LoginScreen'
+import RegisterScreen from './RegisterScreen'
 import {
   SafeAreaFrameContext,
   SafeAreaView,
-} from 'react-native-safe-area-context';
-import { db } from '../config/firebase-config';
-import { initializeApp } from 'firebase/app';
-import { DataSnapshot, getDatabase, onValue, ref } from 'firebase/database';
-import { auth } from '../config/firebase-config';
-import DeckButton from '../Components/DeckButton';
-import AddButton from '../../assets/Add_button.svg';
-import DataBaseManager from '../config/DataBaseManager';
-import { FireBaseContext } from '../config/FireBaseContext';
+} from 'react-native-safe-area-context'
+import { db } from '../config/firebase-config'
+import { initializeApp } from 'firebase/app'
+import { DataSnapshot, getDatabase, onValue, ref } from 'firebase/database'
+import { auth } from '../config/firebase-config'
+import DeckButton from '../Components/DeckButton'
+import AddButton from '../../assets/Add_button.svg'
+import DataBaseManager from '../config/DataBaseManager'
+import { FireBaseContext } from '../config/FireBaseContext'
 
 const ContactInfo = (props) => {
-  const id = props.id;
+  const id = props.id
 
-  const [contactData,setContactData]= useState({decks: []});
-  const{getContactInfo}= useContext(FireBaseContext);
+  const [contactData, setContactData] = useState({ decks: [] })
+  const { getContactInfo } = useContext(FireBaseContext)
 
-  
-  const fetchData=async ()=>{
-    let data=await getContactInfo(props.id);
-    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"+JSON.stringify(data)+"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-    setContactData(data);
+  const fetchData = async () => {
+    let data = await getContactInfo(props.id)
+    console.log(
+      '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^' +
+        JSON.stringify(data) +
+        '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^',
+    )
+    setContactData(data)
   }
 
   useFocusEffect(
-    React.useCallback( () => {
-      fetchData();
+    React.useCallback(() => {
+      fetchData()
       return () => {
-        setContactData({});
-      };
-    }, [])
-  );
-  const openDeck =(id)=>
-  {
-   
-  
-    console.log('open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ')
+        setContactData({})
+      }
+    }, []),
+  )
+  const openDeck = (id) => {
+    console.log(
+      'open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ',
+    )
     console.log('open deck: ' + JSON.stringify(id))
-    
-    console.log('open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ')
-    props.navigation.navigate('DeckView',{
-    deckId: id
-    });
-  
+
+    console.log(
+      'open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ',
+    )
+    props.navigation.navigate('DeckView', {
+      deckId: id,
+    })
   }
-
-
 
   return (
     <View style={styles.mainContainer}>
@@ -117,7 +122,7 @@ const ContactInfo = (props) => {
                 lang_2={item.lang_2}
                 showLastUsed={true}
                 buttonPress={() => {
-                  openDeck(item.id);
+                  openDeck(item.id)
                 }}
               />
             )}
@@ -125,6 +130,6 @@ const ContactInfo = (props) => {
         </>
       )}
     </View>
-  );
-};
-export default ContactInfo;
+  )
+}
+export default ContactInfo
