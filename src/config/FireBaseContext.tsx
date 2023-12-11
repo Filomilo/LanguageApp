@@ -686,7 +686,7 @@ const FireBaseProvider = ({ children }) => {
     deckarray[deckdata.index].visibilty = deckdata.visibilty;
     await set(getDeckDataRef(id), newDeckData);
     await set(getDecksListRef(id), deckarray);
-    
+
   };
 
   function getRndInteger(min: number, max: number) {
@@ -914,9 +914,41 @@ const getUserRecentDecks = async (nick) => {
   return res;
 };
 
+  const acceptFriendsRequest=(from: string)=>{
+      //todo: implement
+    console.log("accepting from: "+from )
+  }
 
+  const declineFriendsRequest=(from: string)=>{
+      //todo: implement
+    console.log("decline from: "+from )
+  }
 
+  const sendFriendRequest=async (to: string)=>{
+    //todo: implement
+    console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    console.log(usersList)
+    usersList.forEach((element)=>{
+      if(element.nick===to)
+      {
+        console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        console.log(element)
+        console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
+        element.alreadySendRequest=true;
+      }
+    })
+let tmp=[...friendListRequest];
+//console.log(JSON.stringify(tmp));
+
+const newObj={from: activeUserNick, fromIndx: activeUserData.index, to: to};
+    tmp.push(newObj);
+
+    setFriendListRequest(tmp);
+    await set(friendsRequestListRef, tmp).then(()=>{console.log('friendsRequestListRef Udpated')});
+
+    console.log("sending friend request to from: "+to )
+  }
 
   return (
     <FireBaseContext.Provider
@@ -954,7 +986,11 @@ const getUserRecentDecks = async (nick) => {
         scarambleArrat,
         uploadNewFile,
         getShouldShake,
-        getContactInfo
+        getContactInfo,
+        acceptFriendsRequest,
+        declineFriendsRequest,
+        sendFriendRequest
+
       }}
     >
       {children}

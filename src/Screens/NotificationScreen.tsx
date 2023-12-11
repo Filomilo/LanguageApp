@@ -27,16 +27,16 @@ interface NotificationScreenProps{
 
 const NotificationScreen= (props: NotificationScreenProps)=>{
 
-const {getFriendsRequests} = useContext(FireBaseContext);
+const {getFriendsRequests,acceptFriendsRequest, declineFriendsRequest} = useContext(FireBaseContext);
 
 
   const FriendsRequests=getFriendsRequests();
 
 const acceptRequest=(id)=>{
-  console.log(id + " accepted");
+  acceptFriendsRequest(id);
 }
 const declineRequest=(id)=>{
-  console.log(id + " declined");
+  declineFriendsRequest(id);
 }
 
 

@@ -3,7 +3,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { darkModePrimaryColor, height, styles, width } from '../Styles';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
 import React, { useContext, useState } from 'react';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
@@ -27,14 +27,33 @@ const Tab = createMaterialTopTabNavigator();
 const FindFriendsScreen= (props: FindFriendsScreenProps)=>{
 
 
-const {getSearchFriends} = useContext(FireBaseContext);
+const {getSearchFriends,sendFriendRequest} = useContext(FireBaseContext);
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [friendList,setFriendsLIst]= useState([]);
+  
 
-  const addConatct=(id)=>{
-    console.log("adding contact : " + id)
+  const addConatct=async (id)=>{
+
+    await sendFriendRequest(id);
+
   }
 
+  
+
+  const updateFriendList=async ()=>{
+    await setFriendsLIst(getSearchFriends(searchTerm));
+  }
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      updateFriendList();
+ 
+      return () => {
+
+      };
+    }, [])
+  );
 
 
   return (
@@ -60,14 +79,14 @@ style={[
   ]
 }
 
-onChangeText={setSearchTerm}
+onChangeText={(text)=>{setSearchTerm(text);updateFriendList() }}
 value={searchTerm}
 />
 
 </View>
 
 <FlatList 
-data={getSearchFriends(searchTerm)} 
+data={friendList} 
 renderItem={(item)=>{return(
   <FriendListElement 
   name={item.item.nick}
