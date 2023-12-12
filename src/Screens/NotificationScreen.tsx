@@ -76,6 +76,7 @@ const declineRequest=(id)=>{
         }
         >
           {props.name} invites you to be friend
+    
         </Text>
         </View>
         </View>

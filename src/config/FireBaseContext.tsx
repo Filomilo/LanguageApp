@@ -10,12 +10,14 @@ import { auth, db, storage } from './firebase-config';
 import { onValue, push, ref, set, update,get } from 'firebase/database';
 import {getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage';
 import uuid from 'react-native-uuid';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FireBaseContext = createContext({});
 
 const FireBaseProvider = ({ children }) => {
   const [isLogged, setIsLogged] = useState(false);
   const [usersList, setUsersList] = useState([]);
+  const [usersListWorkingCopy, setUsersListWorkingCopy] = useState([]);
   const [activeUserNick, setActiveUserNick] = useState(null);
   const [activeUserData, setActiveUserData] = useState(null);
   const [wasRegistrtionSuccesful, setWasRegistrtionSuccesful] = useState(false);
@@ -51,9 +53,11 @@ const FireBaseProvider = ({ children }) => {
   };
 
   const getActiveUserFriendListRef = () => {
-    //if(activeUserNick===null)
-    //throw("error couldnt retive nick")
     return ref(db, 'users/friends/friendsList/' + activeUserNick);
+  };
+
+  const getUserFriendListRef = (id :string) => {
+    return ref(db, 'users/friends/friendsList/' + id);
   };
 
   const getDeckDataRef = (id: string) => {
@@ -97,6 +101,20 @@ const FireBaseProvider = ({ children }) => {
     }
   }, [activeUserData, activeUserNick, usersList]);
 
+  const setDarskModeState=async (state: boolean)=>
+  {
+    try{
+        await AsyncStorage.setItem(
+          'darkMode',
+          String(state),
+        );
+      } catch (error) {
+        // Error saving data
+      }
+    
+  
+  }
+
   useEffect(() => {
     // console.log("%%%%%%%%%%%%%%%%%% - " + activeUserNick);
     if (activeUserNick != null) {
@@ -104,6 +122,10 @@ const FireBaseProvider = ({ children }) => {
         if (snapshot.exists()) {
           const data = snapshot.val();
           setActiveUserData(data);
+          setDarskModeState(data.isDarkMode);
+
+
+
         } else {
           console.error('active user darta doens not exist');
           setActiveUserData(null);
@@ -314,6 +336,7 @@ const FireBaseProvider = ({ children }) => {
         if (snapshot.exists()) {
           const data = snapshot.val();
           usersArray = data ? Object.values(data) : [];
+          setUsersList(usersArray);
           usersArray.forEach((element) => {
             if (
               friendsRequestArray.find((element2) => {
@@ -336,7 +359,7 @@ const FireBaseProvider = ({ children }) => {
             } else element.isFriend = false;
           });
           // console.log("setUSerList: "+ JSON.stringify(usersArray))
-          setUsersList(usersArray);
+          setUsersListWorkingCopy(usersArray);
         } else {
           console.error('userslist data does not exist');
           setUsersList([]);
@@ -403,6 +426,7 @@ const FireBaseProvider = ({ children }) => {
       const newData = { ...activeUserData, isDarkMode: state };
       setActiveUserData(newData);
       updateActiveUserData(newData);
+      setDarskModeState(state);
     }
   };
 
@@ -434,6 +458,11 @@ const FireBaseProvider = ({ children }) => {
   };
 
   const getFriendsRequests = () => {
+    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+    console.log(JSON.stringify(friendListRequest));
+
+    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+
     let arrayReuest = friendListRequest.filter((element) => {
       return element.to === activeUserNick && !element.isFriend;
     });
@@ -445,8 +474,13 @@ const FireBaseProvider = ({ children }) => {
 
   const getYourFriends = () => {
     let array = friendList;
+    console.log("********************************")
+    console.log(array)
+
+    console.log("********************************")
+
     array.forEach((element) => {
-      element.profilePic = usersList[element.index].profilePic;
+      element.profilePic = usersListWorkingCopy[element.index].profilePic;
     });
     return array;
   };
@@ -846,9 +880,8 @@ const getShouldShake=()=>{
 const getContactInfo=async (id)=>{
 
   let acualData={};
-  userData=usersList.find((element)=> element.id===id)
-
-
+  userData=usersList.find((element)=> element.nick===id)
+ 
   let decskDaa= await getUserRecentDecks(userData.nick)
   userData.decks=decskDaa ;
 
@@ -857,10 +890,9 @@ const getContactInfo=async (id)=>{
 
 
 
-  console.log("###############################################")
 
   console.log(JSON.stringify(decskDaa));
-  console.log("###############################################")
+ 
    return userData;
 }
 
@@ -885,7 +917,9 @@ const getUserRecentDecks = async (nick) => {
     console.error('Error getting data:', error);
   });
 
-
+  console.log("###############################################")
+  console.log(decks)
+  console.log("###############################################")
 
 
 
@@ -914,14 +948,70 @@ const getUserRecentDecks = async (nick) => {
   return res;
 };
 
-  const acceptFriendsRequest=(from: string)=>{
+
+  const addFriend=async (to: string, frined: string)=>
+  {
+    let UserdataFrinedList= await get(getUserFriendListRef(to));
+    
+    let user=usersList.find((elem)=> elem.nick===frined );
+    let indx= usersList.indexOf(user);
+    let newEntry={
+      nick: frined,
+      index: indx
+    }
+    
+    let arrayList;
+    if(UserdataFrinedList.val()===null){
+      arrayList=[ newEntry];
+
+    }
+    else
+    {
+
+      console.log("UserdataFrinedListUserdataFrinedListUserdataFrinedListUserdataFrinedListUserdataFrinedList");
+
+      console.log(UserdataFrinedList);
+      console.log("UserdataFrinedListUserdataFrinedListUserdataFrinedListUserdataFrinedListUserdataFrinedList");
+
+     arrayList=(UserdataFrinedList.val());
+     arrayList.push(newEntry);
+    }
+    console.log(arrayList);
+
+
+
+   await set(getUserFriendListRef(to),arrayList);
+  }
+
+  const acceptFriendsRequest=async (from: string)=>{
       //todo: implement
+
+
+      await addFriend(activeUserNick,from);
+      await addFriend(from,activeUserNick);
+      declineFriendsRequest(from);
+     
     console.log("accepting from: "+from )
   }
 
-  const declineFriendsRequest=(from: string)=>{
-      //todo: implement
+
+
+
+  const declineFriendsRequest=async (from: string)=>{
+      //todo: implement\
+      let tmp=[...friendListRequest];
+          let elemntTODelete=tmp.find((value)=> value.from=== from)
+          const indx=tmp.indexOf(elemntTODelete);
+          tmp.splice(indx,1);
+          setFriendListRequest(tmp);
+          await set(friendsRequestListRef, tmp).then(()=>{console.log('friendsRequestListRef Udpated')});
+      
+
+
+
     console.log("decline from: "+from )
+    
+
   }
 
   const sendFriendRequest=async (to: string)=>{
@@ -990,7 +1080,6 @@ const newObj={from: activeUserNick, fromIndx: activeUserData.index, to: to};
         acceptFriendsRequest,
         declineFriendsRequest,
         sendFriendRequest
-
       }}
     >
       {children}

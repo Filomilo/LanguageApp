@@ -1,8 +1,9 @@
+import { useContext } from "react";
 import { Dimensions, StyleSheet } from "react-native";
+import { FireBaseContext } from "./config/FireBaseContext";
 
 export const width=Dimensions.get("window").width;
 export const height=Dimensions.get("window").height;
-
 
 
 export const darkModeMainTextColor="white";

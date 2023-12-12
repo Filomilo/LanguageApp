@@ -43,7 +43,7 @@ const ContactInfo = (props) => {
   const { getContactInfo } = useContext(FireBaseContext)
 
   const fetchData = async () => {
-    let data = await getContactInfo(props.id)
+    let data = await getContactInfo(props.route.params.id.id)
     console.log(
       '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^' +
         JSON.stringify(data) +
@@ -52,14 +52,17 @@ const ContactInfo = (props) => {
     setContactData(data)
   }
 
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchData()
-      return () => {
-        setContactData({})
-      }
-    }, []),
-  )
+  useEffect(() => {
+    fetchData()
+    console.log("UPDATEUPDATEUPDATEUPDATEUPDATEUPDATEUPDATEUPDATEUPDATEUPDATE")
+
+    return ()=>{
+          setContactData({});   
+  }}, [props.route]);
+
+
+
+
   const openDeck = (id) => {
     console.log(
       'open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ',
@@ -107,6 +110,7 @@ const ContactInfo = (props) => {
               style={[styles.DeckLangText, DarkModeColors.primaryColorText]}
             >
               {contactData.nick}
+            
             </Text>
           </View>
 
