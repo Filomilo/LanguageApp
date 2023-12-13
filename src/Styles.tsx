@@ -6,6 +6,9 @@ export const width=Dimensions.get("window").width;
 export const height=Dimensions.get("window").height;
 
 
+
+
+
 export const darkModeMainTextColor="white";
 export const darkModeBackgroundColor="#1A1A1A";
 export const darkModeHeaderColor="#313131";
@@ -197,13 +200,15 @@ export const styles = StyleSheet.create({
     },
     DeckTitleStyle: {
       color: darkModePrimaryColor,
-      fontSize: height*0.04,
-      margin: width*0.02
+      fontSize: height*0.03,
+      margin: '5%',
+      maxHeight: '40%',
+      overflow: 'scroll'
     },
     DeckParamText: {
         fontSize: height*0.018,
-        marginVertical: width*0.013,
-        marginHorizontal: width*0.01,
+        marginVertical: '2%',
+        marginHorizontal: '7%',
         color: darkModeBackgroundColor
     },
     DeckLangText:{

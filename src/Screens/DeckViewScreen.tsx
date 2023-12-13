@@ -3,6 +3,7 @@ import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import {
   DarkModeColors,
   darkModeBackgroundColor,
+  darkModeHeaderColor,
   darkModeMainTextColor,
   darkModePrimaryColor,
   darkModeTextInputColor,
@@ -22,7 +23,7 @@ import {
   SafeAreaFrameContext,
   SafeAreaView,
 } from 'react-native-safe-area-context';
-import { DrawerLayout, FlatList } from 'react-native-gesture-handler';
+import { DrawerLayout, FlatList, Switch } from 'react-native-gesture-handler';
 import TestScreen from './TestScreen';
 import StatScreen from './StatScreen';
 import { db } from '../config/firebase-config';
@@ -56,6 +57,17 @@ const DeckViewScreen = (props) => {
   const [isEditing, setIsEdiing] = useState(false);
   const [isCapaableOfEdit, setIsCapaableOfEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+
+  const switchIsSearchable=(state: boolean)=>
+  {
+    console.log("Switch: "+ state);
+    console.log(JSON.stringify(deckData));
+    tmpDeckData={...deckData};
+    tmpDeckData.visibilty=!deckData.visibilty;
+    setDeckData(tmpDeckData);
+  }
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -427,7 +439,20 @@ const goBack=()=>{
             <View style={[styles.LineSeparator, DarkModeColors.primaryColor]} />
             {isEditing ? (
               <>
-                <View style={[styles.horizontalContainer, {}]}>
+              <View style={{flexWrap: 'wrap', width: width, flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={[styles.optionActionText]}>
+                  is visible: 
+                </Text>
+               <Switch
+               style={{}}
+        trackColor={{false: darkModeHeaderColor, true: darkModePrimaryColor}}
+        thumbColor={darkModeTextInputColor}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={switchIsSearchable}
+        value={deckData.visibilty}
+      />
+      </View>
+                <View style={[styles.horizontalContainer, {height: '5%'}]}>
                   <Dropdown
                     data={testData}
                     labelField="label"

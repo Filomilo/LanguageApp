@@ -200,7 +200,8 @@ style={
 </Modal>
 
 
-  <SafeAreaView>
+  <View style={{marginTop: '10%'}}>
+    <View >
 <View
 style={{
   flexDirection: 'row',
@@ -254,7 +255,8 @@ style={{
 </TouchableOpacity>
 </View>
 </View>
-
+</View>
+<View>
   <FlatList 
   data={decks}
   renderItem={({ item }) => (
@@ -270,9 +272,9 @@ style={{
     } />
   )}
 />
+</View>
 
-
-  </SafeAreaView>
+  </View>
 </View>
 
 

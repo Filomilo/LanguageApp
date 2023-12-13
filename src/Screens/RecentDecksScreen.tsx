@@ -86,7 +86,7 @@ const openDeck =(id)=>
 <SafeAreaView>
 
 
-
+<View>
 <FlatList 
 data={decks}
 renderItem={({ item }) => (
@@ -102,7 +102,7 @@ renderItem={({ item }) => (
   } />
 )}
 />
-  
+</View>
 <TouchableOpacity
   style={styles.floatingButton}
   onPress={()=>{addDeckButton()}}
