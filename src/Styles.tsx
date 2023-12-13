@@ -185,7 +185,8 @@ export const styles = StyleSheet.create({
     },
     statText:{
       fontSize: width*0.05,
-      color: darkModeMainTextColor
+      color: darkModeMainTextColor,
+      marginLeft: "3%"
     },
     DeckButtonContainer: {
       flex: 1,

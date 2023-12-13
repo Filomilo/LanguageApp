@@ -245,7 +245,7 @@ const goBack=()=>{
           <TextInput
             key={`word2_${props.index}`}
             onEndEditing={() => {
-              onTextChane(focusText1, props.index, 1);
+              onTextChane(focusText2, props.index, 1);
             }}
             value={focusText2}
             onChangeText={setFocusText2}

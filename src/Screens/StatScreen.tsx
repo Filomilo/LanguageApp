@@ -47,10 +47,11 @@ style={styles.verticalContainer}
 >
 
 
-  
+  <View
+  style={{alignContent: 'center',marginTop: "3%", width: width, justifyContent: 'center', alignItems: 'center'}}>
   <BarChart
         data={statData}
-        width={width}
+        width={width*0.9}
         height={200}
         yAxisLabel=""
         yAxisSuffix=' cards'
@@ -61,8 +62,10 @@ style={styles.verticalContainer}
           backgroundGradientTo: darkModeBackgroundColor,
           color: (opacity = 1) => `${darkModePrimaryColor}`,
           decimalPlaces: 0,
+          
         }}
       />
+      </View>
 
         <Text
         style={styles.statText}

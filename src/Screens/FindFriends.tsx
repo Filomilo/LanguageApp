@@ -5,7 +5,7 @@ import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { darkModePrimaryColor, height, styles, width } from '../Styles';
 import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -32,6 +32,10 @@ const {getSearchFriends,sendFriendRequest} = useContext(FireBaseContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [friendList,setFriendsLIst]= useState([]);
   
+
+  useEffect(()=>{
+    updateFriendList();
+  },[searchTerm])
 
   const addConatct=async (id)=>{
 

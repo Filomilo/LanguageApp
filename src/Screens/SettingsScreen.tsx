@@ -26,7 +26,8 @@ return(
   <View
   style={
     {
-      margin: height*0.01
+      margin: height*0.01,
+      marginLeft: "3%"
     }
   }
   >
@@ -55,7 +56,7 @@ value={props.value}
 onValueChange={props.onChange}
 thumbColor={darkModeTextInputColor}
 trackColor={{false: darkModeHeaderColor, true: darkModePrimaryColor}}
-style={{ transform: [{ scaleX: width*0.003 }, { scaleY: width*0.003 }] }}
+style={{marginRight: width*0.06 , transform: [{ scaleX: width*0.003 }, { scaleY: width*0.003 }] }}
 />
 </View>
 </View>

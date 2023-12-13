@@ -33,7 +33,7 @@ const FriendListElement=(props)=>{
             >
             <Image 
         source={{uri: props.imageUri}}
-        style={[styles.proflePicList]}
+        style={[styles.proflePicList,{marginLeft: "3%", marginVertical: "3%"}]}
         />
              <Text
              style={[styles.langWords, DarkModeColors.MainTextColor]}
