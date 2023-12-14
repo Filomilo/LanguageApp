@@ -10,15 +10,15 @@ const Header=(props)=>{
     const navigation = useNavigation();
 
     const showDrawer=()=>{
-        console.log("show drawe22r");
-        console.log(JSON.stringify(navigation))
+        //console.log("show drawe22r");
+        //console.log(JSON.stringify(navigation))
       
     }
 
 
     const OpenNotification=()=>{
-        console.log("show Norificaiotn");
-        console.log(JSON.stringify(navigation))
+        //console.log("show Norificaiotn");
+        //console.log(JSON.stringify(navigation))
         navigation.navigate('Notifications');
         //props.navigation.navigate('Notifications')
        

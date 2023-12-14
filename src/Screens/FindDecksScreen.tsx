@@ -38,7 +38,7 @@ const {getFindDeck} = useContext(FireBaseContext);
   {
    
 
-    console.log('open deck: ' + id)
+    //console.log('open deck: ' + id)
     props.navigation.navigate('DeckView',{
     deckId: id
     });
@@ -60,13 +60,13 @@ const testData = [
 ];
 
   const applyFilter=()=> {
-    console.log("apply filter");
+    //console.log("apply filter");
     setIsShowFilterModal(false);
   }
 
 
   const showFilter=()=> {
-    console.log("show filter");
+    //console.log("show filter");
     setIsShowFilterModal(true);
   }
   return (
@@ -128,7 +128,8 @@ style={styles.statText}
    data={languages}
    labelField="label"
    valueField="label"
-    onChange={()=>{console.log('needs implemation')}}
+    onChange={()=>{//console.log('needs implemation')
+    }}
 style={[
                     styles.langageText,
                
@@ -156,7 +157,8 @@ style={styles.statText}
    data={languages}
    labelField="label"
    valueField="label"
-    onChange={()=>{console.log('needs implemation')}}
+    onChange={()=>{//console.log('needs implemation')
+    }}
 style={[
                     styles.langageText,
                
@@ -175,7 +177,7 @@ activeColor={darkModeTextInputColor}
 />
 <TouchableOpacity
 onPress={()=>{
-  console.log("aply filters");
+  //console.log("aply filters");
   applyFilter();
 }}
 >
@@ -219,7 +221,8 @@ style={{
    data={testData}
    labelField="label"
    valueField="label"
-    onChange={()=>{console.log('needs implemation')}}
+    onChange={()=>{//console.log('needs implemation')
+    }}
 style={[
                     styles.langageText,
                

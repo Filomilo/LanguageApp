@@ -44,17 +44,13 @@ const ContactInfo = (props) => {
 
   const fetchData = async () => {
     let data = await getContactInfo(props.route.params.id.id)
-    console.log(
-      '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^' +
-        JSON.stringify(data) +
-        '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^',
-    )
+
     setContactData(data)
   }
 
   useEffect(() => {
     fetchData()
-    console.log("UPDATEUPDATEUPDATEUPDATEUPDATEUPDATEUPDATEUPDATEUPDATEUPDATE")
+    //console.log("UPDATEUPDATEUPDATEUPDATEUPDATEUPDATEUPDATEUPDATEUPDATEUPDATE")
 
     return ()=>{
           setContactData({});   
@@ -64,14 +60,14 @@ const ContactInfo = (props) => {
 
 
   const openDeck = (id) => {
-    console.log(
-      'open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ',
-    )
-    console.log('open deck: ' + JSON.stringify(id))
+    //console.log(
+     // 'open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ',
+    //)
+    //console.log('open deck: ' + JSON.stringify(id))
 
-    console.log(
-      'open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ',
-    )
+    //console.log(
+     // 'open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ',
+    //)
     props.navigation.navigate('DeckView', {
       deckId: id,
     })

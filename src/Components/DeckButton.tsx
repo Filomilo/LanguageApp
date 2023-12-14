@@ -10,13 +10,13 @@ interface DeckButtonProps{
   }
 
 const  DeckButton=(props: { item: { name: any; Id: any; }; buttonPress: () => void; })=> {
-    console.log(JSON.stringify(props))
+    //console.log(JSON.stringify(props))
 
 
 
     const buttonPress=()=>
     {
-       // console.log("Deck button prees" + id)
+       // //console.log("Deck button prees" + id)
         props.buttonPress();
     }
 

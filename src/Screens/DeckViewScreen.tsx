@@ -61,8 +61,8 @@ const DeckViewScreen = (props) => {
 
   const switchIsSearchable=(state: boolean)=>
   {
-    console.log("Switch: "+ state);
-    console.log(JSON.stringify(deckData));
+    //console.log("Switch: "+ state);
+    //console.log(JSON.stringify(deckData));
     tmpDeckData={...deckData};
     tmpDeckData.visibilty=!deckData.visibilty;
     setDeckData(tmpDeckData);
@@ -73,7 +73,7 @@ const DeckViewScreen = (props) => {
     setIsLoading(true);
     const unsubscribe = props.navigation.addListener('focus', () => {
       setDeckData({ name: '' });
-      console.log('(*******************************************');
+      //console.log('(*******************************************');
       const fetchData = async () => {
         setIsEdiing(false);
         const data = await getDeckData(props.route.params.deckId);
@@ -88,13 +88,13 @@ const DeckViewScreen = (props) => {
   }, [props.route]);
 
 const goBack=()=>{
-  console.log("go")
+  //console.log("go")
   props.navigation.goBack();
 }
 
 
   const setDeckName = async (name: string) => {
-    console.log(deckData.name);
+    //console.log(deckData.name);
     setDeckData({ ...deckData, name: name });
   };
 
@@ -103,7 +103,7 @@ const goBack=()=>{
   };
 
   const onAddButton = () => {
-    console.log('aaaaaaaaaa');
+    //console.log('aaaaaaaaaa');
     const newCards = [...deckData.cards, { word_1: '', word_2: '' }];
 
     const updatedDeckData = { ...deckData, cards: newCards };
@@ -117,42 +117,42 @@ const goBack=()=>{
 
    if(langNum==1)
    {
-    console.log("lang1");
+    //console.log("lang1");
     await setDeckData({ ...deckData, lang_1: item.label });
    }
    else
    {
-    console.log("lang2");
+    //console.log("lang2");
     await setDeckData({ ...deckData, lang_2: item.label });
    }
 
-   console.log(JSON.stringify(deckData));
+   //console.log(JSON.stringify(deckData));
    
   }
 
 
   const editButton = () => {
-    console.log('edit button');
+    //console.log('edit button');
     if (isEditing) saveDeckData(props.route.params.deckId, deckData);
     setIsEdiing(!isEditing);
   };
 
   const brainButton = () => {
-    console.log('brain button');
+    //console.log('brain button');
     setModalVisible(true);
   };
 
   const openFlashCards = () => {
-    console.log('openFlashCards');
+    //console.log('openFlashCards');
     setModalVisible(false);
     let deck={...deckData};
-    console.log("new dekc opne flashcarada          new dekc opne flashcarada     new dekc opne flashcarada     new dekc opne flashcarada     new dekc opne flashcarada ")
-    console.log(deck)
-    console.log("new dekc opne flashcarada          new dekc opne flashcarada     new dekc opne flashcarada     new dekc opne flashcarada     new dekc opne flashcarada ")
+    //console.log("new dekc opne flashcarada          new dekc opne flashcarada     new dekc opne flashcarada     new dekc opne flashcarada     new dekc opne flashcarada ")
+    //console.log(deck)
+    //console.log("new dekc opne flashcarada          new dekc opne flashcarada     new dekc opne flashcarada     new dekc opne flashcarada     new dekc opne flashcarada ")
     props.navigation.navigate('FlashCards',{"deck": {deck}});
   };
   const openTest = () => {
-    console.log('open Test');
+    //console.log('open Test');
     setModalVisible(false);
     setTestVisible(true);
   };
@@ -166,15 +166,15 @@ const goBack=()=>{
   };
 
   const onTextChane = (text: string, index: number, word: number) => {
-    // console.log("txt: "+ text+ "  index: " + index+ " word: "+ word);
+    // //console.log("txt: "+ text+ "  index: " + index+ " word: "+ word);
     let arrayTmp = deckData.cards;
-    //console.log(arrayTmp);
+    ////console.log(arrayTmp);
     if (word == 0) arrayTmp[index].word_1 = text;
     else arrayTmp[index].word_2 = text;
 
     setDeckData({ ...deckData, cards: arrayTmp });
 
-    //console.log(deckData);
+    ////console.log(deckData);
   };
 
   const WordsPreview = (props) => {

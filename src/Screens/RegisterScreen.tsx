@@ -31,7 +31,7 @@ const RegisterScreen= (props: RegisterScreenProps)=>{
 
   const Register= async () => {
 
-   console.log('register')
+   //console.log('register')
    try{
     /*
     if(email.length===0 || 
@@ -58,7 +58,7 @@ const RegisterScreen= (props: RegisterScreenProps)=>{
 
    }
    catch(error){
-    console.log(error);
+    //console.log(error);
     setError(JSON.stringify(error));
    }
   }

@@ -55,9 +55,9 @@ const TestScreen= ({close,cards})=>{
         correct++;
       }
     }
-    console.log("_______________________________________________________________")
-    console.log(JSON.stringify(testData))
-    console.log("_______________________________________________________________")
+    //console.log("_______________________________________________________________")
+    //console.log(JSON.stringify(testData))
+    //console.log("_______________________________________________________________")
 
     setsResult(correct)
     setshowResult(true)
@@ -67,22 +67,22 @@ const TestScreen= ({close,cards})=>{
 
 
   const  arrowLeftButton=()=>{
-    console.log("arrowLeftButton ")
+    //console.log("arrowLeftButton ")
     setFwordNum(wordNum-1<1?1:wordNum-1)
   }
   
   const  arrowRightButton=()=>{
-    console.log("arrowRightButton ")
+    //console.log("arrowRightButton ")
     setFwordNum(wordNum+1>testData.length?testData.length:wordNum+1)
   }
 
   const checkMarkButton=()=>{
-    console.log("check mark")
+    //console.log("check mark")
     calcResult();
   }
 
   const finishButton=()=>{
-    console.log("finsh")
+    //console.log("finsh")
     setshowResult(false);
     close()
   }
@@ -220,8 +220,8 @@ style={
     index={[wordNum - 1]}
     setData={(arg) => {
       settestData(arg);
-      console.log("test");
-      console.log(JSON.stringify(arg));
+      //console.log("test");
+      //console.log(JSON.stringify(arg));
     }}
   />
 )}

@@ -42,7 +42,7 @@ const RecentDecksScreen= (props: RecentDecksScreenProps)=>{
     const unsubscribe = navigation.addListener('focus', () => {
       let array=[...getYourRecentDecks()]
       setDecks(array);
-      console.log("REEEEEEEELOOOOOADDADAD")
+      //console.log("REEEEEEEELOOOOOADDADAD")
 
     });
 
@@ -52,7 +52,7 @@ const RecentDecksScreen= (props: RecentDecksScreenProps)=>{
 
 const addDeckButton=async ()=>{
  
-  console.log("add button");
+  //console.log("add button");
    id=await createDeck();
    let array=[...getYourRecentDecks()]
   await setDecks(array);
@@ -62,10 +62,10 @@ const openDeck =(id)=>
 {
  
 
-  console.log('open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ')
-  console.log('open deck: ' + JSON.stringify(id))
+  //console.log('open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ')
+  //console.log('open deck: ' + JSON.stringify(id))
   
-  console.log('open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ')
+  //console.log('open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: open deck: ')
   props.navigation.navigate('DeckView',{
   deckId: id
   });
@@ -86,7 +86,7 @@ const openDeck =(id)=>
 <SafeAreaView>
 
 
-<View>
+<View style={{marginTop: "8%"}}>
 <FlatList 
 data={decks}
 renderItem={({ item }) => (

@@ -11,7 +11,7 @@ const FriendListElement=(props)=>{
     const navigation = useNavigation();
 
     const addContact=()=>{
-        console.log("add conatct")
+        //console.log("add conatct")
         props.addFunction();
     }
 

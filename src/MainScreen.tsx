@@ -30,7 +30,7 @@ const MainScreen=()=>{
    }
 
    useEffect(() => {
-       console.log("Mounted"); 
+       //console.log("Mounted"); 
        StatusBar.setTranslucent(true)
        StatusBar.setBarStyle('light-content');
       

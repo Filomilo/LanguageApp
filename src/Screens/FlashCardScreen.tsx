@@ -37,7 +37,7 @@ const [isFlipeed, setisFlipeed] = useState(false);
 const [isLoading, setIsLoading] = useState(true);
 
 const goBack=()=>{
-  console.log("go")
+  //console.log("go")
   _unsubscribe();
   props.navigation.goBack();
 
@@ -50,13 +50,13 @@ useEffect(() => {
   setIsLoading(true);
   setflashCardAmt(1);
   const unsubscribe = props.navigation.addListener('focus', () => {
-    console.log('(*******************************************');
+    //console.log('(*******************************************');
     const fetchData = async () => {
       await setflashCardData(props.route.params.deck.deck);
       await setflashCardNum(1);
       
-      console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEENNNNNNNNNNNNNNNNNNNNNNNNNN"+ "\n");
-      console.log(flashCardData);
+      //console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEENNNNNNNNNNNNNNNNNNNNNNNNNN"+ "\n");
+      //console.log(flashCardData);
       updateText();
     };
     fetchData();
@@ -81,7 +81,7 @@ const shuffleButton=()=>{
   
   let tmpFlashCarddata={...flashCardData};
   tmpFlashCarddata.cards=scarambleArrat(flashCardData.cards);
-  console.log(tmpFlashCarddata);
+  //console.log(tmpFlashCarddata);
  // arr = arr.filter(function (element) {
   //  return element !== undefined && element !== null ;
   //});
@@ -90,7 +90,7 @@ const shuffleButton=()=>{
 }
 const  returnButton=()=>{
   goBack();
-  console.log("return ")
+  //console.log("return ")
 }
 
 const updateText=()=>
@@ -98,9 +98,9 @@ const updateText=()=>
   let cards=flashCardData.cards.filter((element)=>{
     return element!==undefined
   })
-  console.log("__________________________________________")
-  console.log(JSON.stringify(flashCardData.cards));
-    console.log("__________________________________________")
+  //console.log("__________________________________________")
+  //console.log(JSON.stringify(flashCardData.cards));
+    //console.log("__________________________________________")
   if(!isReversed)
   setFlashCardText(cards[flashCardNum-1].word_1);
 else
@@ -128,7 +128,7 @@ const recerseswtich=(state)=>{
   const sensibility = 1.5;
 
 useEffect(()=>{
-  console.log("acc")
+  //console.log("acc")
   if (accc >= sensibility) {
     onShake();
 
@@ -136,13 +136,13 @@ useEffect(()=>{
 },[accc])
 
   const onShake=async ()=>{
-    console.log("---------------------------------------shake----------------------------" + isFlipeed)
+    //console.log("---------------------------------------shake----------------------------" + isFlipeed)
     await setisFlipeed(!isFlipeed)
-    //console.log("---------------------------------------shake===========================" + isFlipeed)
+    ////console.log("---------------------------------------shake===========================" + isFlipeed)
 
   }
   useEffect(() => {
-    console.log("---------------------------------------shake===========================" + isFlipeed);
+    //console.log("---------------------------------------shake===========================" + isFlipeed);
   }, [isFlipeed]);
   const _subscribe = () => {
     
@@ -153,7 +153,7 @@ useEffect(()=>{
     Accelerometer.setUpdateInterval(700);
     setSubscription(Accelerometer.addListener((data)=>{
       const acceleration = Math.sqrt(data.x * data.x + data.y * data.y + data.z * data.z);
-      console.log(acceleration)
+      //console.log(acceleration)
       setAccc(acceleration)
 
 
@@ -204,11 +204,11 @@ const  arrowLeftButton=()=>{
 
 const  arrowRightButton=()=>{
   setisFlipeed(false);
-  console.log("::::::::::::" + flashCardNum)
+  //console.log("::::::::::::" + flashCardNum)
   if(flashCardNum<flashCardAmt){
   setflashCardNum(flashCardNum+1);
   updateText();
-  console.log("::::::::::::" + flashCardNum)
+  //console.log("::::::::::::" + flashCardNum)
 }
 }
 const   flashCardClickButton=async ()=>{

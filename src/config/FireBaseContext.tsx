@@ -95,7 +95,7 @@ const FireBaseProvider = ({ children }) => {
       ) {
         setIsLoading(false);
       } else {
-        // console.log(JSON.stringify(usersList))
+        // //console.log(JSON.stringify(usersList))
         setIsLoading(true);
       }
     }
@@ -116,7 +116,7 @@ const FireBaseProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    // console.log("%%%%%%%%%%%%%%%%%% - " + activeUserNick);
+    // //console.log("%%%%%%%%%%%%%%%%%% - " + activeUserNick);
     if (activeUserNick != null) {
       const unsubscribe = onValue(getActiveUserRef(), (snapshot) => {
         if (snapshot.exists()) {
@@ -140,14 +140,14 @@ const FireBaseProvider = ({ children }) => {
             const data = snapshot.val();
             decksArray = data ? Object.values(data) : [];
             setActiveUserDecksList(decksArray);
-            // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-            //  console.log(getActiveUserRecentDecksRef())
-            //  console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            // //console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            //  //console.log(getActiveUserRecentDecksRef())
+            //  //console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
           } else {
-            console.error(
-              'active decks list data does not exist' +
-                JSON.stringify(getActiveUserRecentDecksRef())
-            );
+            //console.log(
+              //'active decks list data does not exist' +
+              //  JSON.stringify(getActiveUserRecentDecksRef())
+            //);
             setDecksList([]);
           }
         }
@@ -161,14 +161,14 @@ const FireBaseProvider = ({ children }) => {
             const data = snapshot.val();
             decksArray = data ? Object.values(data) : [];
             setUserStat(decksArray);
-            //  console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-            //  console.log(getActiveUserRecentDecksRef())
-            //  console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            //  //console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            //  //console.log(getActiveUserRecentDecksRef())
+            //  //console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
           } else {
-            console.error(
-              'active decks list data does not exist' +
-                JSON.stringify(getActiveUserStatRef())
-            );
+            //console.log(
+            //  'active decks list data does not exist' +
+          //     JSON.stringify(getActiveUserStatRef())
+            //);
             setDecksList([]);
           }
         }
@@ -187,26 +187,29 @@ const FireBaseProvider = ({ children }) => {
   };
 
   const logOut = async () => {
-    //console.log("FireBAse LOGut")
+    ////console.log("FireBAse LOGut")
     await auth.signOut();
     setWasRegistrtionSuccesful(false);
   };
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      // console.log('user',user);
+      // //console.log('user',user);
       setIsLogged(user ? true : false);
       if (user) updateActiveUser(user.displayName);
     });
   }, []);
 
   const fireBaseLogin = async (email: string, password: string) => {
-    try {
-      const response = await signInWithEmailAndPassword(auth, email, password);
-      // console.log(JSON.stringify(users));
-    } catch (err) {
-      throw JSON.stringify(err);
-    }
+    let res="22";
+    try{
+      const response = await signInWithEmailAndPassword(auth, email, password)
+      }
+      catch(err)
+      {
+        res=err.code;
+      }
+      return res;
   };
 
   const getActiveUserNick = (): string => {
@@ -233,8 +236,13 @@ const FireBaseProvider = ({ children }) => {
   };
 
   const createUser = async (nick: string) => {
-    const newIndx = usersList.length;
-    let newData = { ...usersList };
+
+    const userListsTmp=(await get(usersListRef)).val();
+   // //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+   // //console.log(JSON.stringify(userListsTmp));
+  
+    const newIndx = userListsTmp.length;
+    let newData = { ...userListsTmp };
     newData[newIndx] = {
       isSearchable: false,
       nick: nick,
@@ -242,12 +250,23 @@ const FireBaseProvider = ({ children }) => {
     };
     await updateUserList(newData);
 
+
+
     let newUserData = {
       isDarkMode: true,
       isTurnFlashCardsByShaking: false,
       index: newIndx,
     };
 
+
+    let empytArr={};
+    //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+   
+    await set(getActiveUserRecentDecksRef(),empytArr);
+    await set(getActiveUserStatRef(),empytArr);
+    await set(getActiveUserFriendListRef(),empytArr);
+    //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+   
     await setActiveUserNick(nick);
     await set(getUserRef(nick), newUserData).catch((err) => {
       console.error('Wrror when seData: ' + err);
@@ -286,7 +305,7 @@ const FireBaseProvider = ({ children }) => {
           const data = snapshot.val();
           friendsRequestArray = data ? Object.values(data) : [];
           setFriendListRequest(friendsRequestArray);
-          //console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + JSON.stringify(friendsRequestArray)+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+          ////console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + JSON.stringify(friendsRequestArray)+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         } else {
           console.error(
             'friends request data does not exist: ' + snapshot.toJSON()
@@ -302,12 +321,12 @@ const FireBaseProvider = ({ children }) => {
             const data = snapshot.val();
             friendsListArray = data ? Object.values(data) : [];
             setFriendList(friendsListArray);
-            // console.log("()()()()()()()())()()()()()()()())" + JSON.stringify(friendsListArray)+"()()()()()()()())()()()()()()()())")
+            // //console.log("()()()()()()()())()()()()()()()())" + JSON.stringify(friendsListArray)+"()()()()()()()())()()()()()()()())")
           } else {
-            console.error(
-              'friends list data does not exist' +
-                JSON.stringify(getActiveUserFriendListRef())
-            );
+            //console.log(
+         //     'friends list data does not exist' +
+         //       JSON.stringify(getActiveUserFriendListRef())
+         //   );
             setFriendList([]);
           }
         }
@@ -318,9 +337,9 @@ const FireBaseProvider = ({ children }) => {
         if (snapshot.exists()) {
           const data = snapshot.val();
           decksArray = data ? Object.values(data) : [];
-          //console.log("*******************************")
-          // console.log(decksArray)
-          //  console.log("*******************************")
+          ////console.log("*******************************")
+          // //console.log(decksArray)
+          //  //console.log("*******************************")
           setDecksList(decksArray);
         } else {
           console.error(
@@ -351,14 +370,14 @@ const FireBaseProvider = ({ children }) => {
 
             if (
               friendsListArray.find((element2) => {
-                // console.log("elemnt: " + element2.nick +"==="+element.nick);
+                // //console.log("elemnt: " + element2.nick +"==="+element.nick);
                 return element2.nick === element.nick;
               }) !== undefined
             ) {
               element.isFriend = true;
             } else element.isFriend = false;
           });
-          // console.log("setUSerList: "+ JSON.stringify(usersArray))
+          // //console.log("setUSerList: "+ JSON.stringify(usersArray))
           setUsersListWorkingCopy(usersArray);
         } else {
           console.error('userslist data does not exist');
@@ -386,19 +405,19 @@ const FireBaseProvider = ({ children }) => {
 
   const updateActiveUserData = async (newData) => {
     await update(getActiveUserRef(), newData).then(
-      console.log('data active user Udpated')
+      //console.log('data active user Udpated')
     );
   };
   const updateUserList = async (newData) => {
     await set(usersListRef, newData).then(
-      console.log('data user list Udpated')
+      //console.log('data user list Udpated')
     );
   };
 
   const getActiveProfilePic = (): string => {
-    // console.log("***********************************PRIFOLE PIC")
-    // console.log(JSON.stringify(activeUserData));
-    // console.log(JSON.stringify(usersList[activeUserData.index]));
+    // //console.log("***********************************PRIFOLE PIC")
+    // //console.log(JSON.stringify(activeUserData));
+    // //console.log(JSON.stringify(usersList[activeUserData.index]));
     try {
       return usersList &&
         activeUserData !== null &&
@@ -418,7 +437,7 @@ const FireBaseProvider = ({ children }) => {
       const newData = { ...activeUserData, isTurnFlashCardsByShaking: state };
       setActiveUserData(newData);
       updateActiveUserData(newData);
-      console.log("**********************************]\n"+JSON.stringify(activeUserData))
+      //console.log("**********************************]\n"+JSON.stringify(activeUserData))
     }
   };
   const setIsDarkMode = (state: boolean) => {
@@ -436,14 +455,14 @@ const FireBaseProvider = ({ children }) => {
       newData[activeUserData.index].isSearchable = state;
       setUsersList(newData);
 
-      //  console.log("srerachable updaet: " + JSON.stringify(usersList[activeUserData.index]));
-      //  console.log("srerachable updaet: " + JSON.stringify(newData[activeUserData.index]));
+      //  //console.log("srerachable updaet: " + JSON.stringify(usersList[activeUserData.index]));
+      //  //console.log("srerachable updaet: " + JSON.stringify(newData[activeUserData.index]));
       updateUserList(newData);
     }
   };
 
   const getIsSearchable = (): boolean => {
-    // console.log("&&&&&&&&&&&&&&&&&&&&"+JSON.stringify(usersList.length)+"%%%%%%%%%%%%%%%%%%%")
+    // //console.log("&&&&&&&&&&&&&&&&&&&&"+JSON.stringify(usersList.length)+"%%%%%%%%%%%%%%%%%%%")
     return usersList !== undefined &&
       activeUserData !== undefined &&
       usersList[activeUserData.index] !== undefined
@@ -458,10 +477,10 @@ const FireBaseProvider = ({ children }) => {
   };
 
   const getFriendsRequests = () => {
-    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-    console.log(JSON.stringify(friendListRequest));
+    //console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+    //console.log(JSON.stringify(friendListRequest));
 
-    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+    //console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
 
     let arrayReuest = friendListRequest.filter((element) => {
       return element.to === activeUserNick && !element.isFriend;
@@ -474,10 +493,10 @@ const FireBaseProvider = ({ children }) => {
 
   const getYourFriends = () => {
     let array = friendList;
-    console.log("********************************")
-    console.log(array)
+    //console.log("********************************")
+    //console.log(array)
 
-    console.log("********************************")
+    //console.log("********************************")
 
     array.forEach((element) => {
       element.profilePic = usersListWorkingCopy[element.index].profilePic;
@@ -520,14 +539,14 @@ const FireBaseProvider = ({ children }) => {
     res.sort((a, b) => {
       return a.last_used - b.last_used;
     });
-    console.log(
-      'res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res '
-    );
+    //console.log(
+   //   'res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res '
+    //);
 
-    console.log(res);
-    console.log(
-      'res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res '
-    );
+    //console.log(res);
+    //console.log(
+  //    'res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res res '
+   // );
 
     return res;
   };
@@ -541,7 +560,7 @@ const FireBaseProvider = ({ children }) => {
   };
 
   const getStatData = () => {
-    // console.log("Data: " + 33)
+    // //console.log("Data: " + 33)
 
     let date: Date = new Date();
     let data = {};
@@ -561,7 +580,7 @@ const FireBaseProvider = ({ children }) => {
       );
       let val = 0;
       userStat.forEach((element) => {
-        //    console.log(new String (currDate.getFullYear()+"-"+currDate.getMonth()+"-"+currDate.getDate())+"==="+element.date)
+        //    //console.log(new String (currDate.getFullYear()+"-"+currDate.getMonth()+"-"+currDate.getDate())+"==="+element.date)
         if (
           new String(
             currDate.getFullYear() +
@@ -571,7 +590,7 @@ const FireBaseProvider = ({ children }) => {
               currDate.getDate()
           ) == element.date
         ) {
-          console.log('corret');
+          //console.log('corret');
           val += element.amt;
         }
       });
@@ -589,9 +608,9 @@ const FireBaseProvider = ({ children }) => {
     //datasetObject.data = [1, 2, 3, 4, 5,6,7];
     data.datasets.push(datasetObject);
 
-    //  console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-    //  console.log(JSON.stringify(data));
-    //  console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+    //  //console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+    //  //console.log(JSON.stringify(data));
+    //  //console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
 
     /* data = {
         labels: [new String(date.getMonth()+"."+date.getDate()), "", "", "", "", "", ""],
@@ -606,7 +625,7 @@ const FireBaseProvider = ({ children }) => {
   };
 
   const getIsCapableOfEdit = (id: number) => {
-    // console.log(decksList[id].author+ "===" + activeUserNick);
+    // //console.log(decksList[id].author+ "===" + activeUserNick);
     return decksList[id].author === activeUserNick;
   };
 
@@ -616,12 +635,12 @@ const FireBaseProvider = ({ children }) => {
       const unsubscribe = onValue(
         getDeckDataRef(id),
         (snapshot) => {
-          //console.log('OPEN ' + id);
+          ////console.log('OPEN ' + id);
           if (snapshot.exists()) {
             const data = snapshot.val();
-            // console.log('^^^^^^^^^^^^^^^^^');
+            // //console.log('^^^^^^^^^^^^^^^^^');
 
-            //   console.log(data);
+            //   //console.log(data);
             unsubscribe();
             resolve(data);
           } else {
@@ -640,20 +659,20 @@ const FireBaseProvider = ({ children }) => {
       );
     });
 
-    //console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££');
-    // console.log(DeckData);
+    ////console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££');
+    // //console.log(DeckData);
     DeckData.name = decksList[DeckData.index].name;
     DeckData.lang_1 = decksList[DeckData.index].lang_1;
     DeckData.lang_2 = decksList[DeckData.index].lang_2;
     DeckData.visibilty = decksList[DeckData.index].visibilty;
-    //console.log(DeckData);
-    // console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££');
+    ////console.log(DeckData);
+    // //console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££');
 
     return DeckData;
   };
 
   const createDeck = async () => {
-    //console.log("deck creation");
+    ////console.log("deck creation");
     let id = uuid.v4();
     let newlistData = {
       ID: id,
@@ -687,14 +706,14 @@ const FireBaseProvider = ({ children }) => {
         const data = snapshot.val();
         decksArray = data ? Object.values(data) : [];
         setActiveUserDecksList(decksArray);
-        //  console.log(getActiveUserRecentDecksRef())
-        console.log(
-          'tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList '
-        );
-        console.log(decksArray);
-        console.log(
-          'tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList '
-        );
+        //  //console.log(getActiveUserRecentDecksRef())
+        //console.log(
+        //  'tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList '
+     //   );
+        //console.log(decksArray);
+        //console.log(
+       //   'tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList tmprecetnDeckList '
+       // );
       }
     });
 
@@ -735,10 +754,10 @@ const FireBaseProvider = ({ children }) => {
         return element !== undefined && element !== null ;
       });
   
-      console.log("arr arr arr arr arr arr arr arr arr arr arr arr arr ")
-      console.log(JSON.stringify(arr));
+      //console.log("arr arr arr arr arr arr arr arr arr arr arr arr arr ")
+      //console.log(JSON.stringify(arr));
 
-      console.log("arr arr arr arr arr arr arr arr arr arr arr arr arr ")
+      //console.log("arr arr arr arr arr arr arr arr arr arr arr arr arr ")
 
     return arr;
   }
@@ -782,7 +801,7 @@ const FireBaseProvider = ({ children }) => {
       let arraytmp = [...nawsers];
       arraytmp = scarambleArrat(arraytmp);
 
-      console.log(nawsers);
+      //console.log(nawsers);
       let anwsersObject = [];
       let i = 0;
       let correct = -1;
@@ -792,8 +811,8 @@ const FireBaseProvider = ({ children }) => {
             correct = i;
           }
 
-          console.log(closeduestionWords);
-          console.log(element2);
+          //console.log(closeduestionWords);
+          //console.log(element2);
           let enrty = { value: cards[element2].word_2, id: i++ };
           anwsersObject.push(enrty);
         }
@@ -836,13 +855,13 @@ const FireBaseProvider = ({ children }) => {
 
 
   const uploadNewFile=async (uri: string)=>{
-    console.log(uri);
+    //console.log(uri);
 
 
     try {
       const response = await fetch(uri);
       const blob = await response.blob();
-      console.log(JSON.stringify(blob));
+      //console.log(JSON.stringify(blob));
 
 const uniqueFilename = `${uuid.v4()}.jpeg`;
 const storageReferance= storageRef(storage,"images/"+uniqueFilename);
@@ -874,7 +893,7 @@ const storageReferance= storageRef(storage,"images/"+uniqueFilename);
   }
 
 const getShouldShake=()=>{
-  console.log("(((((((((((((((((((((((((((((((((("+activeUserData.isTurnFlashCardsByShaking+"))))))))))))))))")
+  //console.log("(((((((((((((((((((((((((((((((((("+activeUserData.isTurnFlashCardsByShaking+"))))))))))))))))")
   return activeUserData.isTurnFlashCardsByShaking;
 }
 const getContactInfo=async (id)=>{
@@ -891,7 +910,7 @@ const getContactInfo=async (id)=>{
 
 
 
-  console.log(JSON.stringify(decskDaa));
+  //console.log(JSON.stringify(decskDaa));
  
    return userData;
 }
@@ -909,17 +928,17 @@ const getUserRecentDecks = async (nick) => {
   await get(getUserRecentDecksRef(nick)).then((snapshot) => {
     if (snapshot.exists()) {
       decks  = snapshot.val();
-      console.log('Data:', decks);
+      //console.log('Data:', decks);
     } else {
-      console.log('No data available');
+      //console.log('No data available');
     }
   }).catch((error) => {
     console.error('Error getting data:', error);
   });
 
-  console.log("###############################################")
-  console.log(decks)
-  console.log("###############################################")
+  //console.log("###############################################")
+  //console.log(decks)
+  //console.log("###############################################")
 
 
 
@@ -968,15 +987,15 @@ const getUserRecentDecks = async (nick) => {
     else
     {
 
-      console.log("UserdataFrinedListUserdataFrinedListUserdataFrinedListUserdataFrinedListUserdataFrinedList");
+      //console.log("UserdataFrinedListUserdataFrinedListUserdataFrinedListUserdataFrinedListUserdataFrinedList");
 
-      console.log(UserdataFrinedList);
-      console.log("UserdataFrinedListUserdataFrinedListUserdataFrinedListUserdataFrinedListUserdataFrinedList");
+      //console.log(UserdataFrinedList);
+      //console.log("UserdataFrinedListUserdataFrinedListUserdataFrinedListUserdataFrinedListUserdataFrinedList");
 
      arrayList=(UserdataFrinedList.val());
      arrayList.push(newEntry);
     }
-    console.log(arrayList);
+    //console.log(arrayList);
 
 
 
@@ -991,7 +1010,7 @@ const getUserRecentDecks = async (nick) => {
       await addFriend(from,activeUserNick);
       declineFriendsRequest(from);
      
-    console.log("accepting from: "+from )
+    //console.log("accepting from: "+from )
   }
 
 
@@ -1004,40 +1023,42 @@ const getUserRecentDecks = async (nick) => {
           const indx=tmp.indexOf(elemntTODelete);
           tmp.splice(indx,1);
           setFriendListRequest(tmp);
-          await set(friendsRequestListRef, tmp).then(()=>{console.log('friendsRequestListRef Udpated')});
+          await set(friendsRequestListRef, tmp).then(()=>{//console.log('friendsRequestListRef Udpated')
+          });
       
 
 
 
-    console.log("decline from: "+from )
+    //console.log("decline from: "+from )
     
 
   }
 
   const sendFriendRequest=async (to: string)=>{
     //todo: implement
-    console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-    console.log(usersList)
+    //console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    //console.log(usersList)
     usersList.forEach((element)=>{
       if(element.nick===to)
       {
-        console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-        console.log(element)
-        console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        //console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        //console.log(element)
+        //console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
         element.alreadySendRequest=true;
       }
     })
 let tmp=[...friendListRequest];
-//console.log(JSON.stringify(tmp));
+////console.log(JSON.stringify(tmp));
 
 const newObj={from: activeUserNick, fromIndx: activeUserData.index, to: to};
     tmp.push(newObj);
 
     setFriendListRequest(tmp);
-    await set(friendsRequestListRef, tmp).then(()=>{console.log('friendsRequestListRef Udpated')});
+    await set(friendsRequestListRef, tmp).then(()=>{//console.log('friendsRequestListRef Udpated')
+    });
 
-    console.log("sending friend request to from: "+to )
+    //console.log("sending friend request to from: "+to )
   }
 
   return (

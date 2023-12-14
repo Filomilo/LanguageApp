@@ -68,16 +68,16 @@ const CameraScreen = (props) => {
     }
   
     function toggleCameraType() {
-      console.log("camera toggle")
+      //console.log("camera toggle")
       setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
     }
   
     const takePhoto=async ()=>{
-      console.log("take photo");
+      //console.log("take photo");
       if (cameraRef) {
         let photo = await cameraRef.takePictureAsync();
         if (photo) {
-          console.log(JSON.stringify(photo))
+          //console.log(JSON.stringify(photo))
           props.navigation.navigate('FilePicker',{uri: photo.uri});
 
         }

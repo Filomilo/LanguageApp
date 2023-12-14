@@ -32,14 +32,11 @@ const LoginScreen= (props: LoginScreenProps)=>{
 
   const Login=async () => {
     //todo login
-    try{
-      console.log("LOING\n")
-      fireBaseLogin(email,password)
-    }
-    catch(err)
-    {
-      setError(JSON.stringify(err))
-    }
+ 
+      //console.log("LOING\n")
+      const res=await fireBaseLogin(email,password);
+      setError(res);
+  
   }
 
 

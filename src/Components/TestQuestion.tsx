@@ -18,21 +18,21 @@ const TestQuestion=(props)=>{
     const [selectedID,setselectedID]= useState(props.data[props.index].selected);
     
     useEffect(()=>{
-        console.log('chanage: s' + props.index)
+        //console.log('chanage: s' + props.index)
         setselectedID(props.data[props.index].selected)
         setInputField( props.data[props.index].filled)
     },props.index)
     
     const setText=(txt)=>{
         setInputField(txt)
-        console.log(txt)
+        //console.log(txt)
         props.data[props.index].filled=txt;
         props.setData(props.data);
     }
 
 
     const selectItem=(id)=>{
-        console.log(id)
+        //console.log(id)
         setselectedID(id)
         props.data[props.index].selected=id;
         props.setData(props.data);

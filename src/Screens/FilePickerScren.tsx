@@ -19,10 +19,10 @@ const FilePickerScren=(props)=> {
   useEffect(()=>{
     setStatsusCommunicate("");
     setImage(null)
-    console.log("USEFFFFFFFFFFFFFFFFCT")
+    //console.log("USEFFFFFFFFFFFFFFFFCT")
     if(props.route.params){
     setIsLoading(true)
-console.log(JSON.stringify(props))
+//console.log(JSON.stringify(props))
 setImage(props.route.params.uri)
       setIsLoading(false);
 }
@@ -38,7 +38,7 @@ setImage(props.route.params.uri)
       quality: 1,
     });
 
-    console.log(result);
+    //console.log(result);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
@@ -47,7 +47,7 @@ setImage(props.route.params.uri)
 
 
   const accpet=async ()=>{
-    console.log("accpet")
+    //console.log("accpet")
     setIsLoading(true)
     if( await uploadNewFile(image))
     {
@@ -63,7 +63,7 @@ setImage(props.route.params.uri)
   }
 
   const decline=()=>{
-    console.log("decline")
+    //console.log("decline")
     setImage(null);
     if(props.route.params)
     {
