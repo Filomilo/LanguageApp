@@ -39,15 +39,14 @@ const FireBaseProvider = ({ children }) => {
   const getActiveUserRecentDecksRef = () => {
     // if(activeUserNick===null)
     // throw("error couldnt retive nick")
-    return ref(db, 'decks/deck_usage/' + activeUserNick);
+    return ref(db, '/decks/deck_usage/' + activeUserNick);
   };
 
   const getUserRecentDecksRef = (nick) => {
     // if(activeUserNick===null)
     // throw("error couldnt retive nick")
-    return ref(db, 'decks/deck_usage/' + nick);
+    return ref(db, '/decks/deck_usage/' + nick);
   };
-
   const getActiveUserStatRef = () => {
     return ref(db, '/users/userStat/flashCards/' + activeUserNick);
   };
@@ -1061,6 +1060,48 @@ const newObj={from: activeUserNick, fromIndx: activeUserData.index, to: to};
     //console.log("sending friend request to from: "+to )
   }
 
+
+  const setLastUsed=async (deck)=>
+  {
+    const date=new Date();
+   
+    //let deckData=decksList[deck.index];
+    //console.log(JSON.stringify(deckData));
+
+
+
+    let newEntry={
+      index: deck.index,
+      last_used: date.toISOString(),
+      name: deck.name
+    }
+    
+
+    let activeDeckCopy=(await get(getActiveUserRecentDecksRef())).val();
+    console.log(JSON.stringify(activeDeckCopy));
+
+    let entryInDeckList=activeDeckCopy.find((elem)=> elem.index===deck.index );
+    if(entryInDeckList!==undefined)
+    {
+      let indx=activeDeckCopy.indexOf(entryInDeckList);
+      activeDeckCopy[indx]=newEntry;
+    }
+    else
+    {
+      activeDeckCopy.push(newEntry);
+    }
+
+    //console.log("new entry: "+ activeDeckCopy);
+    console.log(JSON.stringify(activeDeckCopy));
+   let newData={activeDeckCopy};
+   
+     await set(getActiveUserRecentDecksRef(), JSON.parse(JSON.stringify(activeDeckCopy)));
+     setActiveUserDecksList(activeDeckCopy);
+    
+    //let entryToReplace=activeUserDecksList.find((elem)=> elem.)
+    console.log("set last used: "+ JSON.stringify( activeDeckCopy));
+  }
+
   return (
     <FireBaseContext.Provider
       value={{
@@ -1100,7 +1141,8 @@ const newObj={from: activeUserNick, fromIndx: activeUserData.index, to: to};
         getContactInfo,
         acceptFriendsRequest,
         declineFriendsRequest,
-        sendFriendRequest
+        sendFriendRequest,
+        setLastUsed
       }}
     >
       {children}

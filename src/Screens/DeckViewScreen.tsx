@@ -48,7 +48,7 @@ interface DeckViewScreenProps {
 }
 
 const DeckViewScreen = (props) => {
-  const { getDeckData, saveDeckData, getIsCapableOfEdit } =
+  const { getDeckData, saveDeckData, getIsCapableOfEdit,setLastUsed } =
     useContext(FireBaseContext);
   const [deckData, setDeckData] = useState({ name: '' });
 
@@ -143,12 +143,14 @@ const goBack=()=>{
   };
 
   const openFlashCards = () => {
-    //console.log('openFlashCards');
+    setLastUsed(deckData);
+    console.log('openFlashCards');
     setModalVisible(false);
     let deck={...deckData};
     //console.log("new dekc opne flashcarada          new dekc opne flashcarada     new dekc opne flashcarada     new dekc opne flashcarada     new dekc opne flashcarada ")
     //console.log(deck)
     //console.log("new dekc opne flashcarada          new dekc opne flashcarada     new dekc opne flashcarada     new dekc opne flashcarada     new dekc opne flashcarada ")
+    
     props.navigation.navigate('FlashCards',{"deck": {deck}});
   };
   const openTest = () => {
@@ -378,7 +380,7 @@ const goBack=()=>{
       style={{
         position: 'absolute',
         width: width,
-        height: height,
+        height: height*0.92,
         flex: 1,
         
       }}
