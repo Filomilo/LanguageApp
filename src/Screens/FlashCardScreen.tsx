@@ -26,7 +26,7 @@ const Tab = createMaterialTopTabNavigator();
 
 
 const FlashCardScreen= (props)=>{
-const {scarambleArrat,getShouldShake} = useContext(FireBaseContext);
+const {scarambleArrat,getShouldShake, increaseAmtOFFlahsCardLearnt} = useContext(FireBaseContext);
 
 const [flashCardText, setFlashCardText]= useState("-");
 const [flashCardNum, setflashCardNum]= useState(1);
@@ -35,12 +35,22 @@ const [flashCardAmt, setflashCardAmt]= useState(1);
 const [isReversed, setisReversed] = useState(false);
 const [isFlipeed, setisFlipeed] = useState(false);
 const [isLoading, setIsLoading] = useState(true);
-
+const [flashCardLeaend,setFlashCardLeaend] = useState(1);
 const goBack=()=>{
   //console.log("go")
   _unsubscribe();
   props.navigation.goBack();
 
+}
+
+const increaseLeanrt=async ()=>
+{
+  if(flashCardNum>flashCardLeaend)
+  {
+   
+    await setFlashCardLeaend(flashCardNum);
+    console.log(flashCardNum)
+  }
 }
 
 
@@ -64,7 +74,7 @@ useEffect(() => {
     
   });
 
-  return ()=>{unsubscribe();};
+  return ()=>{unsubscribe();   increaseAmtOFFlahsCardLearnt(flashCardLeaend);};
 }, [props.route]);
 
 
@@ -144,6 +154,9 @@ useEffect(()=>{
   useEffect(() => {
     //console.log("---------------------------------------shake===========================" + isFlipeed);
   }, [isFlipeed]);
+
+
+
   const _subscribe = () => {
     
     if(!getShouldShake()){
@@ -172,9 +185,10 @@ useEffect(()=>{
     React.useCallback(() => {
       // Do something when the screen is focused
       _subscribe();
- 
+
+      setFlashCardLeaend(1)
       return () => {
-     
+          increaseAmtOFFlahsCardLearnt(flashCardLeaend)
         _unsubscribe()
       };
     }, [])
@@ -208,6 +222,7 @@ const  arrowRightButton=()=>{
   if(flashCardNum<flashCardAmt){
   setflashCardNum(flashCardNum+1);
   updateText();
+  increaseLeanrt();
   //console.log("::::::::::::" + flashCardNum)
 }
 }

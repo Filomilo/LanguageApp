@@ -1102,6 +1102,11 @@ const newObj={from: activeUserNick, fromIndx: activeUserData.index, to: to};
     console.log("set last used: "+ JSON.stringify( activeDeckCopy));
   }
 
+
+  const increaseAmtOFFlahsCardLearnt=(amtOfFlashCards: number)=>{
+    console.log("Increaing flash cards: "+amtOfFlashCards);
+  }
+
   return (
     <FireBaseContext.Provider
       value={{
@@ -1142,7 +1147,8 @@ const newObj={from: activeUserNick, fromIndx: activeUserData.index, to: to};
         acceptFriendsRequest,
         declineFriendsRequest,
         sendFriendRequest,
-        setLastUsed
+        setLastUsed,
+        increaseAmtOFFlahsCardLearnt
       }}
     >
       {children}
