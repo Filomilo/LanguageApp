@@ -418,6 +418,14 @@ const FireBaseProvider = ({ children }) => {
 
       return true;
     });
+
+
+    console.log("sort: "+ sortby)
+    if(sortby==="amount of cards"){
+     
+      res.sort((a,b)=> b.amt_of_cards-a.amt_of_cards)
+    }
+   // console.log("res: "+JSON.stringify(res))
     return res;
   };
 

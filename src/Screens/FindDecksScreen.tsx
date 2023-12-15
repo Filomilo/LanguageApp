@@ -67,7 +67,7 @@ const testData = [
 
   const applyFilter=()=> {
     console.log("apply filter");
-    updateDeckData();
+    
     setIsShowFilterModal(false);
   }
 
@@ -85,10 +85,15 @@ const testData = [
     console.log("onSetLangFilter_2: "+ JSON.stringify(data));
     setLangaugeFilter_2(data.label);
   }
-  const onSetSortMethod=(data)=>{
+  const onSetSortMethod=async (data)=>{
     console.log("onSetSortMethod: "+ JSON.stringify(data));
     setSortBy(data.label);
+    
   }
+
+  useEffect((()=>{
+    updateDeckData();
+  }),[sortyBy])
 
   const updateDeckData=async ()=>
   {
@@ -273,7 +278,7 @@ style={[
                   ]
                   }   
                   selectedTextStyle={[styles.langageText,DarkModeColors.primaryColorText, {fontSize: height*0.025}]}
-                  value=  {'popularity'} 
+                  value=  {sortyBy} 
 itemContainerStyle={ [ DarkModeColors.BackGroundColor]}
 itemTextStyle={[DarkModeColors.MainTextColor, {fontSize: height*0.025}]}
 activeColor={darkModeTextInputColor}
