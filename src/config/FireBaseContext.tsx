@@ -1103,8 +1103,55 @@ const newObj={from: activeUserNick, fromIndx: activeUserData.index, to: to};
   }
 
 
-  const increaseAmtOFFlahsCardLearnt=(amtOfFlashCards: number)=>{
+  const getDateFormatted=(date :Date)=>
+  {
+    let formatted= new String();
+    formatted+= date.getFullYear().toString();
+    formatted+= "-";
+    formatted+= date.getMonth().toString();
+    formatted+= "-";
+    formatted+= date.getDate().toString();
+console.log("date: "+ formatted);
+return formatted;
+  }
+
+  const increaseAmtOFFlahsCardLearnt= async (amtOfFlashCards: number)=>{
     console.log("Increaing flash cards: "+amtOfFlashCards);
+
+
+
+    let date: Date = new Date();
+    let dateString= getDateFormatted(date);
+    console.log("dateString: "+ dateString)
+    const dataStat : any[]=(await get(getActiveUserStatRef())).val();
+    console.log("dataStat: "+JSON.stringify(dataStat));
+
+    let found=dataStat.find((elemnt)=>elemnt.date===dateString);
+    if(found==undefined)
+    {
+      const netEntry={
+        amt: amtOfFlashCards,
+        "date": dateString
+      }
+
+      console.log("netEntry: "+ JSON.stringify(netEntry));
+      dataStat.push(netEntry);
+    }
+    else{
+      let indx=dataStat.indexOf(found);
+      console.log("found : "+ JSON.stringify(dataStat[indx]));
+      
+      dataStat[indx].amt+=amtOfFlashCards;
+    }
+    console.log("dataStat: "+JSON.stringify(dataStat));
+    await set((getActiveUserStatRef()),JSON.parse(JSON.stringify(dataStat)));
+
+
+
+
+
+
+
   }
 
   return (

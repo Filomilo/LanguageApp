@@ -59,13 +59,14 @@ const increaseLeanrt=async ()=>
 useEffect(() => {
   setIsLoading(true);
   setflashCardAmt(1);
+
   const unsubscribe = props.navigation.addListener('focus', () => {
     //console.log('(*******************************************');
     const fetchData = async () => {
       await setflashCardData(props.route.params.deck.deck);
       await setflashCardNum(1);
-      
-      //console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEENNNNNNNNNNNNNNNNNNNNNNNNNN"+ "\n");
+  
+      console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEENNNNNNNNNNNNNNNNNNNNNNNNNN"+ "\n");
       //console.log(flashCardData);
       updateText();
     };
@@ -178,7 +179,11 @@ useEffect(()=>{
 
 
 
-
+  const updateFlsHCardAmt =async ()=>
+  {
+await  increaseAmtOFFlahsCardLearnt(flashCardLeaend);
+await setFlashCardLeaend(1);
+  }
 
 
   useFocusEffect(
@@ -186,9 +191,10 @@ useEffect(()=>{
       // Do something when the screen is focused
       _subscribe();
 
-      setFlashCardLeaend(1)
+     // setFlashCardLeaend(1)
       return () => {
-          increaseAmtOFFlahsCardLearnt(flashCardLeaend)
+        updateFlsHCardAmt();
+        
         _unsubscribe()
       };
     }, [])
