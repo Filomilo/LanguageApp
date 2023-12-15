@@ -395,9 +395,28 @@ const FireBaseProvider = ({ children }) => {
 
   const friendsRequestListRef = ref(db, '/users/friends/requests');
 
-  const getFindDeck = () => {
+  const getFindDeck = (sortby, filterLang1, filterLang2) => {
+    console.log("data: "+JSON.stringify(decksList));
+
+    //if(sortby===undefined)
+    //return [];
+ 
     let res: any[] = decksList.filter((element) => {
-      return element.visibilty;
+      if(!element.visibilty)
+        return false
+        if(filterLang1!==undefined && filterLang1!=="-")
+        {
+           if(element.lang_1!==filterLang1)
+           return false
+        }
+
+        if(filterLang2!==undefined && filterLang2!=="-")
+        {
+           if(element.lang_2!==filterLang2)
+           return false
+        }
+
+      return true;
     });
     return res;
   };

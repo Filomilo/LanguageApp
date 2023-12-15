@@ -21,17 +21,23 @@ import { FireBaseContext } from '../config/FireBaseContext';
 const Tab = createMaterialTopTabNavigator();
 
 
+
+
 interface FindDecksScreenProps{
   navigation: any;
 }
 
 const FindDecksScreen= (props: FindDecksScreenProps)=>{
 
+
+
 const {getFindDeck} = useContext(FireBaseContext); 
 
-  const [decks, setDecks] = useState(getFindDeck()); 
+  const [decks, setDecks] = useState([]); 
   const [isShowFilterModal, setIsShowFilterModal] = useState(false); 
-
+  const [lngaugeFilter_1, setLangaugeFilter_1] = useState("-")
+  const [lngaugeFilter_2, setLangaugeFilter_2] = useState("-")
+  const [sortyBy, setSortBy] = useState("popularity")
   const navigation=useNavigation();
 
   const openDeck =(id)=>
@@ -48,7 +54,7 @@ useEffect(() => {
   const unsubscribe = navigation.addListener('focus', () => {
    
 
-    setDecks(getFindDeck())
+    updateDeckData();
   });
 
   return unsubscribe;
@@ -60,7 +66,8 @@ const testData = [
 ];
 
   const applyFilter=()=> {
-    //console.log("apply filter");
+    console.log("apply filter");
+    updateDeckData();
     setIsShowFilterModal(false);
   }
 
@@ -70,12 +77,30 @@ const testData = [
     setIsShowFilterModal(true);
   }
 
+  const onSetLangFilter_1=(data)=>{
+    console.log("onSetLangFilter_1: "+ JSON.stringify(data));
+    setLangaugeFilter_1(data.label);
+  }
+  const onSetLangFilter_2=(data)=>{
+    console.log("onSetLangFilter_2: "+ JSON.stringify(data));
+    setLangaugeFilter_2(data.label);
+  }
+  const onSetSortMethod=(data)=>{
+    console.log("onSetSortMethod: "+ JSON.stringify(data));
+    setSortBy(data.label);
+  }
+
+  const updateDeckData=async ()=>
+  {
+     setDecks(getFindDeck(sortyBy,lngaugeFilter_1,lngaugeFilter_2))
+  }
+
 
   useFocusEffect(
     React.useCallback(() => {
     
       console.log("reeload");
-      setDecks(getFindDeck());
+      setDecks(getFindDeck(sortyBy,lngaugeFilter_1,lngaugeFilter_2));
       return () => {
   
       };
@@ -142,7 +167,7 @@ style={styles.statText}
    data={languages}
    labelField="label"
    valueField="label"
-    onChange={()=>{//console.log('needs implemation')
+    onChange={(data)=>{onSetLangFilter_1(data);
     }}
 style={[
                     styles.langageText,
@@ -155,7 +180,7 @@ style={[
                   ]
                   }   
                   selectedTextStyle={[styles.langageText,DarkModeColors.primaryColorText, {fontSize: height*0.025}]}
-                  value=  {'pl'} 
+                  value=  {lngaugeFilter_1} 
 itemContainerStyle={ [ DarkModeColors.BackGroundColor]}
 itemTextStyle={[DarkModeColors.MainTextColor, {fontSize: height*0.025}]}
 activeColor={darkModeTextInputColor}
@@ -171,7 +196,7 @@ style={styles.statText}
    data={languages}
    labelField="label"
    valueField="label"
-    onChange={()=>{//console.log('needs implemation')
+    onChange={(data)=>{onSetLangFilter_2(data);
     }}
 style={[
                     styles.langageText,
@@ -184,7 +209,7 @@ style={[
                   ]
                   }   
                   selectedTextStyle={[styles.langageText,DarkModeColors.primaryColorText, {fontSize: height*0.025}]}
-                  value=  {'pl'} 
+                  value=  {lngaugeFilter_2} 
 itemContainerStyle={ [ DarkModeColors.BackGroundColor]}
 itemTextStyle={[DarkModeColors.MainTextColor, {fontSize: height*0.025}]}
 activeColor={darkModeTextInputColor}
@@ -235,7 +260,7 @@ style={{
    data={testData}
    labelField="label"
    valueField="label"
-    onChange={()=>{//console.log('needs implemation')
+    onChange={(data)=>{onSetSortMethod(data)
     }}
 style={[
                     styles.langageText,
