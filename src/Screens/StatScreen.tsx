@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { DarkModeColors, darkModeBackgroundColor, darkModePrimaryColor, styles, width } from '../Styles';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -14,6 +14,7 @@ import RecentDecksScreen from './RecentDecksScreen';
 import FindDecksScreen from './FindDecksScreen';
 import {BarChart} from "react-native-chart-kit";
 import { FireBaseContext } from '../config/FireBaseContext';
+import LoadingScreen from './LoadingScreen';
 
 interface StatScreenProps{
   navigation: any;
@@ -25,13 +26,29 @@ const StatScreen= (props: StatScreenProps)=>{
 
 const {getAmtOfDecks,getAvgFlashCards, getStatData}= useContext(FireBaseContext);
 
-const statData=getStatData();
-
+const[statData,setStatData]= useState(undefined);
+const [isLoading,setIsLoading] = useState(false);
   const avgFlashCard=getAvgFlashCards();
   const amtOfDecks=getAmtOfDecks();
 
 
+  const updateData=async ()=>{
+    //await setIsLoading(true);
+    setStatData(await getStatData());
+   // await setIsLoading(false);
+  }
 
+  useFocusEffect(
+    React.useCallback(() => {
+    
+      //console.log("reeload");
+      
+      updateData();
+      return () => {
+  
+      };
+    }, [])
+  );
 
 
 
@@ -49,22 +66,30 @@ style={styles.verticalContainer}
 
   <View
   style={{alignContent: 'center',marginTop: "3%", width: width, justifyContent: 'center', alignItems: 'center'}}>
-  <BarChart
-        data={statData}
-        width={width*0.9}
-        height={200}
-        yAxisLabel=""
-        yAxisSuffix=' cards'
-        xAxisLabel=''
-        xLabelsOffset={2}
-        chartConfig={{
-          backgroundGradientFrom: darkModeBackgroundColor,
-          backgroundGradientTo: darkModeBackgroundColor,
-          color: (opacity = 1) => `${darkModePrimaryColor}`,
-          decimalPlaces: 0,
-          
-        }}
-      />
+  
+  {statData!==undefined ? (
+   <BarChart
+   data={statData}
+   width={width * 0.9}
+   height={200}
+   yAxisLabel=""
+   yAxisSuffix=" cards"
+   xAxisLabel=""
+   xLabelsOffset={2}
+   chartConfig={{
+     backgroundGradientFrom: darkModeBackgroundColor,
+     backgroundGradientTo: darkModeBackgroundColor,
+     color: (opacity = 1) => `${darkModePrimaryColor}`,
+     decimalPlaces: 0,
+   }}
+ />
+  
+) : (
+  <Text style={DarkModeColors.MainTextColor}>No data available</Text>
+)}
+
+
+  
       </View>
 
         <Text

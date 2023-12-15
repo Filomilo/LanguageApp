@@ -99,7 +99,11 @@ const shuffleButton=()=>{
   setflashCardData(tmpFlashCarddata);
   updateText();
 }
-const  returnButton=()=>{
+const  returnButton= async ()=>{
+ 
+  console.log("flashCardLeaend: "+flashCardLeaend)
+  await updateFlsHCardAmt();
+ 
   goBack();
   //console.log("return ")
 }
@@ -192,9 +196,8 @@ await setFlashCardLeaend(1);
       _subscribe();
 
      // setFlashCardLeaend(1)
-      return () => {
-        updateFlsHCardAmt();
-        
+      return async () => {
+
         _unsubscribe()
       };
     }, [])

@@ -2,7 +2,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { FlatList, Modal, StyleSheet, Text, View,TouchableOpacity } from 'react-native';
 import { DarkModeColors, darkModeHeaderColor, darkModePrimaryColor, darkModeTextInputColor, height, styles, width } from '../Styles';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect, useNavigation } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
@@ -69,6 +69,20 @@ const testData = [
     //console.log("show filter");
     setIsShowFilterModal(true);
   }
+
+
+  useFocusEffect(
+    React.useCallback(() => {
+    
+      console.log("reeload");
+      setDecks(getFindDeck());
+      return () => {
+  
+      };
+    }, [])
+  );
+
+
   return (
 
 

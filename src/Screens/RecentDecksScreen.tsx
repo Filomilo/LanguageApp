@@ -1,7 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar, setStatusBarHidden } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { DarkModeColors, darkModePrimaryColor, height, styles, width } from '../Styles';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect, useNavigation } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
 import React, { useContext, useEffect, useState } from 'react';
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
@@ -42,7 +42,7 @@ const RecentDecksScreen= (props: RecentDecksScreenProps)=>{
     const unsubscribe = navigation.addListener('focus', () => {
       let array=[...getYourRecentDecks()]
       setDecks(array);
-      console.log("REEEEEEEELOOOOOADDADAD")
+      //console.log("REEEEEEEELOOOOOADDADAD")
 
     });
 
@@ -72,6 +72,16 @@ const openDeck =(id)=>
 
 }
 
+useFocusEffect(
+  React.useCallback(() => {
+  
+    console.log("reeload");
+    setDecks(getYourRecentDecks());
+    return () => {
+
+    };
+  }, [])
+);
 
 
 

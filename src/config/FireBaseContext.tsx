@@ -558,8 +558,15 @@ const FireBaseProvider = ({ children }) => {
     return count;
   };
 
-  const getStatData = () => {
-    // //console.log("Data: " + 33)
+  const getStatData = async () => {
+    //console.log("Data: " + 33)
+
+    const updateUserStat=( await get(getActiveUserStatRef())).val();
+    await setUserStat(updateUserStat);
+    console.log(JSON.stringify(updateUserStat));
+
+
+
 
     let date: Date = new Date();
     let data = {};
@@ -578,19 +585,14 @@ const FireBaseProvider = ({ children }) => {
         )
       );
       let val = 0;
-      userStat.forEach((element) => {
-        //    //console.log(new String (currDate.getFullYear()+"-"+currDate.getMonth()+"-"+currDate.getDate())+"==="+element.date)
+      updateUserStat.forEach((element) => {
+        console.log(getDateFormatted(currDate)+"==="+element.date)
         if (
-          new String(
-            currDate.getFullYear() +
-              '-' +
-              new String(new Number(currDate.getMonth() + 1)) +
-              '-' +
-              currDate.getDate()
-          ) == element.date
+          getDateFormatted(currDate) === element.date
         ) {
-          //console.log('corret');
+         
           val += element.amt;
+          console.log('corret: '+val );
         }
       });
 
@@ -620,6 +622,9 @@ const FireBaseProvider = ({ children }) => {
         ]
       };
 */
+
+        console.log("statdata: " + JSON.stringify(data));
+
     return data;
   };
 
@@ -1108,7 +1113,7 @@ const newObj={from: activeUserNick, fromIndx: activeUserData.index, to: to};
     let formatted= new String();
     formatted+= date.getFullYear().toString();
     formatted+= "-";
-    formatted+= date.getMonth().toString();
+    formatted+= (date.getMonth()+1).toString();
     formatted+= "-";
     formatted+= date.getDate().toString();
 console.log("date: "+ formatted);
