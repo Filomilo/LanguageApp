@@ -96,7 +96,7 @@ useFocusEffect(
 <SafeAreaView>
 
 
-<View style={{marginTop: "8%"}}>
+<View style={{marginTop: "15%"}}>
 <FlatList 
 data={decks}
 renderItem={({ item }) => (

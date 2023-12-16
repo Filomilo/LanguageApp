@@ -45,7 +45,8 @@ return(
    screenOptions={
     {overlayColor: 'transparent',
         headerTitle: (props)=> <Header {...props}/>,
-   
+        drawerType: 'slide',
+        swipeEnabled: false
 }
 }
  

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { darkModeBackgroundColor, darkModeMainTextColor, darkModePlaceholderTextInputColor, darkModePrimaryColor, height, styles, width } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
@@ -30,6 +30,7 @@ const LoadingScreen= ()=>{
         alignContent: 'center'
     }}
     >
+       <ActivityIndicator />
   <Text
   style={{
     color: darkModeMainTextColor,

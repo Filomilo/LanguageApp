@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { BackHandler, StyleSheet, Text, View } from 'react-native';
 import { styles, DarkModeColors, width, darkModeTextInputColor, darkModePrimaryColor, darkModeBackgroundColor, darkModeHeaderColor, height, darkModeMainTextColor } from '../Styles';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack'
@@ -129,6 +129,16 @@ const recerseswtich=(state)=>{
   updateText();
 }
 
+useEffect(() => {
+  const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+    updateFlsHCardAmt();
+    return false;
+  });
+
+  return () => {
+    backHandler.remove();
+  };
+}, []);
 
 
   //////////////////////////////////////////

@@ -67,14 +67,16 @@ const testData = [
 
   const applyFilter=()=> {
     console.log("apply filter");
-    
+    updateDeckData();
     setIsShowFilterModal(false);
   }
 
 
   const showFilter=()=> {
     //console.log("show filter");
+
     setIsShowFilterModal(true);
+
   }
 
   const onSetLangFilter_1=(data)=>{
