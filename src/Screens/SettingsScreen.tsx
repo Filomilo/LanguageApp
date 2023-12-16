@@ -216,11 +216,7 @@ const TakePhotoButton=()=>{
       }}
       >
 
-         <SettingOptions 
-         name={"Dark Mode"}
-         onChange={setIsDarkMode}
-         value={getIsDarkMode()}
-         />
+      
          <SettingOptions 
          name={"Searchable account"}
          onChange={setIsSearchable}
