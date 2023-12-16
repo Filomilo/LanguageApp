@@ -85,7 +85,7 @@ style={styles.verticalContainer}
  />
   
 ) : (
-  <Text style={DarkModeColors.MainTextColor}>No data available</Text>
+  <Text style={DarkModeColors.MainTextColor}>No weekly data available</Text>
 )}
 
 

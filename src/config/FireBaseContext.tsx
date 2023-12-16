@@ -261,11 +261,12 @@ const FireBaseProvider = ({ children }) => {
     let empytArr={};
     //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
    
-    await set(getActiveUserRecentDecksRef(),empytArr);
-    await set(getActiveUserStatRef(),empytArr);
-    await set(getActiveUserFriendListRef(),empytArr);
+    await set(getActiveUserRecentDecksRef(),JSON.parse(JSON.stringify(empytArr)));
+    await set(getActiveUserStatRef(),JSON.parse(JSON.stringify(empytArr)));
+    await set(getActiveUserFriendListRef(),JSON.parse(JSON.stringify(empytArr)));
     //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-   
+    
+    await setUserStat(empytArr);
     await setActiveUserNick(nick);
     await set(getUserRef(nick), newUserData).catch((err) => {
       console.error('Wrror when seData: ' + err);
@@ -549,6 +550,9 @@ setDecksList(deckArrayCopy);
   const getAvgFlashCards = () => {
     let count: number = 0;
     let amt: number = 0;
+    if(userStat==null)
+    return 0;
+
     userStat.forEach((element) => {
       count++;
       amt += element.amt;
@@ -607,7 +611,10 @@ setDecksList(deckArrayCopy);
     const updateUserStat=( await get(getActiveUserStatRef())).val();
     await setUserStat(updateUserStat);
     console.log(JSON.stringify(updateUserStat));
-
+    if(updateUserStat==null)
+    {
+      return undefined
+    }
 
 
 
@@ -1126,8 +1133,11 @@ const newObj={from: activeUserNick, fromIndx: activeUserData.index, to: to};
     
 
     let activeDeckCopy=(await get(getActiveUserRecentDecksRef())).val();
-    console.log(JSON.stringify(activeDeckCopy));
-
+    console.log("activeDeckCopy: "+ JSON.stringify(activeDeckCopy));
+    if(activeDeckCopy==null)
+    {
+      activeDeckCopy=[]
+    }
     let entryInDeckList=activeDeckCopy.find((elem)=> elem.index===deck.index );
     if(entryInDeckList!==undefined)
     {
@@ -1173,7 +1183,9 @@ return formatted;
     let date: Date = new Date();
     let dateString= getDateFormatted(date);
     console.log("dateString: "+ dateString)
-    const dataStat : any[]=(await get(getActiveUserStatRef())).val();
+    let dataStat : any[]=(await get(getActiveUserStatRef())).val();
+    if(dataStat==null)
+       dataStat=[]
     console.log("dataStat: "+JSON.stringify(dataStat));
 
     let found=dataStat.find((elemnt)=>elemnt.date===dateString);
