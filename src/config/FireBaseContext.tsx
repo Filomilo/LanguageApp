@@ -419,11 +419,15 @@ const FireBaseProvider = ({ children }) => {
       return true;
     });
 
-
+      console.log(res[1].usage)
     console.log("sort: "+ sortby)
     if(sortby==="amount of cards"){
      
       res.sort((a,b)=> b.amt_of_cards-a.amt_of_cards)
+    }
+    else
+    {
+      res.sort((a,b)=> (b.usage===undefined?0:b.usage) - (a.usage===undefined?0:a.usage))
     }
    // console.log("res: "+JSON.stringify(res))
     return res;
@@ -439,6 +443,18 @@ const FireBaseProvider = ({ children }) => {
       //console.log('data user list Udpated')
     );
   };
+
+
+const increaseDeckUsage=(index: number)=>
+{
+  console.log("increse: "+ index);
+  let deckArrayCopy=[...decksList];
+  deckArrayCopy[index].usage=(deckArrayCopy[index].usage===undefined?0:deckArrayCopy[index].usage) +1;
+
+set(getDecksListRef(),deckArrayCopy);
+setDecksList(deckArrayCopy);
+
+}
 
   const getActiveProfilePic = (): string => {
     // //console.log("***********************************PRIFOLE PIC")
@@ -1100,7 +1116,7 @@ const newObj={from: activeUserNick, fromIndx: activeUserData.index, to: to};
     //let deckData=decksList[deck.index];
     //console.log(JSON.stringify(deckData));
 
-
+    increaseDeckUsage(deck.index);
 
     let newEntry={
       index: deck.index,
@@ -1132,6 +1148,8 @@ const newObj={from: activeUserNick, fromIndx: activeUserData.index, to: to};
     
     //let entryToReplace=activeUserDecksList.find((elem)=> elem.)
     console.log("set last used: "+ JSON.stringify( activeDeckCopy));
+
+    
   }
 
 

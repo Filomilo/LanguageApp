@@ -95,7 +95,7 @@ style={styles.verticalContainer}
         <Text
         style={styles.statText}
         >
-          avrage flash cards a day: {avgFlashCard}
+          avarage flash cards a day: {Math.round(avgFlashCard*100)/100}
         </Text>
         <View 
         style={[

@@ -155,6 +155,7 @@ const goBack=()=>{
   };
   const openTest = () => {
     //console.log('open Test');
+    setLastUsed(deckData);
     setModalVisible(false);
     setTestVisible(true);
   };
