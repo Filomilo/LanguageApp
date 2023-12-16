@@ -5,11 +5,11 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1A1A1A"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -27,6 +27,17 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
-    ]
+    ],
+    "androidNavigationBar": {
+      "barStyle": "dark-content"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4cbd5f45-9eaf-4906-a363-5ec62a5ea67d"
+      }
+    },
+    "android": {
+      "package": "com.frosty_bat.LanguageApp"
+    }
   }
 }

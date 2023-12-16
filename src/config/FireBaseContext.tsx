@@ -400,7 +400,6 @@ const FireBaseProvider = ({ children }) => {
 
     //if(sortby===undefined)
     //return [];
- 
     let res: any[] = decksList.filter((element) => {
       if(!element.visibilty)
         return false
@@ -418,8 +417,9 @@ const FireBaseProvider = ({ children }) => {
 
       return true;
     });
+  
 
-      console.log(res[1].usage)
+      //console.log(res[1].usage)
     console.log("sort: "+ sortby)
     if(sortby==="amount of cards"){
      

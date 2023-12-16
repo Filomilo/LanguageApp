@@ -500,7 +500,7 @@ const goBack=()=>{
                     ]}
                     value={deckData.lang_2}
                     itemContainerStyle={[DarkModeColors.BackGroundColor]}
-                    itemTextStyle={[DarkModeColors.MainTextColor,{fontSize: 1}]}
+                    itemTextStyle={[DarkModeColors.MainTextColor]}
                     activeColor={darkModeTextInputColor}
                   />
                 </View>

@@ -57,7 +57,7 @@ const CameraScreen = (props) => {
           <View style={{}}>
             <Pressable onPress={()=>{requestPermission()}}>
           <View style={styles.loginButton}>
-            <Text style={styles.loginButtonText}>
+            <Text style={[styles.loginButtonText, {fontSize: width*0.05}]}>
             grant permission
             </Text>
           </View>

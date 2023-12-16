@@ -46,7 +46,7 @@ TextInputColorBackground:{
 export const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: darkModeBackgroundColor,
       alignItems: 'center',
       justifyContent: 'center',
     },
