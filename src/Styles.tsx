@@ -110,7 +110,7 @@ export const styles = StyleSheet.create({
       alignSelf: 'center'
     },
     langageText: {
-      fontSize: width*0.08,
+      fontSize: width*0.05,
       width: width,
       textAlign: 'center',
     },

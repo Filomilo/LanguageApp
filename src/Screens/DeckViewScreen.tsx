@@ -455,7 +455,7 @@ const goBack=()=>{
         value={deckData.visibilty}
       />
       </View>
-                <View style={[styles.horizontalContainer, {height: '5%'}]}>
+                <View style={[styles.horizontalContainer, {height: '4%'}]}>
                   <Dropdown
                     data={testData}
                     labelField="label"
@@ -489,15 +489,18 @@ const goBack=()=>{
                       styles.langageText,
                       {
                         width: width * 0.4,
+                        
                       },
                     ]}
                     selectedTextStyle={[
                       styles.langageText,
                       DarkModeColors.MainTextColor,
+                
+
                     ]}
                     value={deckData.lang_2}
                     itemContainerStyle={[DarkModeColors.BackGroundColor]}
-                    itemTextStyle={DarkModeColors.MainTextColor}
+                    itemTextStyle={[DarkModeColors.MainTextColor,{fontSize: 1}]}
                     activeColor={darkModeTextInputColor}
                   />
                 </View>
