@@ -560,10 +560,19 @@ setDecksList(deckArrayCopy);
     return amt / count;
   };
 
+
+
   const getYourRecentDecks = () => {
+   
     let res: any[] = [];
     let date: Date = new Date();
     let i = 0;
+
+if(activeUserDecksList==null)
+return [];
+ 
+    console.log("activeUserDecksList: "+JSON.stringify(activeUserDecksList))
+
     activeUserDecksList.forEach((element) => {
       let tempObj: any = {};
       tempObj.author = decksList[element.index].author;
