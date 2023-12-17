@@ -582,15 +582,16 @@ return [];
       tempObj.id = decksList[element.index].ID;
       tempObj.amt_of_cards = decksList[element.index].amt_of_cards;
 
-      let tmpDate = Math.floor(
+      let tmpDate =
         (date.getTime() - new Date(element.last_used).getTime()) /
           (1000 * 3600 * 24)
-      );
+      ;
       tempObj.last_used = tmpDate;
 
       res.push(tempObj);
       i++;
     });
+    console.log("res: "+ JSON.stringify(res))
     res.sort((a, b) => {
       return a.last_used - b.last_used;
     });
