@@ -107,7 +107,8 @@ const testData = [
     React.useCallback(() => {
     
       console.log("reeload");
-      setDecks(getFindDeck(sortyBy,lngaugeFilter_1,lngaugeFilter_2));
+      let array=[...getFindDeck(sortyBy,lngaugeFilter_1,lngaugeFilter_2)]
+      setDecks(array);
       return () => {
   
       };

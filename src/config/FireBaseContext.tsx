@@ -321,7 +321,7 @@ const FireBaseProvider = ({ children }) => {
             const data = snapshot.val();
             friendsListArray = data ? Object.values(data) : [];
             setFriendList(friendsListArray);
-            // //console.log("()()()()()()()())()()()()()()()())" + JSON.stringify(friendsListArray)+"()()()()()()()())()()()()()()()())")
+            console.log("()()()()()()()())()()()()()()()())" + JSON.stringify(friendsListArray)+"()()()()()()()())()()()()()()()())")
           } else {
             //console.log(
          //     'friends list data does not exist' +
@@ -536,10 +536,10 @@ setDecksList(deckArrayCopy);
 
   const getYourFriends = () => {
     let array = friendList;
-    //console.log("********************************")
-    //console.log(array)
+    console.log("******************************** friendList")
+    console.log(getActiveUserFriendListRef())
 
-    //console.log("********************************")
+    console.log("******************************** friendList")
 
     array.forEach((element) => {
       element.profilePic = usersListWorkingCopy[element.index].profilePic;
@@ -572,6 +572,7 @@ if(activeUserDecksList==null)
 return [];
  
     console.log("activeUserDecksList: "+JSON.stringify(activeUserDecksList))
+    console.log("decksList: "+JSON.stringify(decksList))
 
     activeUserDecksList.forEach((element) => {
       let tempObj: any = {};
@@ -803,6 +804,7 @@ return [];
     deckarray[deckdata.index].visibilty = deckdata.visibilty;
     await set(getDeckDataRef(id), newDeckData);
     await set(getDecksListRef(id), deckarray);
+    await setDecksList(deckarray);
 
   };
 

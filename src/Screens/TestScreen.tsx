@@ -30,7 +30,7 @@ interface TestScreenProps{
 const Tab = createMaterialTopTabNavigator();
 
 
-const TestScreen= ({close,cards})=>{
+const TestScreen= ({close,cards,navigation})=>{
 
   const {getTestData}= useContext(FireBaseContext)
 
@@ -40,6 +40,12 @@ const TestScreen= ({close,cards})=>{
   const [wordNum, setFwordNum]= useState(1);
   const [WordAmt, setWordAmt]= useState(testData.length);
   
+
+  const goBack=()=>{
+ 
+    close();
+  }
+
   const calcResult=()=>{
     let correct=0;
 
@@ -286,7 +292,9 @@ style={[
 ]
 }
 >
-<TouchableOpacity>
+<TouchableOpacity
+onPress={()=>{goBack();}}
+>
   <View
    style={[
     DarkModeColors.primaryColor,

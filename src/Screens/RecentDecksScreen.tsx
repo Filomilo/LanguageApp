@@ -42,7 +42,7 @@ const RecentDecksScreen= (props: RecentDecksScreenProps)=>{
     const unsubscribe = navigation.addListener('focus', () => {
       let array=[...getYourRecentDecks()]
       setDecks(array);
-      //console.log("REEEEEEEELOOOOOADDADAD")
+      console.log("REEEEEEEELOOOOOADDADAD: "+JSON.stringify(array))
 
     });
 
